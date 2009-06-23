@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="forget3d" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="libf3d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="..\..\objs\win32Dbg" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="..\..\include" />
+					<Add directory="..\include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="libf3d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="..\..\objs\win32Rel" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add directory="..\..\include" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="..\..\include\anorms.h" />
+		<Unit filename="..\..\include\camera.h" />
+		<Unit filename="..\..\include\f3d.h" />
+		<Unit filename="..\..\include\fog.h" />
+		<Unit filename="..\..\include\font.h" />
+		<Unit filename="..\..\include\image.h" />
+		<Unit filename="..\..\include\light.h" />
+		<Unit filename="..\..\include\model.h" />
+		<Unit filename="..\..\include\model_md2.h" />
+		<Unit filename="..\..\include\plane.h" />
+		<Unit filename="..\..\include\skydome.h" />
+		<Unit filename="..\..\include\terrain.h" />
+		<Unit filename="..\..\include\utils.h" />
+		<Unit filename="..\..\include\world.h" />
+		<Unit filename="..\..\src\camera.cpp" />
+		<Unit filename="..\..\src\fog.cpp" />
+		<Unit filename="..\..\src\font.cpp" />
+		<Unit filename="..\..\src\image.cpp" />
+		<Unit filename="..\..\src\light.cpp" />
+		<Unit filename="..\..\src\model.cpp" />
+		<Unit filename="..\..\src\model_md2.cpp" />
+		<Unit filename="..\..\src\plane.cpp" />
+		<Unit filename="..\..\src\skydome.cpp" />
+		<Unit filename="..\..\src\terrain.cpp" />
+		<Unit filename="..\..\src\world.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

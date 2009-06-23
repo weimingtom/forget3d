@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="forget3d.cbp" active="1" />
+		<Project filename="triangle.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
+		<Project filename="gears.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
+		<Project filename="md2viewer.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
+		<Project filename="skytest.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

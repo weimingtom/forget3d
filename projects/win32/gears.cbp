@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="gears" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="..\..\data\gears_d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\..\data" />
+				<Option object_output="..\..\objs\win32Dbg" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="..\..\include" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add library="kernel32" />
+					<Add library="user32" />
+					<Add library="gdi32" />
+					<Add library="f3d" />
+					<Add library="lib\libEGL.lib" />
+					<Add library="lib\libGLES_CM_NoE.lib" />
+					<Add directory="..\win32" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="..\..\data\gears" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\..\data" />
+				<Option object_output="..\..\objs\win32Rel" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="..\..\include" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="kernel32" />
+					<Add library="user32" />
+					<Add library="gdi32" />
+					<Add library="f3d" />
+					<Add library="lib\libEGL.lib" />
+					<Add library="lib\libGLES_CM_NoE.lib" />
+					<Add directory="..\win32" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="..\..\test\gears.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
