@@ -45,12 +45,15 @@ Current Authors:	Martin Foo (i25ffz@hotmail.com)
 
 Features in Version 0.1:
 - Screen management
- Support cross-platform scene management, also support camera, light, fog features.
+ Support cross-platform scene management, OpenGL ES display,context init, render;
+ OpenGL ES status management, support camera, light, fog features.
 - 3D model loader and management
  Current support (Quake II)MD2 model.
 - Texture management
  Current support 8 & 24 bit bitmap image file.
 - Font support
  Support font, you can simply use drawString function to draw text.
+- Skydome, Plane, Terrain support
+ Support skydome, plane, terrain, you can simply create them in your applocation.
 
 
