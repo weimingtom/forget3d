@@ -1,0 +1,208 @@
+Hybrid Graphics Ltd.
+End-User License Agreement
+
+1. WE LET YOU USE OUR SOFTWARE AS LONG AS YOU PLAY BALL
+
+Hybrid Graphics Ltd ("Hybrid") of Etelainen Makasiinikatu 4,
+Helsinki, Finland grants
+
+YOU ("Licensee", individual or entity),
+
+the rights and license regarding Hybrid's computer software
+("Program") only in accordance with the terms and conditions of
+this Agreement.
+
+Please read this agreement carefully before downloading or using
+the Program.
+
+If you choose to use Program, you indicate that you have read all
+of the terms and conditions of this agreement, understand them,
+and agree to be legally bound to those terms and conditions.
+
+Should you not accept the terms and conditions of this agreement,
+then please do not use the Program. If you have additional questions,
+please contact us at licensing at hybrid.fi.
+
+
+2. THIS IS WHAT WE'RE TALKING ABOUT HERE
+
+The capitalized terms in this agreement shall have the following
+meanings:
+
+    1. "Platform" shall mean any of the following devices:
+       a. x86 PC running Windows 2000/XP operating system
+       b. Commercially available Nokia Series 60 mobile phones
+          running the Symbian operating system
+       c. The following commercially available PDA devices running the
+          Windows Mobile 2003 operating system: Acer n10/30, ASUS My Pal
+          A620/716, Dell Axim X-series, hp iPaq hXXXX-series, ViewSonic
+          PC V36, Toshiba eXXX-series
+
+       "Commercially available" means devices which are commonly
+       available for purchase from consumer retailers.
+
+    2. "Program" shall mean the following Hybrid's products, as packaged
+       and delivered to Licensee by Hybrid:
+       a. "Rasteroid(TM)" computer software for Platform
+
+    3. "Application" shall mean an application developed by Licensee,
+       using Program or parts thereof, running on Platform.
+
+    4. "Run-time Components" shall mean only those parts of Program, in
+       unmodified and binary format, which are required to run 
+       Applications.
+
+    5. "Updates" shall be subsequent releases of the Program and related
+       amendments to the Documentation, if any, as delivered to Licensee
+       by Hybrid.
+
+    6. "Intellectual Property Rights" shall mean any and all
+       intellectual property rights including but not limited to patents, 
+       copyrights, trademarks, trade secrets, know how, registrations, 
+       applications, and rights to apply therefore, whether issued or 
+       pending and whether registerable or not.
+
+
+3. YOU CAN USE OUR SOFTWARE FOR GAMES AND OTHER APPLICATIONS
+
+For Program and Updates, Hybrid hereby grants Licensee a non-exclusive, 
+world-wide, non-transferable, revocable right and license for Licensee's own 
+purposes:
+
+    1. To load, run, store, transmit and execute the Program;
+    2. To use, compile, link and execute Program in order to develop
+       and run Applications;
+    3. Distribute unmodified Run-time components, only within
+       Applications;
+    4. In case of Application being an open source project, permission 
+       is granted for Licensee to distribute the Program package in
+       complete and unmodified form within the Application distribution 
+       package
+
+All subject to the terms and conditions of this Agreement.
+
+For avoidance of doubt, the following uses for Program are outside the
+scope of this Agreement, requiring a separate commercial license:
+
+    1. Selling or redistributing Program or any parts of Program for
+       any other purpose than those specified above;
+    2. Embedding, porting or integrating Program or parts thereof into
+       devices other than Platform;
+    3. Exposing any of APIs of Program (such as OpenGL(tm) ES) for
+       third-party applications, directly or indirectly;
+    4. Using Programs or parts thereof in applications which are embedded
+       and distributed within a mobile phone, PDA or any other such
+       appliance or device;
+    5. Modifying Program
+
+As long as all of the conditions of this Agreement are fulfilled, Licensee 
+may use Program for commercial Applications, for example develop and sell 
+games which use Program.
+
+Licensee shall not cause or permit any reverse-engineering or decompilation 
+of the Program, except to the extent required for normal debugging and 
+application development purposes.
+
+The rights granted to Licensee in this Agreement are personal to Licensee, 
+and may not be assigned or transferred to a third party without the previous 
+written consent of Hybrid, except in the sale of substantially all of the 
+assets of Licensee, for which no written consent of Hybrid shall be 
+required.
+
+
+4. WE'RE SORRY, BUT WE CAN'T PROMISE TO WORK FOR YOU WITHOUT PAY.
+   WE'LL BE GLAD TO HELP IF TIME PERMITS, THOUGH.
+
+Hybrid is not obligated to provide Licensee any support and maintenance, 
+training, integration, optimization or any other services under this 
+Agreement.
+
+
+5. YOU STILL DON'T GET TO OWN OUR SOFTWARE...
+
+This Agreement gives Licensee only limited license to use the Program. 
+Hybrid solely retain all right, title and interest including but not limited 
+to all Intellectual Property Rights to the Program, new versions, upgrades, 
+updates, modifications, enhancements or copies thereof and all related 
+documentation. All rights, titles and interest shall at all times remain 
+solely the property of Hybrid.
+
+Subject to the terms specified below, Hybrid warrants that the marketing, 
+licensing of and use of the Program in accordance with the terms of this 
+Agreement shall not infringe any copyright, patent or registered design 
+rights enforceable in Finland of any third party.
+
+Hybrid shall have no liability for any claim of infringement based upon use 
+of a superseded or altered release of the Program if such infringement would 
+have been avoided by the use of a current unaltered release of the Program 
+that Hybrid provides to Licensee.
+
+In the defense or settlement of any claims, Hybrid shall have the option to 
+(a) modify the Program so it becomes non-infringing or (b) obtain for 
+Licensee a license to continue using the Program or (c) terminate the 
+license for the infringing Program.
+
+The remedies provided in this Clause 4 shall be the sole remedies available 
+for breach of the warranty contained in this agreement. Hybrid excludes all 
+liability for breach of any other Intellectual property rights.
+
+
+6. THERE IS NO WARRANTY, SO IF YOU SOMEHOW MANAGE TO SHOOT YOURSELF
+   IN THE FOOT IT'S NOT *OUR* FAULT.
+
+Program is provided "as is" without warranty of any kind, either express or 
+implied, including without limitation, any warranty of merchantability and 
+fitness for a particular purpose.
+
+Hybrid does not warrant the Program and/or Documentation will meet 
+Licensee's requirements, nor that the operation of the Program will be 
+uninterrupted or error free, nor that any errors will be corrected.
+
+Licensee acknowledges that Hybrid has no control over licensee's use or 
+exploitation of the program. Licensee therefore agrees to indemnify and hold 
+Hybrid harmless against any costs, claims, demands, expenses and liabilities 
+of whatsoever nature by any third party arising from such use or 
+exploitation.
+
+In no event shall Hybrid be liable for any direct, indirect, special, 
+incidental or consequential damages arising out of the use or inability to 
+use the program, even if Hybrid has been advised of the likelihood of such 
+damages occurring. Hybrid shall not be liable for any loss, damages or 
+costs, arising out of, but not limited to, lost profits or revenue, loss of 
+use of the program or the media, loss of data or equipment, the costs of 
+recovering the program, the media, data or equipment, the cost of substitute 
+program, media, data or equipment or claims by third parties, or other 
+similar costs.
+
+
+7. SPECIAL CONDITIONS AND ASSOCIATED LEGALESE THEREWITH
+
+In the event any provision or part thereof of this Agreement is held to be 
+invalid or unenforceable, the remaining provisions and parts of this 
+Agreement shall remain in full force and effect.
+
+The waiver by either party of any default or breach of this Agreement shall 
+not constitute a waiver of any other or subsequent default or breach.
+
+Licensee will not export, directly or indirectly, the Program, Documentation 
+or any direct product thereof or any technical data relating to the Program 
+without complying with all regulations relating to such export issued by the 
+local government.
+
+Any public announcement by either party regarding this Agreement or uses of 
+Program licensed under this Agreement by Licensee needs to be approved by 
+both Parties in advance in writing.
+
+Headings have been included for convenience only and shall not be used in 
+constructing any provision of this Agreement.
+
+This Agreement and all matters arising out or relating to this Agreement 
+shall be governed by and interpreted in accordance with Finnish law. The 
+parties agree to submit to the exclusive jurisdiction of the courts of 
+Finland. However, in the event of any dispute between Licensee and Hybrid 
+under this Agreement, the parties agree that they shall negotiate with each 
+other in good faith in an attempt to resolve the dispute prior to any 
+commencement of proceedings.
+
+I acknowledge that this Agreement constitutes a valid and legally binding 
+obligation on the part of the Licensee.
