@@ -22,9 +22,9 @@
 					<Add library="user32" />
 					<Add library="gdi32" />
 					<Add library="f3d" />
-					<Add library="lib\libEGL.lib" />
-					<Add library="lib\libGLES_CM_NoE.lib" />
-					<Add directory="..\win32" />
+					<Add library="..\..\lib\win32\libEGL.lib" />
+					<Add library="..\..\lib\win32\libGLES_CM_NoE.lib" />
+					<Add directory="..\..\lib\win32" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -44,9 +44,9 @@
 					<Add library="user32" />
 					<Add library="gdi32" />
 					<Add library="f3d" />
-					<Add library="lib\libEGL.lib" />
-					<Add library="lib\libGLES_CM_NoE.lib" />
-					<Add directory="..\win32" />
+					<Add library="..\..\lib\win32\libEGL.lib" />
+					<Add library="..\..\lib\win32\libGLES_CM_NoE.lib" />
+					<Add directory="..\..\lib\win32" />
 				</Linker>
 			</Target>
 		</Build>
