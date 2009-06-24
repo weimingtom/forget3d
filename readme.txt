@@ -132,7 +132,7 @@ The Forget3D Engine SDK V0.1
  * - As soon as you make money using this software, you have to pay a
  *   licence fee. Until this point of time, you can use this software
  *   without a fee.
- *      Please contact Norbert Nopper (i25ffz@hotmail.com) for further details.
+ *      Please contact Martin Foo (i25ffz@hotmail.com) for further details.
  * - The authors and/or this software is credited in your software or any
  *   work based on this software.
  *
