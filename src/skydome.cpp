@@ -60,7 +60,6 @@ namespace F3D {
         printf("skydome::num_vertices = %d\n", num_vertices);
 #endif
 
-
         m_vertices = (float *) malloc(num_vertices * 9 * sizeof(float));
         m_uvs = (float *) malloc(num_vertices * 6 * sizeof(float));
 
