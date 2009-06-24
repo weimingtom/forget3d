@@ -131,7 +131,7 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
 #define	WINDOW_CLASS    TEXT("F3D")
-#define	TITLE           TEXT("skytest")
+#define	TITLE           TEXT("Skytest")
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance,
                    LPTSTR cmdLine, int cmdShow) {
     MSG msg;
