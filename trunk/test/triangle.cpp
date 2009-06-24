@@ -51,17 +51,6 @@ Camera*		camera = NULL;
 Model*      model = NULL;
 Font*       font = NULL;
 
-//static GLfloat vertexArray[9] = {
-//    -25.0f, -25.0f, 0.0f,
-//    25.0f, -25.0f, 0.0f,
-//    0.0f, 25.0f, 0.0f
-//};
-//static GLubyte colorArray[12] = {
-//    255, 0, 0, 0,
-//    0, 255, 0, 0,
-//    0, 0, 255 ,0
-//};
-
 static int  rotation = 0;
 static char	strFps[16];
 static int	fps = 0;
