@@ -220,9 +220,12 @@ namespace F3D {
         if (!initEGL()) {
 #ifdef DEBUG
             printf("initEGL() error!\n");
-#if (defined(WIN32) || defined(_WIN32_WCE))
-			MessageBox(m_hwnd, _T("Init EGL error!"), _T("Error"), MB_OK);
-#endif
+    #if (!defined(ANDROID) && defined(_WIN32_WCE))
+            MessageBox(hwnd, _T("Init EGL error!"), _T("Error"), MB_OK);
+    #elif (!defined(ANDROID) && defined(WIN32))
+            MessageBox(hwnd, "Init EGL error!", "Error", MB_OK);
+    #endif
+
 #endif
             return false;
         }
