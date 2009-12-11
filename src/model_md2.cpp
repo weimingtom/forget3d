@@ -53,7 +53,10 @@ namespace F3D {
             m_frameIdx(0),
             m_actionIdx(0),
             m_actionCount(0) {
-        //
+#ifdef DEBUG
+        printf("ModelMD2 constructor...\n");
+#endif
+        setMeshCount(1);
     }
 
     ModelMD2::~ModelMD2() {
@@ -184,9 +187,6 @@ namespace F3D {
 
         fclose (file);
 
-        m_uvs = (float *) malloc(m_header.numTriangles * 6 * sizeof(float));
-        m_vertices = (float *) malloc(m_header.numTriangles * 9 * sizeof(float));
-        m_normals = (float *) malloc(m_header.numTriangles * 9 * sizeof(float));
         setTriangleNums(m_header.numTriangles);
 
         m_actionCount = getAnimationCount();
@@ -214,6 +214,9 @@ namespace F3D {
             isFirst = false;
         }
 #endif
+        float *uvs = (float *) malloc(m_header.numTriangles * 6 * sizeof(float));
+        float *vertices = (float *) malloc(m_header.numTriangles * 9 * sizeof(float));
+        float *normals = (float *) malloc(m_header.numTriangles * 9 * sizeof(float));
         int i, j, uvIdx = 0, vertexIdx = 0, normalIdx = 0;
 
         md2_frame_t *f = &m_frames[m_frameIdx];
@@ -222,18 +225,25 @@ namespace F3D {
             md2_triangle_t *t = &m_triangles[i];
             for (j = 0; j < 3; j++) {
                 //set uvs
-                m_uvs[uvIdx++] = (float) m_texCoords[t->textureIndices[j]].s / (float) m_header.skinWidth;
-                m_uvs[uvIdx++] = 1.0f - (float) m_texCoords[t->textureIndices[j]].t / (float) m_header.skinHeight;
+                uvs[uvIdx++] = (float) m_texCoords[t->textureIndices[j]].s / (float) m_header.skinWidth;
+                uvs[uvIdx++] = 1.0f - (float) m_texCoords[t->textureIndices[j]].t / (float) m_header.skinHeight;
                 //set vertices & normals
-                m_vertices[vertexIdx++] = f->vertices[t->vertexIndices[j]].vertex[0];
-                m_vertices[vertexIdx++] = f->vertices[t->vertexIndices[j]].vertex[1];
-                m_vertices[vertexIdx++] = f->vertices[t->vertexIndices[j]].vertex[2];
+                vertices[vertexIdx++] = f->vertices[t->vertexIndices[j]].vertex[0];
+                vertices[vertexIdx++] = f->vertices[t->vertexIndices[j]].vertex[1];
+                vertices[vertexIdx++] = f->vertices[t->vertexIndices[j]].vertex[2];
 
-                m_normals[normalIdx++] = f->vertices[t->vertexIndices[j]].normal[0];
-                m_normals[normalIdx++] = f->vertices[t->vertexIndices[j]].normal[2];
-                m_normals[normalIdx++] = f->vertices[t->vertexIndices[j]].normal[1];
+                normals[normalIdx++] = f->vertices[t->vertexIndices[j]].normal[0];
+                normals[normalIdx++] = f->vertices[t->vertexIndices[j]].normal[2];
+                normals[normalIdx++] = f->vertices[t->vertexIndices[j]].normal[1];
             }
         }
+        setVertices(vertices, m_header.numTriangles * 9 * sizeof(float));
+        setNormals(normals, m_header.numTriangles * 9 * sizeof(float));
+        setUvs(uvs, m_header.numTriangles * 6 * sizeof(float));
+
+        FREEANDNULL(vertices);
+        FREEANDNULL(normals);
+        FREEANDNULL(uvs);
 
         m_frameIdx++;
         if (m_frameIdx > m_actions[m_actionIdx].max_idx)
