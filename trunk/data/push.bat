@@ -5,5 +5,7 @@ adb push weapon.bmp /dev/sample
 adb push font.bmp /dev/sample
 adb push floor.bmp /dev/sample
 adb push clouds.bmp /dev/sample
+adb push guard.g3d /dev/sample
+adb push guard.bmp /dev/sample
 
 pause
