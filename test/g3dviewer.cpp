@@ -103,22 +103,6 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
 #endif
         if (wParam == VK_ESCAPE) {
             is_done = 0;
-		} else if (wParam == VK_UP) {
-			action_idx--;
-/*			if (action_idx < 0)
-				action_idx =  model->getActionCount() - 1;
-			//go to prior action
-			model->setActionIndex(action_idx);
-			weapon->setActionIndex(action_idx);
-*/
-		} else if (wParam == VK_DOWN) {
-			action_idx++;
-/*			if (action_idx >= (int)model->getActionCount())
-				action_idx = 0;
-			//go to next action
-			model->setActionIndex(action_idx);
-			weapon->setActionIndex(action_idx);
-*/
 		}
 
         useDefWindowProc = 1;
