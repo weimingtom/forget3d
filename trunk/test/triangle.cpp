@@ -51,7 +51,7 @@ Camera*		camera = NULL;
 Model*      model = NULL;
 Font*       font = NULL;
 
-static int  rotation = 0;
+static GLfloat rotation = 0.0f;
 static char	strFps[16];
 static int	fps = 0;
 static int  is_done = 0;
@@ -209,30 +209,42 @@ int main(int argc, char *argv[]) {
 #endif
 
     camera = new Camera();
-    camera->setEye(0.0f, 0.0f, 100.0f);
+    camera->setEye(0.0f, 0.0f, 20.0f);
 
     world->setCamera(camera);
 
-    model = new Model();
-
-    GLfloat vertexArray[9] = {
-        -25.0f, -25.0f, 0.0f,
-        25.0f, -25.0f, 0.0f,
-        0.0f, 25.0f, 0.0f
+    //triangle data
+    GLfloat vertices0[9] = {
+        -1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f
     };
-    GLubyte colorArray[12] = {
+    GLfloat vertices1[9] = {
+        0.0f, -1.0f, -1.0f,
+        0.0f, -1.0f, 1.0f,
+        0.0f, 1.0f, 0.0f
+    };
+    GLubyte colors[12] = {
         255, 0, 0, 0,
         0, 255, 0, 0,
         0, 0, 255 ,0
     };
-    GLfloat *vertices = new GLfloat[9];
-    memcpy(vertices, vertexArray, 9 * sizeof(GLfloat));
-    GLubyte *colors = new GLubyte[12];
-    memcpy(colors, colorArray, 12 * sizeof(GLubyte));
 
-    model->setVertices(vertices);
-    model->setColors(colors);
-    model->setTriangleNums(1);
+    model = new Model();
+    model->setMeshCount(2);
+    //init first triangle
+    model->setVertices(vertices0, 9 * sizeof(GLfloat));
+    model->setColors(colors, 12 * sizeof(GLubyte));
+    model->setTriangleNums(1, 0);
+    //init second triangle
+    model->setVertices(vertices1, 9 * sizeof(GLfloat), 1);
+    model->setColors(colors, 12 * sizeof(GLubyte), 1);
+    model->setTriangleNums(1, 1);
+
+    model->setPosition(0.0f, 0.0f, -5.0f);
+    model->setScale(5.0f, 5.0f, 5.0f);
+
+    printf("create triangle OK!\n");
 
     font = new Font(16, 16, 12, 18, "font.bmp");
 
@@ -261,8 +273,7 @@ int main(int argc, char *argv[]) {
 #endif
         world->prepareRender();
 
-        glRotatex(FIXED(rotation++), 0, ONE,0);
-
+        model->setRotate(0.0f, rotation, 0.0f);
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
@@ -271,6 +282,7 @@ int main(int argc, char *argv[]) {
         world->finishRender();
 
         fps++;
+        rotation += 2.0f;
 #ifdef ANDROID
         gettimeofday(&timeNow, NULL);
         interval = CLOCK(timeNow) - i_time;
