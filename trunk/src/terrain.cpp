@@ -51,6 +51,11 @@ namespace F3D {
         // allocate some memory for the heightmap
         hmap = (unsigned char *)malloc(size * size * sizeof(unsigned char));
 
+#ifdef DEBUG
+        printf("Terrain constructor...\n");
+#endif
+        setMeshCount(1);
+
         // open the heightmap file
         fp = fopen(filename, "rb");
 
@@ -71,10 +76,10 @@ namespace F3D {
 #endif
         // calculate the 3D heightfield
         // the number of vertices is the size of the heightmap squared
-        m_uvs = (float *) malloc(size * size * 2 * sizeof(float));
-        m_vertices = (float *) malloc(size * size * 3 * sizeof(float));
+        float *uvs = (float *) malloc(size * size * 2 * sizeof(float));
+        float *vertices = (float *) malloc(size * size * 3 * sizeof(float));
 
-        m_indices = (GLshort *) malloc((size-1)*(size-1) * 6 * sizeof(GLshort));
+        GLshort *indices = (GLshort *) malloc((size-1)*(size-1) * 6 * sizeof(GLshort));
         setTriangleNums((size - 1) * (size - 1) * 2);
 
         // loop through every pixel in the heightmap
@@ -86,14 +91,14 @@ namespace F3D {
                 // x, z coordinates are given by this pixel's x, y coords multiplied
                 // by a scaling factor (which defines how far away from each other
                 // each vertex is on the 3D heightfield).
-                m_vertices[vt_idx++] = (float)x * scale;
+                vertices[vt_idx++] = (float)x * scale;
                 // calculate the height (y coordinate) from the value in the heightmap
-                m_vertices[vt_idx++] = (float)(hmap[hm_idx] * (scale/5));
-                m_vertices[vt_idx++] = (float)y * scale;
+                vertices[vt_idx++] = (float)(hmap[hm_idx] * (scale/5));
+                vertices[vt_idx++] = (float)y * scale;
 
                 // calculate the texture coordinates
-                m_uvs[uv_idx++] = u_tile * ((float)x * texdelta * 0.5f);
-                m_uvs[uv_idx++] = v_tile * (1.0f - (float)y * texdelta * 0.5f);
+                uvs[uv_idx++] = u_tile * ((float)x * texdelta * 0.5f);
+                uvs[uv_idx++] = v_tile * (1.0f - (float)y * texdelta * 0.5f);
             }
         }
 
@@ -102,19 +107,25 @@ namespace F3D {
             for (x = 0; x < size - 1; x++) {
                 hm_idx = y*(size)+x;
 
-                m_indices[in_idx++] = hm_idx;
-                m_indices[in_idx++] = hm_idx+1;
-                m_indices[in_idx++] = hm_idx+(size);
+                indices[in_idx++] = hm_idx;
+                indices[in_idx++] = hm_idx+1;
+                indices[in_idx++] = hm_idx+(size);
 
-                m_indices[in_idx++] = hm_idx+(size)+1;
-                m_indices[in_idx++] = hm_idx+(size);
-                m_indices[in_idx++] = hm_idx+1;
+                indices[in_idx++] = hm_idx+(size)+1;
+                indices[in_idx++] = hm_idx+(size);
+                indices[in_idx++] = hm_idx+1;
             }
         }
 
-        setEnabled(GL_TRUE);
+        setVertices(vertices, size * size * 3 * sizeof(float));
+        setUvs(uvs, size * size * 2 * sizeof(float));
+        setIndices(indices, (size-1)*(size-1) * 6 * sizeof(GLshort));
+
+        FREEANDNULL(vertices);
+        FREEANDNULL(uvs);
+        FREEANDNULL(indices);
         // we dont need the heightmap anymore, get rid of it
-        free(hmap);
+        FREEANDNULL(hmap);
 #ifdef DEBUG
         printf("Generate terrain OK!\n");
 #endif

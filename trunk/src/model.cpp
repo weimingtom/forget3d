@@ -36,10 +36,10 @@
 
 namespace F3D {
     /**
-     * Model class for all games using F3D.
+     * Mesh class for all games using F3D.
      */
 
-    Model::Model() :
+    Mesh::Mesh() :
             m_vertices(NULL),
             m_normals(NULL),
             m_uvs(NULL),
@@ -47,29 +47,107 @@ namespace F3D {
             m_indices(NULL),
             m_position(NULL),
             m_rotate(NULL),
+            m_scale(NULL),
             m_textureId(-1),
             m_triangleNums(0),
             m_enabled(GL_FALSE) {
-        //
-    }
-
-    Model::~Model() {
 #ifdef DEBUG
-        printf("Model destructor...\n");
+        printf("Mesh constructor...\n");
 #endif
-        if (m_vertices != NULL)
-            free(m_vertices);
-        if (m_normals != NULL)
-            free(m_normals);
-        if (m_uvs != NULL)
-            free(m_uvs);
-        if (m_colors != NULL)
-            free(m_colors);
-        if (m_indices != NULL)
-            free(m_indices);
     }
 
-    void Model::initGlCmds() {
+    Mesh::~Mesh() {
+#ifdef DEBUG
+        printf("Start mesh destructor...\n");
+#endif
+        FREEANDNULL(m_vertices);
+        FREEANDNULL(m_normals);
+        FREEANDNULL(m_uvs);
+        FREEANDNULL(m_colors);
+        FREEANDNULL(m_indices);
+        FREEANDNULL(m_position);
+        FREEANDNULL(m_rotate);
+        FREEANDNULL(m_scale);
+#ifdef DEBUG
+        printf("Mesh destructor OK!\n");
+#endif
+    }
+
+    void Mesh::setVertices(GLfloat *vertices, int size) {
+        FREEANDNULL(m_vertices);
+        m_vertices = (GLfloat *) malloc(size);
+        memcpy(m_vertices, vertices, size);
+
+        setEnabled(GL_TRUE);
+    }
+
+    void Mesh::setNormals(GLfloat *normals, int size) {
+        FREEANDNULL(m_normals);
+        m_normals = (GLfloat *) malloc(size);
+        memcpy(m_normals, normals, size);
+    }
+
+    void Mesh::setUvs(GLfloat *uvs, int size) {
+        FREEANDNULL(m_uvs);
+        m_uvs = (GLfloat *) malloc(size);
+        memcpy(m_uvs, uvs, size);
+    }
+
+    void Mesh::setColors(GLubyte *colors, int size) {
+        FREEANDNULL(m_colors);
+        m_colors = (GLubyte *) malloc(size);
+        memcpy(m_colors, colors, size);
+    }
+
+    void Mesh::setIndices(GLshort *indices, int size) {
+        FREEANDNULL(m_indices);
+        m_indices = (GLshort *) malloc(size);
+        memcpy(m_indices, indices, size);
+    }
+
+    void Mesh::setTextureId(GLint textureId) {
+        m_textureId = textureId;
+    }
+
+    void Mesh::setTriangleNums(GLint triangleNums) {
+        m_triangleNums = triangleNums;
+    }
+
+    void Mesh::setEnabled(GLboolean enabled) {
+        m_enabled = enabled;
+    }
+
+    void Mesh::setPosition(GLfloat x, GLfloat y, GLfloat z) {
+        if (m_position == NULL) {
+            m_position = (GLfloat *) malloc(3 * sizeof(GLfloat));
+        }
+
+        m_position[0] = x;
+        m_position[1] = y;
+        m_position[2] = z;
+    }
+
+    void Mesh::setRotate(GLfloat x, GLfloat y, GLfloat z) {
+        if (m_rotate == NULL) {
+            m_rotate = (GLfloat *) malloc(3 * sizeof(GLfloat));
+        }
+
+        m_rotate[0] = x;
+        m_rotate[1] = y;
+        m_rotate[2] = z;
+    }
+
+    void Mesh::setScale(GLfloat x, GLfloat y, GLfloat z) {
+        if (m_scale == NULL) {
+            m_scale = (GLfloat *) malloc(3 * sizeof(GLfloat));
+        }
+
+        m_scale[0] = x;
+        m_scale[1] = y;
+        m_scale[2] = z;
+    }
+
+    void Mesh::initGlCmds() {
         if (m_vertices != NULL)
             glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -83,81 +161,13 @@ namespace F3D {
             glEnableClientState(GL_COLOR_ARRAY);
     }
 
-    void Model::setVertices(GLfloat *vertices) {
-        m_vertices = vertices;
-        setEnabled(GL_TRUE);
-    }
-
-    void Model::setNormals(GLfloat *normals) {
-        m_normals = normals;
-    }
-
-    void Model::setUvs(GLfloat *uvs) {
-        m_uvs = uvs;
-    }
-
-    void Model::setColors(GLubyte *colors) {
-        m_colors = colors;
-    }
-
-    void Model::setIndices(GLshort *indices) {
-        m_indices = indices;
-    }
-
-    void Model::setTextureId(GLint textureId) {
-        m_textureId = textureId;
-    }
-
-    void Model::setTriangleNums(GLint triangleNums) {
-        m_triangleNums = triangleNums;
-    }
-
-    void Model::prepareFrame() {
-#ifdef DEBUG
-        static bool isFirst = true;
-        if (isFirst) {
-            printf("Call Model::prepareFrame()...\n");
-            isFirst = false;
-        }
-#endif
-    }
-
-    void Model::setEnabled(GLboolean enabled) {
-        m_enabled = enabled;
-    }
-
-    void Model::setPosition(GLfloat x, GLfloat y, GLfloat z) {
-        if (m_position == NULL) {
-            m_position = (float *) malloc(3 * sizeof(float));
-        }
-
-        if (m_position != NULL) {
-            m_position[0] = x;
-            m_position[1] = y;
-            m_position[2] = z;
-        }
-    }
-
-    void Model::setRotate(GLfloat x, GLfloat y, GLfloat z) {
-        if (m_rotate == NULL) {
-            m_rotate = (float *) malloc(3 * sizeof(float));
-        }
-
-        if (m_rotate != NULL) {
-            m_rotate[0] = x;
-            m_rotate[1] = y;
-            m_rotate[2] = z;
-        }
-    }
-
-    void Model::renderModel() {
+    void Mesh::renderMesh() {
         if (!m_enabled)
             return;
 
         //save current matrix
         glPushMatrix();
-        //prepare frame to render
-        prepareFrame();
+
         //enable or disable gl command status
         initGlCmds();
 
@@ -177,6 +187,8 @@ namespace F3D {
                 glRotatef(m_rotate[2], 0.0f, 0.0f, 1.0f);
         }
 
+        if (m_scale != NULL)
+            glScalef(m_scale[0], m_scale[1], m_scale[2]);
 
         if (m_vertices != NULL)
             glVertexPointer(3, GL_FLOAT, 0, m_vertices);
@@ -212,6 +224,114 @@ namespace F3D {
             glDrawArrays(GL_TRIANGLES, 0, m_triangleNums * 3);
         //restore matrix
         glPopMatrix();
+    }
+
+    /**
+     * Model class for all games using F3D.
+     */
+
+    Model::Model() :
+            m_meshs(NULL),
+            m_meshCount(0) {
+#ifdef DEBUG
+        printf("Model constructor...\n");
+#endif
+    }
+
+    Model::~Model() {
+#ifdef DEBUG
+        printf("Start model destructor...\n");
+#endif
+        delete [] m_meshs;
+#ifdef DEBUG
+        printf("Model destructor OK!\n");
+#endif
+    }
+
+    void Model::setVertices(GLfloat *vertices, int size, int meshIndex) {
+        m_meshs[meshIndex].setVertices(vertices, size);
+    }
+
+    void Model::setNormals(GLfloat *normals, int size, int meshIndex) {
+        m_meshs[meshIndex].setNormals(normals, size);
+    }
+
+    void Model::setUvs(GLfloat *uvs, int size, int meshIndex) {
+        m_meshs[meshIndex].setUvs(uvs, size);
+    }
+
+    void Model::setColors(GLubyte *colors, int size, int meshIndex) {
+        m_meshs[meshIndex].setColors(colors, size);
+    }
+
+    void Model::setIndices(GLshort *indices, int size, int meshIndex) {
+        m_meshs[meshIndex].setIndices(indices, size);
+    }
+
+    void Model::setTriangleNums(GLint triangleNums, int meshIndex) {
+        m_meshs[meshIndex].setTriangleNums(triangleNums);
+    }
+
+    void Model::setEnabled(GLboolean enabled, int meshIndex) {
+        m_meshs[meshIndex].setEnabled(enabled);
+    }
+
+    void Model::setTextureId(GLint textureId) {
+        for (int i = 0; i < m_meshCount; i++) {
+            m_meshs[i].setTextureId(textureId);
+        }
+    }
+
+    void Model::setPosition(GLfloat x, GLfloat y, GLfloat z) {
+        for (int i = 0; i < m_meshCount; i++) {
+            m_meshs[i].setPosition(x, y, z);
+        }
+    }
+
+    void Model::setRotate(GLfloat x, GLfloat y, GLfloat z) {
+        for (int i = 0; i < m_meshCount; i++) {
+            m_meshs[i].setRotate(x, y, z);
+        }
+    }
+
+    void Model::setScale(GLfloat x, GLfloat y, GLfloat z) {
+        for (int i = 0; i < m_meshCount; i++) {
+            m_meshs[i].setScale(x, y, z);
+        }
+    }
+
+    void Model::setMeshCount(int meshCount) {
+        if (this->m_meshs != NULL) {
+            delete[] m_meshs;
+            m_meshs = NULL;
+        }
+
+        if (meshCount > 0) {
+#ifdef DEBUG
+            printf("Model create [%d] meshs ...\n", meshCount);
+#endif
+            m_meshCount = meshCount;
+            // create meshs
+            m_meshs = new Mesh[m_meshCount];
+        }
+    }
+
+    void Model::prepareFrame() {
+#ifdef DEBUG
+        static bool isFirst = true;
+        if (isFirst) {
+            printf("Call Model::prepareFrame()...\n");
+            isFirst = false;
+        }
+#endif
+    }
+
+    void Model::renderModel() {
+        //enable or disable gl command status
+        prepareFrame();
+
+        for (int i = 0; i < m_meshCount; i++)
+            m_meshs[i].renderMesh();
     }
 
 }

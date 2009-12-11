@@ -42,83 +42,94 @@ namespace F3D {
     Plane::Plane(int width, int height, float scale) {
         int vt_idx = 0, nm_idx = 0, uv_idx = 0;
 
-        m_vertices = (float *) malloc(width * height * 18 * sizeof(float));
-        m_normals = (float *) malloc(width * height * 18 * sizeof(float));
-        m_uvs = (float *) malloc(width * height * 12 * sizeof(float));
-        setTriangleNums(width * height * 2);
+        float *vertices = (float *) malloc(width * height * 18 * sizeof(float));
+        float *normals = (float *) malloc(width * height * 18 * sizeof(float));
+        float *uvs = (float *) malloc(width * height * 12 * sizeof(float));
+
+#ifdef DEBUG
+        printf("Plane constructor...\n");
+#endif
+        setMeshCount(1);
 
         for (int x = 0; x < width; x++) {
             for (int z = 0; z < height; z++) {
                 //triangle 1 first point
-                m_vertices[vt_idx++] = x * scale;
-                m_vertices[vt_idx++] = 0.0f;
-                m_vertices[vt_idx++] = z * scale;
+                vertices[vt_idx++] = x * scale;
+                vertices[vt_idx++] = 0.0f;
+                vertices[vt_idx++] = z * scale;
 
-                m_normals[nm_idx++] = 0.0f;
-                m_normals[nm_idx++] = 1.0f;
-                m_normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 1.0f;
+                normals[nm_idx++] = 0.0f;
 
-                m_uvs[uv_idx++] = 0.0f;
-                m_uvs[uv_idx++] = 0.0f;
+                uvs[uv_idx++] = 0.0f;
+                uvs[uv_idx++] = 0.0f;
                 //second point
-                m_vertices[vt_idx++] = (x + 1) * scale;
-                m_vertices[vt_idx++] = 0.0f;
-                m_vertices[vt_idx++] = z * scale;
+                vertices[vt_idx++] = (x + 1) * scale;
+                vertices[vt_idx++] = 0.0f;
+                vertices[vt_idx++] = z * scale;
 
-                m_normals[nm_idx++] = 0.0f;
-                m_normals[nm_idx++] = 1.0f;
-                m_normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 1.0f;
+                normals[nm_idx++] = 0.0f;
 
-                m_uvs[uv_idx++] = 1.0f;
-                m_uvs[uv_idx++] = 0.0f;
+                uvs[uv_idx++] = 1.0f;
+                uvs[uv_idx++] = 0.0f;
                 //third point
-                m_vertices[vt_idx++] = (x + 1) * scale;
-                m_vertices[vt_idx++] = 0.0f;
-                m_vertices[vt_idx++] = (z + 1) * scale;
+                vertices[vt_idx++] = (x + 1) * scale;
+                vertices[vt_idx++] = 0.0f;
+                vertices[vt_idx++] = (z + 1) * scale;
 
-                m_normals[nm_idx++] = 0.0f;
-                m_normals[nm_idx++] = 1.0f;
-                m_normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 1.0f;
+                normals[nm_idx++] = 0.0f;
 
-                m_uvs[uv_idx++] = 1.0f;
-                m_uvs[uv_idx++] = 1.0f;
+                uvs[uv_idx++] = 1.0f;
+                uvs[uv_idx++] = 1.0f;
                 //triangle 1 first point
-                m_vertices[vt_idx++] = x * scale;
-                m_vertices[vt_idx++] = 0.0f;
-                m_vertices[vt_idx++] = z * scale;
+                vertices[vt_idx++] = x * scale;
+                vertices[vt_idx++] = 0.0f;
+                vertices[vt_idx++] = z * scale;
 
-                m_normals[nm_idx++] = 0.0f;
-                m_normals[nm_idx++] = 1.0f;
-                m_normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 1.0f;
+                normals[nm_idx++] = 0.0f;
 
-                m_uvs[uv_idx++] = 0.0f;
-                m_uvs[uv_idx++] = 0.0f;
+                uvs[uv_idx++] = 0.0f;
+                uvs[uv_idx++] = 0.0f;
                 //third point
-                m_vertices[vt_idx++] = (x + 1) * scale;
-                m_vertices[vt_idx++] = 0.0f;
-                m_vertices[vt_idx++] = (z + 1) * scale;
+                vertices[vt_idx++] = (x + 1) * scale;
+                vertices[vt_idx++] = 0.0f;
+                vertices[vt_idx++] = (z + 1) * scale;
 
-                m_normals[nm_idx++] = 0.0f;
-                m_normals[nm_idx++] = 1.0f;
-                m_normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 1.0f;
+                normals[nm_idx++] = 0.0f;
 
-                m_uvs[uv_idx++] = 1.0f;
-                m_uvs[uv_idx++] = 1.0f;
+                uvs[uv_idx++] = 1.0f;
+                uvs[uv_idx++] = 1.0f;
                 //fourth pint
-                m_vertices[vt_idx++] = x * scale;
-                m_vertices[vt_idx++] = 0.0f;
-                m_vertices[vt_idx++] = (z + 1) * scale;
+                vertices[vt_idx++] = x * scale;
+                vertices[vt_idx++] = 0.0f;
+                vertices[vt_idx++] = (z + 1) * scale;
 
-                m_normals[nm_idx++] = 0.0f;
-                m_normals[nm_idx++] = 1.0f;
-                m_normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 0.0f;
+                normals[nm_idx++] = 1.0f;
+                normals[nm_idx++] = 0.0f;
 
-                m_uvs[uv_idx++] = 0.0f;
-                m_uvs[uv_idx++] = 1.0f;
+                uvs[uv_idx++] = 0.0f;
+                uvs[uv_idx++] = 1.0f;
             }
         }
-        //after set m_enabled to true, so model can render it
-        setEnabled(GL_TRUE);
+        //set data to model
+        setVertices(vertices, width * height * 18 * sizeof(float));
+        setNormals(normals, width * height * 18 * sizeof(float));
+        setUvs(uvs, width * height * 12 * sizeof(float));
+        setTriangleNums(width * height * 2);
+
+        FREEANDNULL(vertices);
+        FREEANDNULL(uvs);
+        FREEANDNULL(normals);
 #ifdef DEBUG
         printf("Generate plane OK!\n");
 #endif

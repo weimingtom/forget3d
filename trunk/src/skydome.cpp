@@ -57,11 +57,13 @@ namespace F3D {
         //calc triangle counts
         int num_vertices = (int)((360 / dtheta) * ((int)(90 / dphi) + 1) * 2);
 #ifdef DEBUG
+        printf("Plane constructor...\n");
         printf("skydome::num_vertices = %d\n", num_vertices);
 #endif
+        setMeshCount(1);
 
-        m_vertices = (float *) malloc(num_vertices * 9 * sizeof(float));
-        m_uvs = (float *) malloc(num_vertices * 6 * sizeof(float));
+        float *vertices0 = (float *) malloc(num_vertices * 9 * sizeof(float));
+        float *uvs0 = (float *) malloc(num_vertices * 6 * sizeof(float));
 
         setTriangleNums(num_vertices);
 
@@ -101,57 +103,62 @@ namespace F3D {
                 CALC_UVS(vertices[9], vertices[10], vertices[11], uvs[6], uvs[7]);
                 //printf("uvs:%.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f\n", uvs[0], uvs[1], uvs[2], uvs[3], uvs[4], uvs[5], uvs[6], uvs[7]);
                 //triangle 0 vertices & uvs of F3D skydome {0, 1, 2}
-                m_vertices[vt_idx++] = vertices[0];
-                m_vertices[vt_idx++] = vertices[1];
-                m_vertices[vt_idx++] = vertices[2];
+                vertices0[vt_idx++] = vertices[0];
+                vertices0[vt_idx++] = vertices[1];
+                vertices0[vt_idx++] = vertices[2];
 
-                m_uvs[uv_idx++] = uvs[0];
-                m_uvs[uv_idx++] = uvs[1];
+                uvs0[uv_idx++] = uvs[0];
+                uvs0[uv_idx++] = uvs[1];
 
-                m_vertices[vt_idx++] = vertices[3];
-                m_vertices[vt_idx++] = vertices[4];
-                m_vertices[vt_idx++] = vertices[5];
+                vertices0[vt_idx++] = vertices[3];
+                vertices0[vt_idx++] = vertices[4];
+                vertices0[vt_idx++] = vertices[5];
 
-                m_uvs[uv_idx++] = uvs[2];
-                m_uvs[uv_idx++] = uvs[3];
+                uvs0[uv_idx++] = uvs[2];
+                uvs0[uv_idx++] = uvs[3];
 
-                m_vertices[vt_idx++] = vertices[6];
-                m_vertices[vt_idx++] = vertices[7];
-                m_vertices[vt_idx++] = vertices[8];
+                vertices0[vt_idx++] = vertices[6];
+                vertices0[vt_idx++] = vertices[7];
+                vertices0[vt_idx++] = vertices[8];
 
-                m_uvs[uv_idx++] = uvs[4];
-                m_uvs[uv_idx++] = uvs[5];
+                uvs0[uv_idx++] = uvs[4];
+                uvs0[uv_idx++] = uvs[5];
 
                 //triangle 0 vertices & uvs of F3D skydome {1, 2, 3}
-                m_vertices[vt_idx++] = vertices[3];
-                m_vertices[vt_idx++] = vertices[4];
-                m_vertices[vt_idx++] = vertices[5];
+                vertices0[vt_idx++] = vertices[3];
+                vertices0[vt_idx++] = vertices[4];
+                vertices0[vt_idx++] = vertices[5];
 
-                m_uvs[uv_idx++] = uvs[2];
-                m_uvs[uv_idx++] = uvs[3];
+                uvs0[uv_idx++] = uvs[2];
+                uvs0[uv_idx++] = uvs[3];
 
-                m_vertices[vt_idx++] = vertices[6];
-                m_vertices[vt_idx++] = vertices[7];
-                m_vertices[vt_idx++] = vertices[8];
+                vertices0[vt_idx++] = vertices[6];
+                vertices0[vt_idx++] = vertices[7];
+                vertices0[vt_idx++] = vertices[8];
 
-                m_uvs[uv_idx++] = uvs[4];
-                m_uvs[uv_idx++] = uvs[5];
+                uvs0[uv_idx++] = uvs[4];
+                uvs0[uv_idx++] = uvs[5];
 
-                m_vertices[vt_idx++] = vertices[9];
-                m_vertices[vt_idx++] = vertices[10];
-                m_vertices[vt_idx++] = vertices[11];
+                vertices0[vt_idx++] = vertices[9];
+                vertices0[vt_idx++] = vertices[10];
+                vertices0[vt_idx++] = vertices[11];
 
-                m_uvs[uv_idx++] = uvs[6];
-                m_uvs[uv_idx++] = uvs[7];
+                uvs0[uv_idx++] = uvs[6];
+                uvs0[uv_idx++] = uvs[7];
             }
         }
+
+        setVertices(vertices0, num_vertices * 9 * sizeof(float));
+        setUvs(uvs0, num_vertices * 6 * sizeof(float));
+
+        FREEANDNULL(vertices0);
+        FREEANDNULL(uvs0);
 #ifdef DEBUG
         printf("skydome::uv_idx = %d\n", uv_idx);
 #endif
         //after set m_enabled to true, so model can render it
 		setPosition(0.0f, (float)(-radius * sinf(DTOR * dphi)), 0.0f);
         setRotate(-90.0f, 0.0f, 0.0f);
-        setEnabled(GL_TRUE);
 #ifdef DEBUG
         printf("Generate Skydome OK!\n");
 #endif
