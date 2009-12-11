@@ -70,4 +70,8 @@
 typedef unsigned char byte;
 #endif /* byte */
 
+#ifndef uint16
+typedef unsigned short  uint16;
+#endif /* uint16 */
+
 #endif // F3D_H_

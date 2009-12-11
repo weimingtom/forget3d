@@ -47,6 +47,17 @@ typedef struct {
     GLuint textureId;
 } Texture;
 
+typedef struct {
+    GLfloat s;
+    GLfloat t;
+} Vec2f;
+
+typedef struct {
+    GLfloat x;
+    GLfloat y;
+    GLfloat z;
+} Vec3f;
+
 #define ONE	(1 << 16)
 
 // Capped conversion from float to fixed.
@@ -57,5 +68,11 @@ typedef struct {
 //get the ms unit time in Linux & Android
 #define CLOCK(v_time) v_time.tv_sec * 1000 + v_time.tv_usec / 1000
 #endif
+
+#define FREEANDNULL(pointer) \
+    if (pointer != NULL) { \
+        free(pointer); \
+        pointer = NULL; \
+    }
 
 #endif // F3D_UTILS_H_
