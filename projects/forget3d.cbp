@@ -65,6 +65,7 @@
 		<Unit filename="..\include\image.h" />
 		<Unit filename="..\include\light.h" />
 		<Unit filename="..\include\model.h" />
+		<Unit filename="..\include\model_g3d.h" />
 		<Unit filename="..\include\model_md2.h" />
 		<Unit filename="..\include\plane.h" />
 		<Unit filename="..\include\skydome.h" />
@@ -77,6 +78,7 @@
 		<Unit filename="..\src\image.cpp" />
 		<Unit filename="..\src\light.cpp" />
 		<Unit filename="..\src\model.cpp" />
+		<Unit filename="..\src\model_g3d.cpp" />
 		<Unit filename="..\src\model_md2.cpp" />
 		<Unit filename="..\src\plane.cpp" />
 		<Unit filename="..\src\skydome.cpp" />

@@ -33,13 +33,12 @@
 					<Add option="-nostdlib -Bdynamic" />
 					<Add option="-Wl,-T,armelf.x" />
 					<Add option="-Wl,-dynamic-linker,/system/bin/linker" />
-					<Add option="E:\toolchain\arm-eabi\lib\crtbegin_dynamic.o" />
-					<Add option="E:\toolchain\arm-eabi\lib\crtend.o" />
+					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtbegin_dynamic.o" />
+					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtend.o" />
 					<Add library="..\lib\libf3d.a" />
 					<Add library="c" />
-					<Add library="m" />
-					<Add library="stdc++" />
-					<Add library="GLES_CM" />
+					<Add library="GLESv1_CM" />
+					<Add library="ui" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="adb push md2viewer /dev/sample/md2viewer" />
@@ -73,11 +72,12 @@
 					<Add option="-nostdlib -Bdynamic" />
 					<Add option="-Wl,-T,armelf.x" />
 					<Add option="-Wl,-dynamic-linker,/system/bin/linker" />
-					<Add option="E:\toolchain\arm-eabi\lib\crtbegin_dynamic.o" />
-					<Add option="E:\toolchain\arm-eabi\lib\crtend.o" />
+					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtbegin_dynamic.o" />
+					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtend.o" />
 					<Add library="..\lib\libf3d_d.a" />
 					<Add library="c" />
-					<Add library="GLES_CM" />
+					<Add library="GLESv1_CM" />
+					<Add library="ui" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="adb push md2viewer_d /dev/sample/md2viewer_d" />
