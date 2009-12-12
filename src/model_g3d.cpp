@@ -66,10 +66,12 @@ namespace F3D {
 
         /* initialize model and read header */
         fread (&m_header, sizeof (g3d_header_t), 1, file);
+#ifdef DEBUG
         printf ("magic:%s\n", m_header.magic);
         printf ("version:%d\n", m_header.version);
         printf ("meshCount:%d\n", m_header.meshCount);
         printf ("type:%d\n", m_header.type);
+#endif
 
         if (!strcmp((char *)m_header.magic, "G3D") || m_header.version != 4) {
             printf("Invalid G3D model or unsupport version, magic:[%s], version[%d]...\n",
@@ -95,7 +97,9 @@ namespace F3D {
             for (uint16 j = 0; j < m_g3dMeshs[i].header.textures; j++) {
                 char texName[NAME_SIZE];
                 fread(texName, NAME_SIZE, 1, file);
+#ifdef DEBUG
                 printf ("Mesh[%d] textures[%d]:%s\n", i, j, texName);
+#endif
             }
 
             int frameCount = m_g3dMeshs[i].header.frameCount;
