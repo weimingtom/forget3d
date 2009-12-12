@@ -275,7 +275,7 @@ int main(int argc, char *argv[]) {
         skydome->renderModel();
         plane->renderModel();
 
-        model->setRotate(0.0f, angle, 0.0f);
+        model->setRotate(0.0f, angle * 5.0f, 0.0f);
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
@@ -288,9 +288,9 @@ int main(int argc, char *argv[]) {
 #ifdef ANDROID
         gettimeofday(&timeNow, NULL);
         interval = CLOCK(timeNow) - i_time;
-        if (interval >= 40000) {
+        if (interval >= 20000) {
             is_done = 0;
-            printf("fps\t\t: %.2f\n", fps * 1.0f / 40);
+            printf("fps\t\t: %.2f\n", fps * 1.0f / 20);
         }
         if (((CLOCK(timeNow) - i_time) / 1000) % 2 == 0 && interval > 0)
             sprintf(strFps, "Fps:%.2f", fps * 1000.0f / interval);
