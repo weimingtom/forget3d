@@ -38,8 +38,7 @@
 #include "model.h"
 #include "f3d.h"
 
-#define NAME_SIZE 64
-#define PATH_SIZE 64
+#define NAME_SIZE   64
 
 namespace F3D {
 
@@ -62,7 +61,7 @@ namespace F3D {
         byte    version;
         uint16  meshCount;
         byte    type;
-    } g3d_header_t;
+    } F3D_PACKED g3d_header_t;
 
     typedef struct {
         char    name[NAME_SIZE];
@@ -75,12 +74,7 @@ namespace F3D {
         GLfloat opacity;
         int     properties;
         int     textures;
-    } g3d_mesh_header_t;
-
-#if (defined(WIN32) || defined(_WIN32_WCE))
-#pragma pack( pop, packing )
-#endif
-#undef F3D_PACKED
+    } F3D_PACKED g3d_mesh_header_t;
 
     typedef struct {
         g3d_mesh_header_t   header;
@@ -88,7 +82,12 @@ namespace F3D {
         Vec3f               *normals;
         Vec2f               *uvs;
         unsigned int        *indices;
-    } g3d_mesh_t;
+    } F3D_PACKED g3d_mesh_t;
+
+#if (defined(WIN32) || defined(_WIN32_WCE))
+#pragma pack( pop, packing )
+#endif
+#undef F3D_PACKED
 
     /**
      * ModelG3D class for all games using F3D.
