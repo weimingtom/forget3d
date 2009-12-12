@@ -115,7 +115,7 @@ namespace F3D {
 
         for (unsigned int i = 0; i < strlen(str); i++) {
             int index = (int)(str[i] - 32);
-#ifdef DEBUG
+#if (defined(DEBUG) && defined(SHOW_FONT_POS))
             printf("str[%d]: %c, index: %d\n", i, str[i], index);
 #endif
             GLint crop[4] = { 0, 0, m_charWidth, m_charHeight };
@@ -124,7 +124,7 @@ namespace F3D {
             int y_idx = (int)(index / m_colCount);
             crop[0] = x_idx * m_charWidth;
             crop[1] = (m_rowCount - y_idx) * m_charHeight;
-#ifdef DEBUG
+#if (defined(DEBUG) && defined(SHOW_FONT_POS))
             printf("x_idx: %d, y_idx: %d, crop[0]: %d, crop[1]: %d\n", x_idx, y_idx, crop[0], crop[1]);
 #endif
 
