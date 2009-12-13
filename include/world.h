@@ -97,6 +97,8 @@ namespace F3D {
         void setPerspective(GLfloat fovy, GLfloat znear, GLfloat zfar);
         void prepareRender();
         void finishRender();
+        int getWidth();
+        int getHeight();
     };
 
 }

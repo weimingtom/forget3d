@@ -242,6 +242,14 @@ namespace F3D {
 		initGL();
     }
 
+    int World::getWidth() {
+        return m_width;
+    }
+
+    int World::getHeight() {
+        return m_height;
+    }
+
     void World::setPerspective(GLfloat fovy, GLfloat znear, GLfloat zfar) {
         m_fovy = fovy;
         m_znear = znear;
