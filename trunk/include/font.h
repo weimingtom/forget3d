@@ -70,6 +70,8 @@ namespace F3D {
 
         void drawString(int x, int y, const char *str);
         void drawString(int x, int y, int fontWidth, int fontHeight, const char *str);
+        unsigned int getFonWidth();
+        unsigned int getFonHeight();
     };
 
 }

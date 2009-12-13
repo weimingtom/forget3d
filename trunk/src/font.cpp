@@ -73,6 +73,14 @@ namespace F3D {
 #endif
     }
 
+    unsigned int Font::getFonWidth() {
+        return m_fontWidth;
+    }
+
+    unsigned int Font::getFonHeight() {
+        return m_fontHeight;
+    }
+
     void Font::drawString(int x, int y, const char *str) {
         drawString(x, y, m_fontWidth, m_fontHeight, str);
     }
@@ -100,6 +108,7 @@ namespace F3D {
 
         glShadeModel(GL_FLAT);//GL_SMOOTH,GL_FLAT
         glDisable(GL_DEPTH_TEST);
+        glDisable(GL_FOG);
         glEnable(GL_BLEND);
         glEnable(GL_DITHER);
         glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_ONE); //GL_SRC_ALPHA
