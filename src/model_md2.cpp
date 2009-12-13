@@ -214,6 +214,9 @@ namespace F3D {
             isFirst = false;
         }
 #endif
+        if (m_actionIdx == -1)
+            return;
+
         float *uvs = (float *) malloc(m_header.numTriangles * 6 * sizeof(float));
         float *vertices = (float *) malloc(m_header.numTriangles * 9 * sizeof(float));
         float *normals = (float *) malloc(m_header.numTriangles * 9 * sizeof(float));
@@ -391,8 +394,10 @@ namespace F3D {
             m_actionIdx = index;
             m_frameIdx = m_actions[m_actionIdx].min_idx;
             setEnabled(GL_TRUE);
-        } else
+        } else {
             setEnabled(GL_FALSE);
+            m_actionIdx = -1;
+        }
     }
 
     const char* ModelMD2::getActionName(unsigned int index) {
