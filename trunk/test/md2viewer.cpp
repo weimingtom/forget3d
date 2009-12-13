@@ -45,6 +45,7 @@
 #include "font.h"
 #include "plane.h"
 #include "skydome.h"
+#include "fog.h"
 
 using namespace F3D;
 
@@ -57,8 +58,10 @@ ModelMD2*	weapon = NULL;
 Font*		font = NULL;
 Plane*      plane = NULL;
 Skydome*    skydome = NULL;
+Fog*        fog = NULL;
 
 static char	strFps[16];
+static char	strAction[32];
 static int	fps = 0;
 static int  is_done = 0;
 static int	action_idx = 0;
@@ -113,7 +116,6 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
 			//go to prior action
 			model->setActionIndex(action_idx);
 			weapon->setActionIndex(action_idx);
-
 		} else if (wParam == VK_DOWN) {
 			action_idx++;
 			if (action_idx >= (int)model->getActionCount())
@@ -236,9 +238,17 @@ int main(int argc, char *argv[]) {
 #endif
 
     camera = new Camera();
-    camera->setEye(45.0f, 15.0f, 45.0f);
+    camera->setEye(60.0f, 15.0f, 60.0f);
+
+    float fogColor[] = { 0.9f, 0.9f, 0.9f, 1.0f };
+    fog = new Fog();
+    fog->setFogColor(fogColor);
+    fog->setFogStart(-5.0f);
+    fog->setFogEnd(5.0f);
+    fog->setFogDensity(0.004f);
 
     world->setCamera(camera);
+    world->setFog(fog);
 
     image = new Image();
     Texture* texture0 = image->loadTexture("tris.bmp");
@@ -270,7 +280,7 @@ int main(int argc, char *argv[]) {
 
     font = new Font(16, 16, 12, 18, "font.bmp");
 
-	printf("model->getActionName(%d): %s\n", action_idx, model->getActionName(0));
+	printf("model->getActionName(%d): %s\n", action_idx, model->getActionName(action_idx));
 
     printf("start loop...\n");
     is_done = 1;
@@ -282,6 +292,9 @@ int main(int argc, char *argv[]) {
 #endif
     sprintf(strFps, "Fps:%.2f", 0.0f);
     printf("strFps: %s\n", strFps);
+
+    sprintf(strAction, "Action[%d]:%s", action_idx, model->getActionName(action_idx));
+    printf("%s\n", strAction);
 
     while (is_done) {
 #if (defined(WIN32) || defined(_WIN32_WCE))
@@ -297,8 +310,6 @@ int main(int argc, char *argv[]) {
 #endif
         world->prepareRender();
 
-        //glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
-        //glRotatex(FIXED(rotation++ * 3), 0, ONE, 0);
 		skydome->setRotate(-90.0f, 0.0f, angle);
         skydome->renderModel();
         plane->renderModel();
@@ -309,10 +320,15 @@ int main(int argc, char *argv[]) {
         //printf("strFps: %s\n", strFps);
         font->drawString(4, 4, strFps);
 
+        //draw action info
+        int w_height = world->getHeight();
+        int f_height = font->getFonHeight();
+        font->drawString(4, w_height - f_height - 4, strAction);
+
         world->finishRender();
 
         fps++;
-		angle += 0.05f;
+		angle += 0.1f;
 #ifdef ANDROID
         gettimeofday(&timeNow, NULL);
         interval = CLOCK(timeNow) - i_time;
@@ -324,17 +340,22 @@ int main(int argc, char *argv[]) {
 				action_idx++;
                 model->setActionIndex(action_idx);
                 weapon->setActionIndex(action_idx);
-                printf("model->getActionName(%d): %s\n", action_idx, model->getActionName(1));
+                printf("model->getActionName(%d): %s\n", action_idx, model->getActionName(action_idx));
                 is_changed = true;
             }
         }
-        if (((CLOCK(timeNow) - i_time) / 1000) % 2 == 0 && interval > 0)
+        //refresh strFps per second
+        if (((CLOCK(timeNow) - i_time) / 1000) % 2 == 0 && interval > 0) {
             sprintf(strFps, "Fps:%.2f", fps * 1000.0f / interval);
+            sprintf(strAction, "Action[%d]:%s", action_idx, model->getActionName(action_idx));
+        }
 #elif (defined(WIN32) || defined(_WIN32_WCE))
         interval = GetTickCount() - i_time;
-
+        //refresh strFps per 0.5 second
         if (interval >= 500) {
             sprintf(strFps, "Fps:%.2f", fps * 1000.0f / interval);
+            sprintf(strAction, "Action[%d]:%s", action_idx, model->getActionName(action_idx));
+
             //reset all time variables after get strFps
             interval = 0;
 			i_time = GetTickCount();
