@@ -131,21 +131,21 @@ namespace F3D {
         m_frameCount = m_g3dMeshs[0].header.frameCount;
         m_frameIdx = 0;
         //set uvs
-        for (int i = 0; i < m_meshCount; i++) {
-            int indicesCount = m_g3dMeshs[i].header.indexCount;
+        for (int k = 0; k < m_meshCount; k++) {
+            int indicesCount = m_g3dMeshs[k].header.indexCount;
             int u_size = indicesCount * sizeof(Vec2f);
 
             float *uvs = (float *) malloc(u_size);
             int u_idx = 0;
 
             for (int j = 0; j < indicesCount; j++) {
-                int i_idx = m_g3dMeshs[i].indices[j];
+                int i_idx = m_g3dMeshs[k].indices[j];
 
-                uvs[u_idx++] = m_g3dMeshs[i].uvs[i_idx].s;
-                uvs[u_idx++] = m_g3dMeshs[i].uvs[i_idx].t;
+                uvs[u_idx++] = m_g3dMeshs[k].uvs[i_idx].s;
+                uvs[u_idx++] = m_g3dMeshs[k].uvs[i_idx].t;
             }
 
-            setUvs(uvs, u_size, i);
+            setUvs(uvs, u_size, k);
         }
 
         return true;
