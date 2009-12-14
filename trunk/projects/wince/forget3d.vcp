@@ -457,11 +457,66 @@ DEP_CPP_MODEL=\
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\model_md2.cpp
+SOURCE=..\..\src\model_g3d.cpp
 
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
 
 DEP_CPP_MODEL_=\
+	"..\..\include\f3d.h"\
+	"..\..\include\model.h"\
+	"..\..\include\model_g3d.h"\
+	"..\..\include\utils.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
+
+DEP_CPP_MODEL_=\
+	"..\..\include\f3d.h"\
+	"..\..\include\model.h"\
+	"..\..\include\model_g3d.h"\
+	"..\..\include\utils.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Release"
+
+DEP_CPP_MODEL_=\
+	"..\..\include\f3d.h"\
+	"..\..\include\model.h"\
+	"..\..\include\model_g3d.h"\
+	"..\..\include\utils.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Debug"
+
+DEP_CPP_MODEL_=\
+	"..\..\include\f3d.h"\
+	"..\..\include\model.h"\
+	"..\..\include\model_g3d.h"\
+	"..\..\include\utils.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\model_md2.cpp
+
+!IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
+
+DEP_CPP_MODEL_M=\
 	"..\..\include\anorms.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\model.h"\
@@ -474,7 +529,7 @@ DEP_CPP_MODEL_=\
 
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
 
-DEP_CPP_MODEL_=\
+DEP_CPP_MODEL_M=\
 	"..\..\include\anorms.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\model.h"\
@@ -487,7 +542,7 @@ DEP_CPP_MODEL_=\
 
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Release"
 
-DEP_CPP_MODEL_=\
+DEP_CPP_MODEL_M=\
 	"..\..\include\anorms.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\model.h"\
@@ -500,7 +555,7 @@ DEP_CPP_MODEL_=\
 
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Debug"
 
-DEP_CPP_MODEL_=\
+DEP_CPP_MODEL_M=\
 	"..\..\include\anorms.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\model.h"\
@@ -777,6 +832,10 @@ SOURCE=..\..\include\light.h
 # Begin Source File
 
 SOURCE=..\..\include\model.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\include\model_g3d.h
 # End Source File
 # Begin Source File
 
