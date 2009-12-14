@@ -15,7 +15,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "triangle"=.\triangle.vcp - Package Owner=<4>
+Project: "g3dviewer"=.\g3dviewer.vcp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -27,7 +27,6 @@ Package=<4>
     Project_Dep_Name forget3d
     End Project Dependency
 }}}
-
 
 ###############################################################################
 
@@ -62,6 +61,21 @@ Package=<4>
 ###############################################################################
 
 Project: "skytest"=.\skytest.vcp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name forget3d
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "triangle"=.\triangle.vcp - Package Owner=<4>
 
 Package=<5>
 {{{
