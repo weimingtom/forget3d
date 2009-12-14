@@ -209,6 +209,7 @@ namespace F3D {
         } else {
             if ((m_uvs != NULL && m_textureId == -1) ||
                     (m_uvs == NULL && m_textureId != -1) ) {
+                glDisable(GL_TEXTURE_2D);
 #ifdef DEBUG
                 printf("UVs, exit render!\n");
 #endif
