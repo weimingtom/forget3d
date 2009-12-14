@@ -38,7 +38,7 @@
 #include "model.h"
 #include "f3d.h"
 
-#define NAME_SIZE   64
+#define G3D_NAME_SIZE   64
 
 namespace F3D {
 
@@ -64,7 +64,7 @@ namespace F3D {
     } F3D_PACKED g3d_header_t;
 
     typedef struct {
-        char    name[NAME_SIZE];
+        char    name[G3D_NAME_SIZE];
         int     frameCount;
         int     vertexCount;
         int     indexCount;
