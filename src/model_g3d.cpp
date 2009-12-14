@@ -95,8 +95,8 @@ namespace F3D {
 #endif
             //read textures
             for (uint16 j = 0; j < m_g3dMeshs[i].header.textures; j++) {
-                char texName[NAME_SIZE];
-                fread(texName, NAME_SIZE, 1, file);
+                char texName[G3D_NAME_SIZE];
+                fread(texName, G3D_NAME_SIZE, 1, file);
 #ifdef DEBUG
                 printf ("Mesh[%d] textures[%d]:%s\n", i, j, texName);
 #endif
@@ -167,7 +167,7 @@ namespace F3D {
         }
 
         if (!m_isPrepared)
-            m_isPrepared = GL_FALSE;
+            m_isPrepared = GL_TRUE;
 
         //read all g3d meshs and copy data to model meshs
         for (int i = 0; i < m_meshCount; i++) {
