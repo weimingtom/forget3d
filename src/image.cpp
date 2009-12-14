@@ -181,7 +181,7 @@ namespace F3D {
 #ifdef DEBUG
         printf("Load image %s success!\n", filename);
 #endif
-        free(buffer);
+        FREEANDNULL(buffer);
 
         return texture;
     }
