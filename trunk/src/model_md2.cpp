@@ -389,7 +389,7 @@ namespace F3D {
         *startFrame = *endFrame = 0;
     }
 
-    void ModelMD2::setActionIndex(unsigned int index) {
+    void ModelMD2::setActionIndex(int index) {
         if (index < m_actionCount) {
             m_actionIdx = index;
             m_frameIdx = m_actions[m_actionIdx].min_idx;
@@ -400,14 +400,14 @@ namespace F3D {
         }
     }
 
-    const char* ModelMD2::getActionName(unsigned int index) {
+    const char* ModelMD2::getActionName(int index) {
         if (index < m_actionCount)
             return m_actions[index].name;
         else
             return NULL;
     }
 
-    unsigned int ModelMD2::getActionCount() {
+    int ModelMD2::getActionCount() {
         return m_actionCount;
     }
 
