@@ -63,16 +63,11 @@ namespace F3D {
 #ifdef DEBUG
         printf("ModelMD2 destructor...\n");
 #endif
-        if (m_skins != NULL)
-            free(m_skins);
-        if (m_texCoords != NULL)
-            free(m_texCoords);
-        if (m_triangles != NULL)
-            free(m_triangles);
-        if (m_frames != NULL)
-            free(m_frames);
-        if (m_actions != NULL)
-            free(m_actions);
+        FREEANDNULL(m_skins);
+        FREEANDNULL(m_texCoords);
+        FREEANDNULL(m_triangles);
+        FREEANDNULL(m_frames);
+        FREEANDNULL(m_actions);
     }
 
     bool ModelMD2::loadModel(const char *filename) {
