@@ -125,8 +125,8 @@ namespace F3D {
         md2_action_t            *m_actions;
         int                     m_textureId;
         unsigned int            m_frameIdx;
-        unsigned int            m_actionIdx;
-        unsigned int            m_actionCount;
+        int                     m_actionIdx;
+        int                     m_actionCount;
         //private functions
         void prepareFrame();
         int getAnimationCount();
@@ -144,9 +144,9 @@ namespace F3D {
         virtual ~ModelMD2();
 
         bool loadModel(const char *filename);
-        void setActionIndex(unsigned int index);
-        const char* getActionName(unsigned int index);
-        unsigned int getActionCount();
+        void setActionIndex(int index);
+        const char* getActionName(int index);
+        int getActionCount();
     };
 
 }
