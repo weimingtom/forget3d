@@ -91,20 +91,7 @@ namespace F3D {
         printf("Unsupport GL_OES_draw_texture extension...\n");
 #endif
 #else
-//        glMatrixMode(GL_PROJECTION);
-//        glPushMatrix();
-//        glLoadIdentity();
-//
-//        glOrthof(0.0f, 640.0f, 0.0f, 480.0f, 0.0f, 1.0f);
-//        glMatrixMode(GL_MODELVIEW);
-//        glPushMatrix();
-//        glLoadIdentity();
-
-        glLoadIdentity();
         glPushMatrix();
-
-        //glColor4f(0x10000, 0x10000, 0x10000, 0x10000);
-        glColor4f(0.9f, 0.2f, 0.1f, 0.0f);
 
         glShadeModel(GL_FLAT);//GL_SMOOTH,GL_FLAT
         glDisable(GL_DEPTH_TEST);
@@ -121,6 +108,8 @@ namespace F3D {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+        glColor4f(1.0f, 0.0f, 0.0f, 0.0f);
 
         for (unsigned int i = 0; i < strlen(str); i++) {
             int index = (int)(str[i] - 32);
@@ -142,31 +131,6 @@ namespace F3D {
         }
 
         glPopMatrix();
-
-        /* test glBlendFunc
-        int i = 0, j = 0;
-        GLint crop0[4] = { 0, 0, 16, 18 };
-        //GLint crop1[4] = { 88, 0, 8, 16 };
-        GLint funcs [8] = { GL_ZERO, GL_ONE, GL_SRC_COLOR,
-                            GL_ONE_MINUS_SRC_COLOR, GL_SRC_ALPHA,
-                            GL_ONE_MINUS_SRC_ALPHA, GL_DST_ALPHA,
-                            GL_ONE_MINUS_DST_ALPHA
-                          };
-        for (j = 0; j < 8; j++) {
-            for (i = 0; i < 8; i++) {
-                //printf("i: %d, j: %d\n", i, j);
-                if (i == 0 && (j == 2 || j == 3))
-                    continue;
-
-                glBlendFunc(funcs[j], funcs[i]); //GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR, GL_ONE_MINUS_DST_ALPHA
-                //glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-                crop0[0] = i * 8;
-
-                glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, crop0);
-                glDrawTexiOES(i * 16, 240 - (j + 1) * 18, 0, 16, 16);
-            }
-        }
-        */
 
         glDisable(GL_TEXTURE_2D);
         glShadeModel(GL_SMOOTH);//GL_SMOOTH,GL_FLAT
