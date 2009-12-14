@@ -44,6 +44,7 @@
 #include "font.h"
 #include "skydome.h"
 #include "plane.h"
+#include "model_ms3d.h"
 
 using namespace F3D;
 
@@ -54,6 +55,7 @@ Image*		image = NULL;
 Font*		font = NULL;
 Skydome*    skydome = NULL;
 Plane*      plane = NULL;
+ModelMS3D*  model = NULL;
 
 static float angle = 0.0f;
 static char	strFps[16];
@@ -78,7 +80,6 @@ static HWND	hwnd;
 #endif
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
-
 static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
                                 WPARAM wParam, LPARAM lParam) {
     RECT rc;
@@ -226,6 +227,8 @@ int main(int argc, char *argv[]) {
     image = new Image();
     Texture* texture0 = image->loadTexture("clouds.bmp");
     Texture* texture1 = image->loadTexture("floor.bmp");
+    Texture* texture2 = image->loadTexture("DM_Base.bmp");
+    Texture* texture3 = image->loadTexture("DM_Face.bmp");
 
     plane = new Plane(4, 4, 64.0f);
     if (texture1 != NULL)
@@ -235,6 +238,15 @@ int main(int argc, char *argv[]) {
     skydome = new Skydome(128, 30.0f, 10.0f);
     if (texture0 != NULL)
         skydome->setTextureId(texture0->textureId);
+    //skydome->setPosition(0.0f, (float)(-128 * sinf(DTOR * 10.0f)), 0.0f);
+    printf("%.2f\n", (float)(-128 * sinf(DTOR * 10.0f)));
+
+    model = new ModelMS3D();
+    model->loadModel("run.ms3d");
+    model->setScale(0.5f, 0.5f, 0.5f);
+    if (texture2 != NULL)
+        model->setTextureId(texture2->textureId);
+
 
     font = new Font(16, 16, 12, 18, "font.bmp");
 
@@ -269,6 +281,9 @@ int main(int argc, char *argv[]) {
         skydome->setRotate(-90.0f, 0.0f, angle);
         skydome->renderModel();
 
+        model->setRotate(0.0f, angle * 3.0f, 0.0f);
+        model->renderModel();
+
         //printf("strFps: %s\n", strFps);
         font->drawString(4, 4, strFps);
 
@@ -298,9 +313,11 @@ int main(int argc, char *argv[]) {
 #endif
     }
 
+
     delete font;
     delete plane;
     delete skydome;
+    delete model;
     delete image;
     delete world;
 
