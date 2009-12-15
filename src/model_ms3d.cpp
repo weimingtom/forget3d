@@ -156,28 +156,22 @@ namespace F3D {
         fread(&m_animationFPS, sizeof(float), 1, file);
         fread(&m_currentTime, sizeof(float), 1, file);
         fread(&m_totalFrames, sizeof(int), 1, file);
+        //set frame count & frame index to 0
+        m_frameCount = m_totalFrames - 1; // totleFrames start with "1", not "0"
+        m_frameIdx = 0;
 #ifdef DEBUG
         printf("m_animationFPS:%.4f\n", m_animationFPS);
         printf("m_currentTime:%.4f\n", m_currentTime);
         printf("m_totalFrames:%d\n", m_totalFrames);
 #endif
-
         //read joints
         fread(&m_jointsCount, sizeof(uint16), 1, file);
 #ifdef DEBUG
         printf("m_jointsCount:%d\n", m_jointsCount);
 #endif
         m_joints = new ms3d_joint_t[m_jointsCount];
-        int max_frame = -1;
         for (i = 0; i < m_jointsCount; i++) {
             fread(&m_joints[i].header, sizeof(ms3d_joint_header_t), 1, file);
-
-            //get model frame count
-            if (m_joints[i].header.numKeyFramesRot > max_frame)
-                max_frame = m_joints[i].header.numKeyFramesRot;
-            if (m_joints[i].header.numKeyFramesTrans > max_frame)
-                max_frame = m_joints[i].header.numKeyFramesTrans;
-
             //read frame rots
             m_joints[i].keyFramesRot = new ms3d_keyframe_rot_t[m_joints[i].header.numKeyFramesRot];
             fread(&m_joints[i].keyFramesRot[0], sizeof(ms3d_keyframe_rot_t),
@@ -199,8 +193,6 @@ namespace F3D {
                     }
                 }
             }
-            m_frameCount = max_frame;
-            m_frameIdx = 0;
 #ifdef DEBUG
             printf("================================================\n");
             printf("m_joints[%d] name:%s\n", i, m_joints[i].header.name);
@@ -210,9 +202,10 @@ namespace F3D {
             printf("m_joints[%d] parentJointIndex:%d\n", i, m_joints[i].parentJointIndex);
 #endif
         }
-        //ignore other sections, such as sub version, comments, etc...
 
+        //ignore other sections, such as sub version, comments, etc...
         fclose(file);
+
         return true;
     }
 
@@ -234,30 +227,22 @@ namespace F3D {
         if (!m_isPrepared)
             m_isPrepared = GL_TRUE;
 
-        int i, j;
-//        printf("======================\n");
-        for (i = 0; i < m_groupsCount; i++) {
+        for (int i = 0; i < m_groupsCount; i++) {
             int v_idx = 0, n_idx = 0, u_idx = 0;
             float *vertices = new float[m_groups[i].numTriangles * 9];
             float *normals = new float[m_groups[i].numTriangles * 9];
             float *uvs = new float[m_groups[i].numTriangles * 6];
             //read all group triangles
-            for (j = 0; j < m_groups[i].numTriangles; j++) {
+            for (int j = 0; j < m_groups[i].numTriangles; j++) {
                 ms3d_triangle_t triangle = m_triangles[m_groups[i].triangleIndices[j]];
                 for (int m = 0; m < 3; m++) {
                     for (int n = 0; n < 3; n++) {
-                        vertices[v_idx++] = m_vertices[triangle.vertexIndices[m]].vertex[n];
-//                        vertices[v_idx++] = m_vertices[triangle.vertexIndices[m]].vertex[n];
-//                        vertices[v_idx++] = m_vertices[triangle.vertexIndices[m]].vertex[n];
-
-                        normals[n_idx++] = triangle.vertexNormals[m][n];
-//                        normals[n_idx++] = triangle.vertexNormals[m][n];
-//                        normals[n_idx++] = triangle.vertexNormals[m][n];
+                        vertices[v_idx++] = m_vertices[triangle.vertexIndices[m]].vertex[n]; // copy vertices
+                        normals[n_idx++] = triangle.vertexNormals[m][n]; // copy normals
                     }
                     uvs[u_idx++] = triangle.s[m];
-                    uvs[u_idx++] = triangle.t[m];
+                    uvs[u_idx++] = 1.0f - triangle.t[m];
                 }
-//                printf("%d, %d, %d\n", triangle.vertexIndices[0], triangle.vertexIndices[1], triangle.vertexIndices[2]);
             }
             //set data to mesh
             setVertices(vertices, m_groups[i].numTriangles * 9 * sizeof(float), i);
