@@ -6,29 +6,7 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="..\..\data\g3dviewer_d" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\..\data" />
-				<Option object_output="..\..\objs\win32Dbg" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-g" />
-					<Add option="-DDEBUG" />
-					<Add directory="..\..\include" />
-					<Add directory="..\include" />
-				</Compiler>
-				<Linker>
-					<Add library="kernel32" />
-					<Add library="user32" />
-					<Add library="gdi32" />
-					<Add library="f3d_d" />
-					<Add library="..\..\lib\win32\libEGL.lib" />
-					<Add library="..\..\lib\win32\libGLES_CM_NoE.lib" />
-					<Add directory="..\..\lib\win32" />
-				</Linker>
-			</Target>
-			<Target title="Release">
+			<Target title="release">
 				<Option output="..\..\data\g3dviewer" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="..\..\data" />
 				<Option object_output="..\..\objs\win32Rel" />
@@ -45,6 +23,28 @@
 					<Add library="user32" />
 					<Add library="gdi32" />
 					<Add library="f3d" />
+					<Add library="..\..\lib\win32\libEGL.lib" />
+					<Add library="..\..\lib\win32\libGLES_CM_NoE.lib" />
+					<Add directory="..\..\lib\win32" />
+				</Linker>
+			</Target>
+			<Target title="debug">
+				<Option output="..\..\data\g3dviewer_d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\..\data" />
+				<Option object_output="..\..\objs\win32Dbg" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+					<Add directory="..\..\include" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add library="kernel32" />
+					<Add library="user32" />
+					<Add library="gdi32" />
+					<Add library="f3d_d" />
 					<Add library="..\..\lib\win32\libEGL.lib" />
 					<Add library="..\..\lib\win32\libGLES_CM_NoE.lib" />
 					<Add directory="..\..\lib\win32" />
