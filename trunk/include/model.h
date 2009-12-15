@@ -112,7 +112,7 @@ namespace F3D {
         void setUvs(GLfloat *uvs, int size, int meshIndex = 0);
         void setColors(GLubyte *colors, int size, int meshIndex = 0);
         void setIndices(GLshort *indices, int size, int meshIndex = 0);
-        void setTextureId(GLint textureId);
+        void setTextureId(GLint textureId, int meshIndex = 0);
         void setTriangleNums(GLint triangleNums, int meshIndex = 0);
         void setEnabled(GLboolean enabled, int meshIndex = 0);
         void setPosition(GLfloat x, GLfloat y, GLfloat z);
