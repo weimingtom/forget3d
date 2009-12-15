@@ -219,8 +219,8 @@ int main(int argc, char *argv[]) {
 #endif
 
     camera = new Camera();
-    camera->setEye(30.0f, 15.0f, 30.0f);
-    camera->setCenter(0.0f, 30.0f, 0.0f);
+    camera->setEye(45.0f, 30.0f, 45.0f);
+    camera->setCenter(0.0f, 15.0f, 0.0f);
 
     world->setCamera(camera);
 
@@ -246,7 +246,8 @@ int main(int argc, char *argv[]) {
     model->setScale(0.5f, 0.5f, 0.5f);
     if (texture2 != NULL)
         model->setTextureId(texture2->textureId);
-
+    if (texture3 != NULL)
+        model->setTextureId(texture3->textureId, 1);
 
     font = new Font(16, 16, 12, 18, "font.bmp");
 
@@ -281,7 +282,7 @@ int main(int argc, char *argv[]) {
         skydome->setRotate(-90.0f, 0.0f, angle);
         skydome->renderModel();
 
-        model->setRotate(0.0f, angle * 3.0f, 0.0f);
+        model->setRotate(0.0f, angle * 5.0f, 0.0f);
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
@@ -312,7 +313,6 @@ int main(int argc, char *argv[]) {
         }
 #endif
     }
-
 
     delete font;
     delete plane;
