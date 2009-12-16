@@ -571,6 +571,61 @@ DEP_CPP_MODEL_M=\
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\model_ms3d.cpp
+
+!IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
+
+DEP_CPP_MODEL_MS=\
+	"..\..\include\f3d.h"\
+	"..\..\include\model.h"\
+	"..\..\include\model_ms3d.h"\
+	"..\..\include\utils.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
+
+DEP_CPP_MODEL_MS=\
+	"..\..\include\f3d.h"\
+	"..\..\include\model.h"\
+	"..\..\include\model_ms3d.h"\
+	"..\..\include\utils.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Release"
+
+DEP_CPP_MODEL_MS=\
+	"..\..\include\f3d.h"\
+	"..\..\include\model.h"\
+	"..\..\include\model_ms3d.h"\
+	"..\..\include\utils.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Debug"
+
+DEP_CPP_MODEL_MS=\
+	"..\..\include\f3d.h"\
+	"..\..\include\model.h"\
+	"..\..\include\model_ms3d.h"\
+	"..\..\include\utils.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\plane.cpp
 
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
@@ -840,6 +895,10 @@ SOURCE=..\..\include\model_g3d.h
 # Begin Source File
 
 SOURCE=..\..\include\model_md2.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\include\model_ms3d.h
 # End Source File
 # Begin Source File
 
