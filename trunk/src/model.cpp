@@ -154,8 +154,12 @@ namespace F3D {
         if (m_normals != NULL)
             glEnableClientState(GL_NORMAL_ARRAY);
 
-        if (m_uvs != NULL)
+        if (m_uvs != NULL) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glEnable(GL_TEXTURE_2D);
+        } else {
+            glDisable(GL_TEXTURE_2D);
+        }
 
         if (m_colors != NULL)
             glEnableClientState(GL_COLOR_ARRAY);
@@ -203,15 +207,14 @@ namespace F3D {
             glNormalPointer(GL_FLOAT, 0, m_normals);
 
         if (m_uvs != NULL && m_textureId != -1) {
-            glEnable(GL_TEXTURE_2D);
             glBindTexture(GL_TEXTURE_2D, m_textureId);
             glTexCoordPointer(2, GL_FLOAT, 0, m_uvs);
         } else {
+            glDisable(GL_TEXTURE_2D);
             if ((m_uvs != NULL && m_textureId == -1) ||
                     (m_uvs == NULL && m_textureId != -1) ) {
-                glDisable(GL_TEXTURE_2D);
 #ifdef DEBUG
-                printf("UVs, exit render!\n");
+                printf("Only have uvs or texture id!\n");
 #endif
             }
         }
