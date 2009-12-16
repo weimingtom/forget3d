@@ -34,6 +34,68 @@
 
 #include "model_ms3d.h"
 
+
+void applyRotationToMatrix(const float angles[3], float matrix[3][4] ) {
+	float angle;
+	float sr, sp, sy, cr, cp, cy;
+
+	angle = angles[2];
+	sy = sin(angle);
+	cy = cos(angle);
+	angle = angles[1];
+	sp = sin(angle);
+	cp = cos(angle);
+	angle = angles[0];
+	sr = sin(angle);
+	cr = cos(angle);
+
+	// matrix = (Z * Y) * X
+	matrix[0][0] = cp*cy;
+	matrix[1][0] = cp*sy;
+	matrix[2][0] = -sp;
+	matrix[0][1] = sr*sp*cy+cr*-sy;
+	matrix[1][1] = sr*sp*sy+cr*cy;
+	matrix[2][1] = sr*cp;
+	matrix[0][2] = (cr*sp*cy+-sr*-sy);
+	matrix[1][2] = (cr*sp*sy+-sr*cy);
+	matrix[2][2] = cr*cp;
+	matrix[0][3] = 0.0;
+	matrix[1][3] = 0.0;
+	matrix[2][3] = 0.0;
+}
+
+//multiply matrix to current matrix
+void multMatrices (const float mul[3][4], float cur[3][4]) {
+    float tmp[3][4];
+    //copy cur to tmp matrix
+    memcpy(tmp, cur, sizeof(12 * sizeof(float)));
+    //multiply martrices
+	cur[0][0] = mul[0][0] * tmp[0][0] + mul[0][1] * tmp[1][0] +
+				mul[0][2] * tmp[2][0];
+	cur[0][1] = mul[0][0] * tmp[0][1] + mul[0][1] * tmp[1][1] +
+				mul[0][2] * tmp[2][1];
+	cur[0][2] = mul[0][0] * tmp[0][2] + mul[0][1] * tmp[1][2] +
+				mul[0][2] * tmp[2][2];
+	cur[0][3] = mul[0][0] * tmp[0][3] + mul[0][1] * tmp[1][3] +
+				mul[0][2] * tmp[2][3] + mul[0][3];
+	cur[1][0] = mul[1][0] * tmp[0][0] + mul[1][1] * tmp[1][0] +
+				mul[1][2] * tmp[2][0];
+	cur[1][1] = mul[1][0] * tmp[0][1] + mul[1][1] * tmp[1][1] +
+				mul[1][2] * tmp[2][1];
+	cur[1][2] = mul[1][0] * tmp[0][2] + mul[1][1] * tmp[1][2] +
+				mul[1][2] * tmp[2][2];
+	cur[1][3] = mul[1][0] * tmp[0][3] + mul[1][1] * tmp[1][3] +
+				mul[1][2] * tmp[2][3] + mul[1][3];
+	cur[2][0] = mul[2][0] * tmp[0][0] + mul[2][1] * tmp[1][0] +
+				mul[2][2] * tmp[2][0];
+	cur[2][1] = mul[2][0] * tmp[0][1] + mul[2][1] * tmp[1][1] +
+				mul[2][2] * tmp[2][1];
+	cur[2][2] = mul[2][0] * tmp[0][2] + mul[2][1] * tmp[1][2] +
+				mul[2][2] * tmp[2][2];
+	cur[2][3] = mul[2][0] * tmp[0][3] + mul[2][1] * tmp[1][3] +
+				mul[2][2] * tmp[2][3] + mul[2][3];
+}
+
 namespace F3D {
     /**
      * ModelMS3D class for all games using F3D.
@@ -46,7 +108,8 @@ namespace F3D {
             m_materials(NULL),
             m_joints(NULL),
             m_frameCount(-1),
-            m_frameIdx(-1) {
+            m_frameIdx(-1),
+            m_isPrepared(GL_FALSE) {
 #ifdef DEBUG
         printf("ModelMS3D constructor...\n");
 #endif
@@ -143,14 +206,16 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_materialsCount:%d\n", m_materialsCount);
 #endif
-        m_materials = new ms3d_material_t[m_materialsCount];
-        fread(m_materials, sizeof(ms3d_material_t), m_materialsCount, file);
+        if (m_materialsCount > 0) {
+            m_materials = new ms3d_material_t[m_materialsCount];
+            fread(m_materials, sizeof(ms3d_material_t), m_materialsCount, file);
 #ifdef DEBUG
-        for (i = 0; i < m_materialsCount; i++) {
-            printf("m_materials[%d].name:%s\n", i, m_materials[i].name);
-            printf("m_materials[%d].texture:%s\n", i, m_materials[i].texture);
-        }
+            for (i = 0; i < m_materialsCount; i++) {
+                printf("m_materials[%d].name:%s\n", i, m_materials[i].name);
+                printf("m_materials[%d].texture:%s\n", i, m_materials[i].texture);
+            }
 #endif
+        }
 
         //read animation fps, current time, total frames
         fread(&m_animationFPS, sizeof(float), 1, file);
@@ -169,38 +234,53 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_jointsCount:%d\n", m_jointsCount);
 #endif
-        m_joints = new ms3d_joint_t[m_jointsCount];
-        for (i = 0; i < m_jointsCount; i++) {
-            fread(&m_joints[i].header, sizeof(ms3d_joint_header_t), 1, file);
-            //read frame rots
-            m_joints[i].keyFramesRot = new ms3d_keyframe_rot_t[m_joints[i].header.numKeyFramesRot];
-            fread(&m_joints[i].keyFramesRot[0], sizeof(ms3d_keyframe_rot_t),
-                m_joints[i].header.numKeyFramesRot, file);
+        if (m_jointsCount > 0) {
+            m_joints = new ms3d_joint_t[m_jointsCount];
+            for (i = 0; i < m_jointsCount; i++) {
+                fread(&m_joints[i].header, sizeof(ms3d_joint_header_t), 1, file);
+                //read frame rots
+                m_joints[i].keyFramesRot = new ms3d_keyframe_rot_t[m_joints[i].header.numKeyFramesRot];
+                fread(&m_joints[i].keyFramesRot[0], sizeof(ms3d_keyframe_rot_t),
+                    m_joints[i].header.numKeyFramesRot, file);
 
-            //read frame trans
-            m_joints[i].keyFramesTrans = new ms3d_keyframe_pos_t[m_joints[i].header.numKeyFramesTrans];
-            fread(&m_joints[i].keyFramesTrans[0], sizeof(ms3d_keyframe_pos_t),
-                m_joints[i].header.numKeyFramesTrans, file);
+                //read frame trans
+                m_joints[i].keyFramesTrans = new ms3d_keyframe_pos_t[m_joints[i].header.numKeyFramesTrans];
+                fread(&m_joints[i].keyFramesTrans[0], sizeof(ms3d_keyframe_pos_t),
+                    m_joints[i].header.numKeyFramesTrans, file);
 
-            //get parent index by parentName
-            m_joints[i].parentJointIndex = -1;
-            if (strlen(m_joints[i].header.parentName) > 0) {
-                for (j = 0; j < i; j++) {
-                    if (strcmp(m_joints[i].header.parentName, m_joints[j].header.name) == 0) {
-                        m_joints[i].parentJointIndex = j;
-                        //find the parent index by name, break!
-                        break;
+                //get parent index by parentName
+                m_joints[i].parentJointIndex = -1;
+                if (strlen(m_joints[i].header.parentName) > 0) {
+                    for (j = 0; j < i; j++) {
+                        if (strcmp(m_joints[i].header.parentName, m_joints[j].header.name) == 0) {
+                            m_joints[i].parentJointIndex = j;
+                            //find the parent index by name, break!
+                            break;
+                        }
                     }
                 }
-            }
+
+                //setup joints
+                applyRotationToMatrix(m_joints[i].header.rotation, m_joints[i].relMatrix);
+                m_joints[i].relMatrix[0][3]= m_joints[i].header.position[0];
+                m_joints[i].relMatrix[1][3]= m_joints[i].header.position[1];
+                m_joints[i].relMatrix[2][3]= m_joints[i].header.position[2];
+                //apply parent joint matrix to current joint
+                if (m_joints[i].parentJointIndex != -1) {
+                    multMatrices(m_joints[m_joints[i].parentJointIndex].absMatrix, m_joints[i].absMatrix);
+                } else {
+                    //if no parent, copy relMatrix to absMatrix
+                    memcpy(m_joints[i].absMatrix, m_joints[i].relMatrix, sizeof(12 * sizeof(float)));
+                }
 #ifdef DEBUG
-            printf("================================================\n");
-            printf("m_joints[%d] name:%s\n", i, m_joints[i].header.name);
-            printf("m_joints[%d] parentName:%s\n", i, m_joints[i].header.parentName);
-            printf("m_joints[%d] numKeyFramesRot:%d\n", i, m_joints[i].header.numKeyFramesRot);
-            printf("m_joints[%d] numKeyFramesTrans:%d\n", i, m_joints[i].header.numKeyFramesTrans);
-            printf("m_joints[%d] parentJointIndex:%d\n", i, m_joints[i].parentJointIndex);
+                printf("================================================\n");
+                printf("m_joints[%d] name:%s\n", i, m_joints[i].header.name);
+                printf("m_joints[%d] parentName:%s\n", i, m_joints[i].header.parentName);
+                printf("m_joints[%d] numKeyFramesRot:%d\n", i, m_joints[i].header.numKeyFramesRot);
+                printf("m_joints[%d] numKeyFramesTrans:%d\n", i, m_joints[i].header.numKeyFramesTrans);
+                printf("m_joints[%d] parentJointIndex:%d\n", i, m_joints[i].parentJointIndex);
 #endif
+            }
         }
 
         //ignore other sections, such as sub version, comments, etc...
@@ -217,40 +297,55 @@ namespace F3D {
             isFirst = false;
         }
 #endif
-        if ((m_frameCount < 0 || m_frameIdx < 0) && m_isPrepared) {
+        if ((m_frameCount < 0 || m_frameIdx < 0 || (m_joints == NULL)) && m_isPrepared) {
 #ifdef DEBUG
             printf("No joint or frame, don't need prepare again...\n");
 #endif
             return;
         }
 
-        if (!m_isPrepared)
-            m_isPrepared = GL_TRUE;
-
         for (int i = 0; i < m_groupsCount; i++) {
             int v_idx = 0, n_idx = 0, u_idx = 0;
             float *vertices = new float[m_groups[i].numTriangles * 9];
             float *normals = new float[m_groups[i].numTriangles * 9];
-            float *uvs = new float[m_groups[i].numTriangles * 6];
+            float *uvs = NULL;
+
+            if (m_materials != NULL && !m_isPrepared)
+                uvs = new float[m_groups[i].numTriangles * 6];
             //read all group triangles
             for (int j = 0; j < m_groups[i].numTriangles; j++) {
+                //get the triangle & vertex indices
                 ms3d_triangle_t triangle = m_triangles[m_groups[i].triangleIndices[j]];
                 for (int m = 0; m < 3; m++) {
+                    //get the vertex, and apply joint data to it
+                    ms3d_vertex_t vertex = m_vertices[triangle.vertexIndices[m]];
+                    if (vertex.boneId != -1) {
+                        //
+                    }
+                    //copy vertex data to mesh
                     for (int n = 0; n < 3; n++) {
                         vertices[v_idx++] = m_vertices[triangle.vertexIndices[m]].vertex[n]; // copy vertices
                         normals[n_idx++] = triangle.vertexNormals[m][n]; // copy normals
                     }
-                    uvs[u_idx++] = triangle.s[m];
-                    uvs[u_idx++] = 1.0f - triangle.t[m];
+                    if (m_materials != NULL && !m_isPrepared) {
+                        uvs[u_idx++] = triangle.s[m];
+                        uvs[u_idx++] = 1.0f - triangle.t[m];
+                    }
                 }
             }
             //set data to mesh
             setVertices(vertices, m_groups[i].numTriangles * 9 * sizeof(float), i);
             setNormals(normals, m_groups[i].numTriangles * 9 * sizeof(float), i);
-            setUvs(uvs, m_groups[i].numTriangles * 6 * sizeof(float), i);
+            if (m_materials != NULL && !m_isPrepared) {
+                setUvs(uvs, m_groups[i].numTriangles * 6 * sizeof(float), i);
+            }
             //set mesh triangle count
             setTriangleNums(m_groups[i].numTriangles, i);
         }
+
+        //after prepare frame, set m_isPrepared to true
+        if (!m_isPrepared)
+            m_isPrepared = GL_TRUE;
     }
 
 }
