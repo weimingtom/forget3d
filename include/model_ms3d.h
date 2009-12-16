@@ -38,17 +38,17 @@
 #include "model.h"
 #include "f3d.h"
 
-#define MAX_VERTICES    65534
-#define MAX_TRIANGLES   65534
-#define MAX_GROUPS      255
-#define MAX_MATERIALS   128
-#define MAX_JOINTS      128
-#define MS3D_SELECTED   1
-#define MS3D_HIDDEN     2
-#define MS3D_SELECTED2  4
-#define MS3D_DIRTY      8
-#define MS3D_NAME_SIZE  32
-#define MS3D_PATH_SIZE  128
+#define MS3D_MAX_VERTICES   65534
+#define MS3D_MAX_TRIANGLES  65534
+#define MS3D_MAX_GROUPS     255
+#define MS3D_MAX_MATERIALS  128
+#define MS3D_MAX_JOINTS     128
+#define MS3D_SELECTED       1
+#define MS3D_HIDDEN         2
+#define MS3D_SELECTED2      4
+#define MS3D_DIRTY          8
+#define MS3D_NAME_SIZE      32
+#define MS3D_PATH_SIZE      128
 
 namespace F3D {
 
@@ -133,7 +133,10 @@ namespace F3D {
         ms3d_joint_header_t header;
         ms3d_keyframe_rot_t *keyFramesRot;      // local animation matrices
         ms3d_keyframe_pos_t *keyFramesTrans;    // local animation matrices
+        //special variables
         int                 parentJointIndex;   // parent joint index, find by header's parentName
+        float               absMatrix[3][4];    // absolute martrix
+        float               relMatrix[3][4];    // relative martrix
     } F3D_PACKED ms3d_joint_t;
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
