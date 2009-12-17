@@ -218,7 +218,8 @@ int main(int argc, char *argv[]) {
 #endif
 
     camera = new Camera();
-    camera->setEye(45.0f, 15.0f, 45.0f);
+    camera->setEye(30.0f, 15.0f, 30.0f);
+    camera->setCenter(0.0f, 5.0f, 0.0f);
 
     world->setCamera(camera);
 
@@ -241,8 +242,10 @@ int main(int argc, char *argv[]) {
     model = new ModelG3D();
     model->loadModel("guard.g3d");
     model->setScale(10.0f, 10.0f, 10.0f);
-    if (texture2 != NULL)
-        model->setTextureId(texture2->textureId);
+    if (texture2 != NULL) {
+        for (int i = 0; i < model->getMeshCount(); i++)
+            model->setTextureId(texture2->textureId, i);
+    }
 
     font = new Font(16, 16, 12, 18, "font.bmp");
 
