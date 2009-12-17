@@ -36,7 +36,7 @@
 #define F3D_MODELMS3D_H_
 
 #include "model.h"
-#include "f3d.h"
+#include "mathlib.h"
 
 #define MS3D_MAX_VERTICES   65534
 #define MS3D_MAX_TRIANGLES  65534
@@ -135,8 +135,9 @@ namespace F3D {
         ms3d_keyframe_pos_t *keyFramesTrans;    // local animation matrices
         //special variables
         int                 parentJointIndex;   // parent joint index, find by header's parentName
-        float               absMatrix[3][4];    // absolute martrix
-        float               relMatrix[3][4];    // relative martrix
+        Matrix              *absMatrix;         // absolute martrix
+        Matrix              *relMatrix;         // relative martrix
+        Matrix              *finMatrix;         // final martrix
     } F3D_PACKED ms3d_joint_t;
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
@@ -169,6 +170,7 @@ namespace F3D {
         GLboolean       m_isPrepared;
         //private functions
         void prepareFrame();
+        void setupJoints();
     public:
         /**
         * Constructor
