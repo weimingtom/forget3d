@@ -46,6 +46,7 @@
 		<Unit filename="..\..\include\font.h" />
 		<Unit filename="..\..\include\image.h" />
 		<Unit filename="..\..\include\light.h" />
+		<Unit filename="..\..\include\mathlib.h" />
 		<Unit filename="..\..\include\model.h" />
 		<Unit filename="..\..\include\model_g3d.h" />
 		<Unit filename="..\..\include\model_md2.h" />
@@ -60,6 +61,7 @@
 		<Unit filename="..\..\src\font.cpp" />
 		<Unit filename="..\..\src\image.cpp" />
 		<Unit filename="..\..\src\light.cpp" />
+		<Unit filename="..\..\src\mathlib.cpp" />
 		<Unit filename="..\..\src\model.cpp" />
 		<Unit filename="..\..\src\model_g3d.cpp" />
 		<Unit filename="..\..\src\model_md2.cpp" />
