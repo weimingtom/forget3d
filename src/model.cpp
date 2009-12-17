@@ -318,6 +318,10 @@ namespace F3D {
         }
     }
 
+    int Model::getMeshCount() {
+        return m_meshCount;
+    }
+
     void Model::prepareFrame() {
 #ifdef DEBUG
         static bool isFirst = true;
