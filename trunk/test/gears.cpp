@@ -402,7 +402,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     camera = new Camera();
-#ifdef _WIN32_WCE
+#if (defined(_WIN32_WCE) || defined(ANDROID))
     camera->setEye(3.0f, 0.0f, 18.0f);
 #else
 	camera->setEye(-2.0f, 0.0f, 15.0f);
