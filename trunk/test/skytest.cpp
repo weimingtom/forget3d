@@ -219,7 +219,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     camera = new Camera();
-    camera->setEye(45.0f, 30.0f, 45.0f);
+    camera->setEye(60.0f, 30.0f, 60.0f);
     camera->setCenter(0.0f, 15.0f, 0.0f);
 
     world->setCamera(camera);
@@ -244,6 +244,7 @@ int main(int argc, char *argv[]) {
     model = new ModelMS3D();
     model->loadModel("run.ms3d");
     model->setScale(0.5f, 0.5f, 0.5f);
+    model->setPosition(20.0f, 20.0f, -40.0f);
     if (texture2 != NULL)
         model->setTextureId(texture2->textureId);
     if (texture3 != NULL)
