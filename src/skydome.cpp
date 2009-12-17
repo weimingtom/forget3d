@@ -34,6 +34,8 @@
 
 #include "skydome.h"
 
+namespace F3D {
+
 #define CALC_UVS(x, y, z, u, v) \
         vx = x; \
         vy = y; \
@@ -45,7 +47,6 @@
         u = (float)(atan2(vx, vz)/(M_PI * 2)) + 0.5f;    \
         v = (float)(asinf(vy) / M_PI) + 0.5f;
 
-namespace F3D {
     /**
      * Skydome class for all games using F3D.
      */
