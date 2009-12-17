@@ -119,6 +119,7 @@ namespace F3D {
         void setRotate(GLfloat x, GLfloat y, GLfloat z);
         void setScale(GLfloat x, GLfloat y, GLfloat z);
         void setMeshCount(int meshCount);
+        int getMeshCount();
         /**
          * Render model
          */
