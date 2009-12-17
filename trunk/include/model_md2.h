@@ -36,7 +36,6 @@
 #define F3D_MODELMD2_H_
 
 #include "model.h"
-#include "f3d.h"
 
 #define MD2_MAX_TRIANGLES		4096
 #define MD2_MAX_VERTICES		2048

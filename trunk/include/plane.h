@@ -36,7 +36,6 @@
 #define F3D_PLANE_H_
 
 #include "model.h"
-#include "f3d.h"
 
 namespace F3D {
     /**
