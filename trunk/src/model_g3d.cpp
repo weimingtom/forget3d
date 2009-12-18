@@ -146,6 +146,8 @@ namespace F3D {
             }
 
             setUvs(uvs, u_size, k);
+
+            FREEANDNULL(uvs);
         }
 
         return true;
@@ -192,6 +194,9 @@ namespace F3D {
 
             setVertices(vertices, v_size, i);
             setNormals(normals, v_size, i);
+
+            FREEANDNULL(vertices);
+            FREEANDNULL(normals);
         }
 
         m_frameIdx++;
