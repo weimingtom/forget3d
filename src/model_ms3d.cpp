@@ -285,23 +285,26 @@ namespace F3D {
         int i, j, n;
 
         for (i = 0; i < m_jointsCount; i++) {
-            Matrix transform;
+            Matrix *transform = new Matrix();
 
             if (m_frameIdx < m_joints[i].header.numKeyFramesRot)
-                transform.setRotationRadians(m_joints[i].keyFramesRot[m_frameIdx].rotation);
+                transform->setRotationRadians(m_joints[i].keyFramesRot[m_frameIdx].rotation);
             if (m_frameIdx < m_joints[i].header.numKeyFramesTrans)
-                transform.setTranslation(m_joints[i].keyFramesTrans[m_frameIdx].position);
+                transform->setTranslation(m_joints[i].keyFramesTrans[m_frameIdx].position);
 
-            Matrix relativeFinal;
-            relativeFinal.set(m_joints[i].relMatrix->getMatrix());
-            relativeFinal.postMultiply(transform.getMatrix());
+            Matrix *relativeFinal = new Matrix();
+            relativeFinal->set(m_joints[i].relMatrix->getMatrix());
+            relativeFinal->postMultiply(transform->getMatrix());
 
             if ( m_joints[i].parentJointIndex == -1 )
-                m_joints[i].finMatrix->set(relativeFinal.getMatrix());
+                m_joints[i].finMatrix->set(relativeFinal->getMatrix());
             else {
                 m_joints[i].finMatrix->set(m_joints[m_joints[i].parentJointIndex].finMatrix->getMatrix());
-                m_joints[i].finMatrix->postMultiply(relativeFinal.getMatrix());
+                m_joints[i].finMatrix->postMultiply(relativeFinal->getMatrix());
             }
+
+			DELETEANDNULL(transform, false);
+            DELETEANDNULL(relativeFinal, false);
         }
 
         for (i = 0; i < m_groupsCount; i++) {
@@ -321,16 +324,19 @@ namespace F3D {
                     ms3d_vertex_t vertex = m_vertices[triangle.vertexIndices[m]];
                     int b_idx = vertex.boneId;
                     if (b_idx != -1) {
-						Vector vector_n(triangle.vertexNormals[m]);
-						vector_n.transform3(m_joints[b_idx].finMatrix);
-						vector_n.normalize();
+						Vector *vector_n = new Vector(triangle.vertexNormals[m]);
+						vector_n->transform3(m_joints[b_idx].finMatrix);
+						vector_n->normalize();
 
-						Vector vector_v(vertex.vertex);
-						vector_v.transform(m_joints[b_idx].finMatrix);
+						Vector *vector_v = new Vector(vertex.vertex);
+						vector_v->transform(m_joints[b_idx].finMatrix);
                         for (n = 0; n < 3; n++) {
-                            vertices[v_idx++] = vector_v[n]; // copy vertices
-                            normals[n_idx++] = vector_n[n]; // copy normals
+                            vertices[v_idx++] = vector_v->getVector()[n]; // copy vertices
+                            normals[n_idx++] = vector_n->getVector()[n]; // copy normals
                         }
+
+						DELETEANDNULL(vector_n, false);
+						DELETEANDNULL(vector_v, false);
                     } else {
                         //copy vertex data to mesh
                         for (int n = 0; n < 3; n++) {
@@ -350,6 +356,10 @@ namespace F3D {
             if (m_materials != NULL && !m_isPrepared) {
                 setUvs(uvs, m_groups[i].numTriangles * 6 * sizeof(float), i);
             }
+
+            DELETEANDNULL(vertices, true);
+			DELETEANDNULL(normals, true);
+            DELETEANDNULL(uvs, true);
         }
 
         m_frameIdx++;
