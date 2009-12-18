@@ -75,4 +75,13 @@ typedef struct {
         pointer = NULL; \
     }
 
+#define DELETEANDNULL(pointer, isArray) \
+    if (pointer != NULL) { \
+		if (isArray) \
+			delete [] pointer; \
+		else \
+			delete pointer; \
+        pointer = NULL; \
+    }
+
 #endif // F3D_UTILS_H_
