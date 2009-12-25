@@ -45,7 +45,9 @@ namespace F3D {
             m_fogStart(1.0f),
             m_fogEnd(1.0f),
             m_fogColor(NULL) {
-        //
+#ifdef DEBUG
+        printf("Fog constructor...\n");
+#endif
     }
 
     Fog::Fog(GLfloat fogMode) :

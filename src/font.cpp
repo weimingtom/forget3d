@@ -44,6 +44,9 @@ namespace F3D {
                unsigned int fontWidth,
                unsigned int fontHeight,
                const char *texName) {
+#ifdef DEBUG
+        printf("Font constructor...\n");
+#endif
         m_charWidth = charWidth;
         m_charHeight = charHeight;
 #ifdef DEBUG

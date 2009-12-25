@@ -40,7 +40,9 @@ namespace F3D {
      */
 
     Image::Image() {
-        //
+#ifdef DEBUG
+        printf("Image constructor...\n");
+#endif
     }
 
     Image::~Image() {

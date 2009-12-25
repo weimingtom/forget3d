@@ -46,7 +46,9 @@ namespace F3D {
             m_upx(0.0f),
             m_upy(1.0f),
             m_upz(0.0f) {
-        //
+#ifdef DEBUG
+        printf("Camera constructor...\n");
+#endif
     }
 
     Camera::~Camera() {
