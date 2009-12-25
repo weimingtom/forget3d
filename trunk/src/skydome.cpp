@@ -58,7 +58,7 @@ namespace F3D {
         //calc triangle counts
         int num_vertices = (int)((360 / dtheta) * ((int)(90 / dphi) + 1) * 2);
 #ifdef DEBUG
-        printf("Plane constructor...\n");
+        printf("Skydome constructor...\n");
         printf("skydome::num_vertices = %d\n", num_vertices);
 #endif
         setMeshCount(1);

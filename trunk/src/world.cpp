@@ -53,7 +53,9 @@ namespace F3D {
             m_display(EGL_NO_DISPLAY),
             m_context(EGL_NO_CONTEXT),
             m_surface(EGL_NO_SURFACE) {
-        //
+#ifdef DEBUG
+        printf("World constructor...\n");
+#endif
     }
 
     World::~World() {

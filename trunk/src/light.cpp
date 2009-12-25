@@ -45,7 +45,9 @@ namespace F3D {
             m_diffuse(NULL),
             m_specular(NULL),
             m_emission(NULL) {
-        //
+#ifdef DEBUG
+        printf("Light constructor...\n");
+#endif
     }
 
     Light::~Light() {
