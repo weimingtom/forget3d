@@ -75,7 +75,11 @@ namespace F3D {
         byte buffer[MD2_MAX_FRAMESIZE];
         int i;
 
-        file = fopen (filename, "rb");
+#ifdef _WIN32_WCE
+        file = fopen(Utils::getFileName(filename), "rb");
+#else
+		file = fopen(filename, "rb");
+#endif
         if (!file)
             return false;
 

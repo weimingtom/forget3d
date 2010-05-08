@@ -76,10 +76,22 @@ namespace F3D {
         unsigned char *buffer;
         Color pallete[256];
 
-        fd = fopen (filename, "rb");
+#ifdef _WIN32_WCE
+		fd = fopen(Utils::getFileName(filename), "rb");
+#else
+		fd = fopen(filename, "rb");
+#endif
         if (!fd) {
 #ifdef DEBUG
             printf("Open %s error!\n", filename);
+			#if (defined(WIN32) || defined(_WIN32_WCE))
+			_TCHAR errorString[512];
+			CHAR error[512];
+			sprintf(error, "open image:[%s] error!\n", Utils::getFileName(filename));
+
+			Utils::asciiToWide(errorString, error);
+			MessageBox(0, errorString, _T("EGL Info"), MB_OK);
+			#endif
 #endif
             return NULL;
         }
