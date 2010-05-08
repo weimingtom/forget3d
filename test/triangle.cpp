@@ -69,6 +69,7 @@ static int	height = 480;
 static int	width = 240;
 static int	height = 320;
 #endif
+static int  is_initialized = false;
 static HWND	hwnd;
 #endif
 
@@ -96,7 +97,7 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
         wsprintf (szError, TEXT("WM_KEYDOWN: 0x%2x"), wParam);
         MessageBox (NULL, szError, TEXT("Debug"), MB_OK);
 #endif
-        if (wParam == VK_ESCAPE) {
+        if (wParam == VK_ESCAPE || wParam == 0x51 || wParam == 0x86) {
             is_done = 0;
         }
 
@@ -111,6 +112,9 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
         GetClientRect(hwnd, &rc);
         width = rc.right;
         height = rc.bottom;
+		if (is_initialized) {
+			world->setSize(width, height);
+		}
         break;
 
     default:
@@ -204,6 +208,9 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     world->setSize(width, height);
+
+	//after create world, set is_initialized to true
+	is_initialized = true;
 #else
     world->init();
 #endif
@@ -246,7 +253,7 @@ int main(int argc, char *argv[]) {
 
     printf("create triangle OK!\n");
 
-    font = new Font(16, 16, 12, 18, "font.bmp");
+    font = new Font(16, 16, 24, 36, "font.bmp");
 
     printf("start loop...\n");
     is_done = 1;
