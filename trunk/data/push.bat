@@ -10,5 +10,6 @@ adb push guard.bmp /dev/sample
 adb push run.ms3d /dev/sample
 adb push DM_Base.bmp /dev/sample
 adb push DM_Face.bmp /dev/sample
+adb push star.bmp /dev/sample
 
 pause
