@@ -96,12 +96,10 @@ namespace F3D {
 #else
         glPushMatrix();
 
-        glShadeModel(GL_FLAT);//GL_SMOOTH,GL_FLAT
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_FOG);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA
         glEnable(GL_BLEND);
-        glEnable(GL_DITHER);
-        glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_ONE); //GL_SRC_ALPHA
 
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, m_textureId);
@@ -112,7 +110,7 @@ namespace F3D {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-        glColor4f(1.0f, 0.0f, 0.0f, 0.0f);
+        glColor4f(1.0f, 0.0f, 0.0f, 0.8f);
 
         for (unsigned int i = 0; i < strlen(str); i++) {
             int index = (int)(str[i] - 32);
@@ -133,13 +131,12 @@ namespace F3D {
             glDrawTexiOES(x + i * fontWidth, y, 0, fontWidth, fontHeight);
         }
 
-        glPopMatrix();
-
         glDisable(GL_TEXTURE_2D);
-        glShadeModel(GL_SMOOTH);//GL_SMOOTH,GL_FLAT
         glEnable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
-        glDisable(GL_DITHER);
+
+        glPopMatrix();
+
 #endif
     }
 
