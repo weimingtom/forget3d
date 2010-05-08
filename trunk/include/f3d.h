@@ -43,15 +43,7 @@
 #include <windows.h>
 #endif
 
-//opengl es header
-#include <GLES/gl.h>
-#include <GLES/egl.h>
-
-#ifdef ANDROID
-#include <GLES/glext.h>
-#endif
-
-#include "utils.h"
+#include "f3d_gl.h"
 
 #ifndef M_PI
 #define M_PI 3.1415926535897932f
@@ -73,5 +65,54 @@ typedef unsigned char byte;
 #ifndef uint16
 typedef unsigned short  uint16;
 #endif /* uint16 */
+
+typedef struct {
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
+} Color;
+
+typedef struct {
+    GLsizei width;
+    GLsizei height;
+    GLuint textureId;
+} Texture;
+
+typedef struct {
+    GLfloat s;
+    GLfloat t;
+} Vec2f;
+
+typedef struct {
+    GLfloat x;
+    GLfloat y;
+    GLfloat z;
+} Vec3f;
+
+#define ONE	(1 << 16)
+
+// Capped conversion from float to fixed.
+#define FIXED(value) \
+        value < -32768.0f ? -32768 : value > 32767.0f ? 32767 : (int)(value * ONE)
+
+#ifdef ANDROID
+//get the ms unit time in Linux & Android
+#define CLOCK(v_time) v_time.tv_sec * 1000 + v_time.tv_usec / 1000
+#endif
+
+#define FREEANDNULL(pointer) \
+    if (pointer != NULL) { \
+        free(pointer); \
+        pointer = NULL; \
+    }
+
+#define DELETEANDNULL(pointer, isArray) \
+    if (pointer != NULL) { \
+		if (isArray) \
+			delete [] pointer; \
+		else \
+			delete pointer; \
+        pointer = NULL; \
+    }
 
 #endif // F3D_H_
