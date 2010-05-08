@@ -36,6 +36,7 @@
 #define F3D_MODELG3D_H_
 
 #include "model.h"
+#include "utils.h"
 
 #define G3D_NAME_SIZE   64
 

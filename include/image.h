@@ -36,6 +36,7 @@
 #define F3D_IMAGE_H_
 
 #include "f3d.h"
+#include "utils.h"
 
 #define BMP_TORASTER_OFFSET	10
 #define BMP_SIZE_OFFSET		18
