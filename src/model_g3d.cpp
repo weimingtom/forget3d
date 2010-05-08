@@ -60,7 +60,11 @@ namespace F3D {
     bool ModelG3D::loadModel(const char *filename) {
         FILE *file;
 
-        file = fopen (filename, "rb");
+#ifdef _WIN32_WCE
+		file = fopen(Utils::getFileName(filename), "rb");
+#else
+		file = fopen(filename, "rb");
+#endif
         if (!file)
             return false;
 

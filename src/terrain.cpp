@@ -57,7 +57,11 @@ namespace F3D {
         setMeshCount(1);
 
         // open the heightmap file
-        fp = fopen(filename, "rb");
+#ifdef _WIN32_WCE
+		fp = fopen(Utils::getFileName(filename), "rb");
+#else
+		fp = fopen(filename, "rb");
+#endif
 
         // read in the heightmap into hmap
         if (fp != NULL)

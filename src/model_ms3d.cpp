@@ -82,9 +82,22 @@ namespace F3D {
         FILE *file;
         int i, j;
 
-        file = fopen (filename, "rb");
+#ifdef _WIN32_WCE
+        file = fopen(Utils::getFileName(filename), "rb");
+#else
+		file = fopen(filename, "rb");
+#endif
         if (!file) {
             printf("Open MS3D model:%s failure!\n", filename);
+
+			#ifdef _WIN32_WCE
+			_TCHAR errorString[512];
+			CHAR error[512];
+			sprintf(error, "Open MS3d model:[%s] error!\n", Utils::getFileName(filename));
+
+			Utils::asciiToWide(errorString, error);
+			MessageBox(0, errorString, _T("MS3D"), MB_OK);
+			#endif
 
             return false;
         }
@@ -92,6 +105,13 @@ namespace F3D {
         /* initialize model and read header */
         fread (&m_header, sizeof (ms3d_header_t), 1, file);
 #ifdef DEBUG
+		_TCHAR infoStr[512];
+		CHAR info[512];
+		sprintf(info, "id:%s\nversion: %d", m_header.id, m_header.version);
+
+		Utils::asciiToWide(infoStr, info);
+		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+
         printf("id:%s\n", m_header.id);
         printf("version:%d\n", m_header.version);
 #endif
@@ -108,6 +128,13 @@ namespace F3D {
         fread(&m_verticesCount, sizeof(uint16), 1, file);
 #ifdef DEBUG
         printf("m_verticesCount:%d\n", m_verticesCount);
+
+//		_TCHAR infoStr[512];
+	//	CHAR info[512];
+		sprintf(info, "m_verticesCount: %d", m_verticesCount);
+
+		Utils::asciiToWide(infoStr, info);
+		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
 #endif
         m_vertices = new ms3d_vertex_t[m_verticesCount];
         fread(m_vertices, sizeof(ms3d_vertex_t), m_verticesCount, file);
@@ -116,6 +143,13 @@ namespace F3D {
         fread(&m_trianglesCount, sizeof(uint16), 1, file);
 #ifdef DEBUG
         printf("m_trianglesCount:%d\n", m_trianglesCount);
+
+	//	_TCHAR infoStr[512];
+	//	CHAR info[512];
+		sprintf(info, "m_trianglesCount: %d", m_trianglesCount);
+
+		Utils::asciiToWide(infoStr, info);
+		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
 #endif
         m_triangles = new ms3d_triangle_t[m_trianglesCount];
         fread(m_triangles, sizeof(ms3d_triangle_t), m_trianglesCount, file);
@@ -124,6 +158,12 @@ namespace F3D {
         fread(&m_groupsCount, sizeof(uint16), 1, file);
 #ifdef DEBUG
         printf("m_groupsCount:%d\n", m_groupsCount);
+//		_TCHAR infoStr[512];
+//		CHAR info[512];
+		sprintf(info, "m_groupsCount: %d", m_groupsCount);
+
+		Utils::asciiToWide(infoStr, info);
+		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
 #endif
         //set model mesh count to group count to init model meshs.
         setMeshCount(m_groupsCount);
@@ -180,6 +220,13 @@ namespace F3D {
         fread(&m_jointsCount, sizeof(uint16), 1, file);
 #ifdef DEBUG
         printf("m_jointsCount:%d\n", m_jointsCount);
+
+		//_TCHAR infoStr[512];
+		//CHAR info[512];
+		sprintf(info, "m_jointsCount: %d", m_jointsCount);
+
+		Utils::asciiToWide(infoStr, info);
+		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
 #endif
         if (m_jointsCount > 0) {
             m_joints = new ms3d_joint_t[m_jointsCount];
@@ -223,8 +270,12 @@ namespace F3D {
 
         //ignore other sections, such as sub version, comments, etc...
         fclose(file);
+	//	MessageBox(0, _T("read file ok, start setupJoints()!"), _T("MS3D"), MB_OK);
+#undef F3D_PACKED
 
         setupJoints();
+
+//		MessageBox(0, _T("setupJoints ok!"), _T("MS3D"), MB_OK);
 
         return true;
     }
@@ -233,8 +284,19 @@ namespace F3D {
         int i, b_idx;
         //setup joints
         for (i = 0; i < m_jointsCount; i++) {
+//			_TCHAR infoStr[512];
+//			CHAR info[512];
+
+//			sprintf(info, "A.m_jointsCount: %d, i = %d", m_jointsCount, i);
+//			Utils::asciiToWide(infoStr, info);
+//			MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+
             m_joints[i].relMatrix->setRotationRadians(m_joints[i].header.rotation);
             m_joints[i].relMatrix->setTranslation(m_joints[i].header.position);
+
+//			sprintf(info, "B.m_jointsCount: %d, i = %d", m_jointsCount, i);
+//			Utils::asciiToWide(infoStr, info);
+//			MessageBox(0, infoStr, _T("MS3D"), MB_OK);
 
             //apply parent joint matrix to current joint
             if (m_joints[i].parentJointIndex != -1) {
@@ -245,8 +307,13 @@ namespace F3D {
                 m_joints[i].absMatrix->set(m_joints[i].relMatrix->getMatrix());
             }
 
+//			sprintf(info, "C.m_jointsCount: %d, i = %d", m_jointsCount, i);
+//			Utils::asciiToWide(infoStr, info);
+//			MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+
             m_joints[i].finMatrix->set(m_joints[i].absMatrix->getMatrix());
         }
+//		MessageBox(0, _T("setupJoints step1 ok!"), _T("MS3D"), MB_OK);
         //setup vertices
         for (i = 0; i < m_verticesCount; i++) {
             b_idx = m_vertices[i].boneId;
@@ -255,6 +322,7 @@ namespace F3D {
                 m_joints[b_idx].absMatrix->inverseRotateVect(m_vertices[i].vertex);
             }
         }
+//		MessageBox(0, _T("setupJoints step2 vertices ok!"), _T("MS3D"), MB_OK);
         //set triangles normals
         for (i = 0; i < m_trianglesCount; i++) {
             for (int j = 0; j < 3; j++) {
@@ -265,6 +333,7 @@ namespace F3D {
                 }
             }
         }
+	//	MessageBox(0, _T("setupJoints step3 triangles ok!"), _T("MS3D"), MB_OK);
     }
 
     void ModelMS3D::prepareFrame() {
