@@ -81,6 +81,8 @@ static int	height = 480;
 static int	width = 240;
 static int	height = 320;
 #endif
+static int  is_initialized = false;
+static int  is_foged = true;
 static HWND	hwnd;
 #endif
 
@@ -96,18 +98,24 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
         is_done = 0;
         break;
 
+	case WM_LBUTTONDBLCLK:
+	case WM_RBUTTONDBLCLK:
+        DestroyWindow(wnd);
+        is_done = 0;
+        break;
+
     case WM_DESTROY:
         PostQuitMessage(0);
         is_done = 0;
         break;
 
     case WM_KEYDOWN:
-#if 0
+#ifdef DEBUG
 		TCHAR szError[32];
 		wsprintf (szError, TEXT("WM_KEYDOWN: 0x%2x"), wParam);
 		MessageBox (NULL, szError, TEXT("Debug"), MB_OK);
 #endif
-        if (wParam == VK_ESCAPE) {
+        if (wParam == VK_ESCAPE || wParam == 0x51 || wParam == 0x86) { //press "ESC" or "Q" then exit
             is_done = 0;
 		} else if (wParam == VK_UP) {
 			action_idx--;
@@ -123,20 +131,25 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
 			//go to next action
 			model->setActionIndex(action_idx);
 			weapon->setActionIndex(action_idx);
+		} else if (wParam == 0x46) { //if press "F" then enable/disable fog
+			is_foged = !is_foged;
+			if (is_foged)
+				world->setFog(fog);
+			else
+				world->setFog(NULL);
 		}
 
-        useDefWindowProc = 1;
-        break;
-
-    case WM_KEYUP:
-        useDefWindowProc = 1;
         break;
 
     case WM_SIZE:
-        GetClientRect(hwnd, &rc);
+        GetWindowRect(hwnd, &rc);
         width = rc.right;
         height = rc.bottom;
-        break;
+		if (is_initialized) {
+			world->setSize(width, height);
+		}
+
+		break;
 
     default:
         useDefWindowProc = 1;
@@ -237,6 +250,9 @@ int main(int argc, char *argv[]) {
     world->init();
 #endif
 
+	//after create world, set is_initialized to true
+	is_initialized = true;
+
     camera = new Camera();
     camera->setEye(60.0f, 15.0f, 60.0f);
 
@@ -278,7 +294,7 @@ int main(int argc, char *argv[]) {
         skydome->setTextureId(texture3->textureId);
     skydome->setPosition(0.0f, (float)(-256 * sinf(DTOR * 10.0f)) - 28.0f, 0.0f);
 
-    font = new Font(16, 16, 12, 18, "font.bmp");
+    font = new Font(16, 16, 24, 36, "font.bmp");
 
 	printf("model->getActionName(%d): %s\n", action_idx, model->getActionName(action_idx));
 

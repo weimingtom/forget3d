@@ -90,6 +90,7 @@ static int	width = 240;
 static int	height = 320;
 #endif
 static HWND	hwnd;
+static int  is_initialized = false;
 #endif
 
 static gear_t* gear(GLfloat inner_radius, GLfloat outer_radius, GLfloat width,
@@ -286,7 +287,7 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
         wsprintf (szError, TEXT("WM_KEYDOWN: 0x%2x"), wParam);
         MessageBox (NULL, szError, TEXT("Debug"), MB_OK);
 #endif
-        if (wParam == VK_ESCAPE) {
+        if (wParam == VK_ESCAPE || wParam == 0x51 || wParam == 0x86) {
             is_done = 0;
         }
 
@@ -301,6 +302,9 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
         GetClientRect(hwnd, &rc);
         width = rc.right;
         height = rc.bottom;
+		if (is_initialized) {
+			world->setSize(width, height);
+		}
         break;
 
     default:
@@ -401,6 +405,9 @@ int main(int argc, char *argv[]) {
     printf("world->init() OK!\n");
 #endif
 
+	//after create world, set is_initialized to true
+	is_initialized = true;
+
     camera = new Camera();
 #if (defined(_WIN32_WCE) || defined(ANDROID))
     camera->setEye(3.0f, 0.0f, 18.0f);
@@ -414,7 +421,7 @@ int main(int argc, char *argv[]) {
     world->setCamera(camera);
     world->setLight(light);
 
-    font = new Font(16, 16, 12, 18, "font.bmp");
+    font = new Font(16, 16, 24, 36, "font.bmp");
 
     /* make the gears */
     gear1 = gear(1.0f, 4.0f, 1.0f, 20, 0.7f);
