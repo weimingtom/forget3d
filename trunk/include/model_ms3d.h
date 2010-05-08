@@ -37,6 +37,7 @@
 
 #include "model.h"
 #include "mathlib.h"
+#include "utils.h"
 
 #define MS3D_MAX_VERTICES   65534
 #define MS3D_MAX_TRIANGLES  65534

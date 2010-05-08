@@ -36,6 +36,7 @@
 #define F3D_TERRAIN_H_
 
 #include "model.h"
+#include "utils.h"
 
 namespace F3D {
     /**

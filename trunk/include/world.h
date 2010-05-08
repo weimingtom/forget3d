@@ -39,6 +39,7 @@
 #include "camera.h"
 #include "fog.h"
 #include "light.h"
+#include "utils.h"
 
 namespace F3D {
 

@@ -35,53 +35,26 @@
 #ifndef F3D_UTILS_H_
 #define F3D_UTILS_H_
 
-typedef struct {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
-} Color;
+#include "f3d.h"
 
-typedef struct {
-    GLsizei width;
-    GLsizei height;
-    GLuint textureId;
-} Texture;
+namespace F3D {
+    /**
+     * Utils class for all games using F3D.
+     */
 
-typedef struct {
-    GLfloat s;
-    GLfloat t;
-} Vec2f;
-
-typedef struct {
-    GLfloat x;
-    GLfloat y;
-    GLfloat z;
-} Vec3f;
-
-#define ONE	(1 << 16)
-
-// Capped conversion from float to fixed.
-#define FIXED(value) \
-        value < -32768.0f ? -32768 : value > 32767.0f ? 32767 : (int)(value * ONE)
-
-#ifdef ANDROID
-//get the ms unit time in Linux & Android
-#define CLOCK(v_time) v_time.tv_sec * 1000 + v_time.tv_usec / 1000
+    class Utils {
+	public:
+#ifdef _WIN32_WCE
+		//change ascii to widestring when format message
+		static void asciiToWide(wchar_t* ws, const char* s);
+		//get windows moible file name with absolute path
+		static char* getFileName(const char *filename);
 #endif
+#ifdef USE_WRAPPER_GL
+		static int Utils::initGlWrapper();
+		static void Utils::deinitGlWrapper();
+#endif
+	};
 
-#define FREEANDNULL(pointer) \
-    if (pointer != NULL) { \
-        free(pointer); \
-        pointer = NULL; \
-    }
-
-#define DELETEANDNULL(pointer, isArray) \
-    if (pointer != NULL) { \
-		if (isArray) \
-			delete [] pointer; \
-		else \
-			delete pointer; \
-        pointer = NULL; \
-    }
-
+}
 #endif // F3D_UTILS_H_
