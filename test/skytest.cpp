@@ -69,13 +69,9 @@ static int  is_changed = false;
 static struct timeval timeNow;
 #elif (defined(WIN32) || defined(_WIN32_WCE))
 static DWORD i_time = 0;
-#ifdef WIN32
 static int	width = 640;
 static int	height = 480;
-#else
-static int	width = 240;
-static int	height = 320;
-#endif
+static int  is_initialized = false;
 static HWND	hwnd;
 #endif
 
@@ -97,12 +93,12 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
         break;
 
     case WM_KEYDOWN:
-#if 0
+#if DEBUG
         TCHAR szError[32];
         wsprintf (szError, TEXT("WM_KEYDOWN: 0x%2x"), wParam);
         MessageBox (NULL, szError, TEXT("Debug"), MB_OK);
 #endif
-        if (wParam == VK_ESCAPE) {
+        if (wParam == VK_ESCAPE || wParam == 0x86 || wParam == 0x51) {
             is_done = 0;
         }
 
@@ -114,9 +110,13 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
         break;
 
     case WM_SIZE:
-        GetClientRect(hwnd, &rc);
+        GetWindowRect(hwnd, &rc);
         width = rc.right;
         height = rc.bottom;
+		if (is_initialized) {
+			world->setSize(width, height);
+		}
+
         break;
 
     default:
@@ -183,14 +183,19 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance,
                         NULL,
                         instance,
                         NULL);
-    if (!hwnd)
+    if (!hwnd) {
+#ifdef _WIN32_WCE
+        MessageBox(hwnd, _T("CreateWindow error!"), _T("Error"), MB_OK);
+#else
+        MessageBox(hwnd, "CreateWindow error!", "Error", MB_OK);
+#endif
         return FALSE;
+	}
 
-    ShowWindow(hwnd, cmdShow);
+	ShowWindow(hwnd, cmdShow);
 
 #ifdef _WIN32_WCE
-    SHFullScreen(hwnd,
-                 SHFS_HIDETASKBAR | SHFS_HIDESIPBUTTON | SHFS_HIDESTARTICON);
+    SHFullScreen(hwnd, SHFS_HIDETASKBAR | SHFS_HIDESIPBUTTON | SHFS_HIDESTARTICON);
     MoveWindow(hwnd, 0, 0, width, height, TRUE);
 #endif
 
@@ -202,7 +207,7 @@ int main(int argc, char *argv[]) {
     printf("world->init()...\n");
 
     world = new World();
-    world->setBgColor(0.5f, 0.5f, 0.5f, 0.0f);
+    //world->setBgColor(0.5f, 0.5f, 0.5f, 0.0f);
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
     if (!world->init(hwnd)) {
@@ -218,6 +223,13 @@ int main(int argc, char *argv[]) {
     world->init();
 #endif
 
+	//after create world, set is_initialized to true
+	is_initialized = true;
+
+#if (defined(_WIN32_WCE) && defined(DEBUG))
+    MessageBox(hwnd, _T("Init world OK!"), _T("Info"), MB_OK);
+#endif
+
     camera = new Camera();
     camera->setEye(60.0f, 30.0f, 60.0f);
     camera->setCenter(0.0f, 15.0f, 0.0f);
@@ -228,7 +240,7 @@ int main(int argc, char *argv[]) {
     Texture* texture0 = image->loadTexture("clouds.bmp");
     Texture* texture1 = image->loadTexture("floor.bmp");
     Texture* texture2 = image->loadTexture("DM_Base.bmp");
-    Texture* texture3 = image->loadTexture("DM_Face.bmp");
+	Texture* texture3 = image->loadTexture("DM_Face.bmp");
 
     plane = new Plane(4, 4, 64.0f);
     if (texture1 != NULL)
@@ -241,18 +253,37 @@ int main(int argc, char *argv[]) {
     //skydome->setPosition(0.0f, (float)(-128 * sinf(DTOR * 10.0f)), 0.0f);
     printf("%.2f\n", (float)(-128 * sinf(DTOR * 10.0f)));
 
+#if (defined(_WIN32_WCE) && defined(DEBUG))
+    MessageBox(hwnd, _T("Start load MS3d model!"), _T("Info"), MB_OK);
+#endif
+
     model = new ModelMS3D();
     model->loadModel("run.ms3d");
+#if (defined(_WIN32_WCE) && defined(DEBUG))
+	MessageBox(hwnd, _T("loadModel ok, start setScale !"), _T("Info"), MB_OK);
+#endif
     model->setScale(0.5f, 0.5f, 0.5f);
     model->setPosition(20.0f, 20.0f, -40.0f);
+#if (defined(_WIN32_WCE) && defined(DEBUG))
+	MessageBox(hwnd, _T("loadModel ok, start setTextureId !"), _T("Info"), MB_OK);
+#endif
     if (texture2 != NULL)
         model->setTextureId(texture2->textureId);
     if (texture3 != NULL)
         model->setTextureId(texture3->textureId, 1);
 
-    font = new Font(16, 16, 12, 18, "font.bmp");
+#if (defined(_WIN32_WCE) && defined(DEBUG))
+	MessageBox(hwnd, _T("End load ms3d model!"), _T("Info"), MB_OK);
+#endif
+
+    font = new Font(16, 16, 24, 36, "font.bmp");
 
     printf("start loop...\n");
+#if (defined(_WIN32_WCE) && defined(DEBUG))
+	MessageBox(hwnd, _T("start loop!"), _T("Info"), MB_OK);
+#elif (defined(WIN32) && defined(DEBUG))
+	MessageBox(hwnd, "start loop!", "Info", MB_OK);
+#endif
     is_done = 1;
 #ifdef ANDROID
     gettimeofday(&timeNow, NULL);
@@ -283,7 +314,7 @@ int main(int argc, char *argv[]) {
         skydome->setRotate(-90.0f, 0.0f, angle);
         skydome->renderModel();
 
-        model->setRotate(0.0f, angle * 5.0f, 0.0f);
+		model->setRotate(0.0f, angle * 5.0f, 0.0f);
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
