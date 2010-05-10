@@ -41,6 +41,7 @@
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
 #include <windows.h>
+#include <tchar.h>
 #endif
 
 #include "f3d_gl.h"
