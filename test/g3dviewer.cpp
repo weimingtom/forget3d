@@ -217,12 +217,12 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     world->setSize(width, height);
-#else
-    world->init();
-#endif
 
 	//after create world, set is_initialized to true
 	is_initialized = true;
+#else
+    world->init();
+#endif
 
     camera = new Camera();
     camera->setEye(30.0f, 15.0f, 30.0f);

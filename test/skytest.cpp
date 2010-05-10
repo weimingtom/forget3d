@@ -219,12 +219,12 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     world->setSize(width, height);
-#else
-    world->init();
-#endif
 
 	//after create world, set is_initialized to true
 	is_initialized = true;
+#else
+    world->init();
+#endif
 
 #if (defined(_WIN32_WCE) && defined(DEBUG))
     MessageBox(hwnd, _T("Init world OK!"), _T("Info"), MB_OK);

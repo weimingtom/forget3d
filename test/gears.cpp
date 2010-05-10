@@ -400,13 +400,13 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     world->setSize(width, height);
+
+	//after create world, set is_initialized to true
+	is_initialized = true;
 #else
     world->init();
     printf("world->init() OK!\n");
 #endif
-
-	//after create world, set is_initialized to true
-	is_initialized = true;
 
     camera = new Camera();
 #if (defined(_WIN32_WCE) || defined(ANDROID))
