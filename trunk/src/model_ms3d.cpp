@@ -105,15 +105,17 @@ namespace F3D {
         /* initialize model and read header */
         fread (&m_header, sizeof (ms3d_header_t), 1, file);
 #ifdef DEBUG
+        printf("id:%s\n", m_header.id);
+        printf("version:%d\n", m_header.version);
+
+    #if defined(_WIN32_WCE) || defined(WIN32)
 		_TCHAR infoStr[512];
 		CHAR info[512];
 		sprintf(info, "id:%s\nversion: %d", m_header.id, m_header.version);
 
 		Utils::asciiToWide(infoStr, info);
 		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
-
-        printf("id:%s\n", m_header.id);
-        printf("version:%d\n", m_header.version);
+    #endif
 #endif
 
         if (!strcmp((char *)m_header.id, "MS3D000000") || m_header.version != 4) {
@@ -129,12 +131,12 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_verticesCount:%d\n", m_verticesCount);
 
-//		_TCHAR infoStr[512];
-	//	CHAR info[512];
+    #if defined(_WIN32_WCE) || defined(WIN32)
 		sprintf(info, "m_verticesCount: %d", m_verticesCount);
 
 		Utils::asciiToWide(infoStr, info);
 		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+    #endif
 #endif
         m_vertices = new ms3d_vertex_t[m_verticesCount];
         fread(m_vertices, sizeof(ms3d_vertex_t), m_verticesCount, file);
@@ -144,12 +146,12 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_trianglesCount:%d\n", m_trianglesCount);
 
-	//	_TCHAR infoStr[512];
-	//	CHAR info[512];
+    #if defined(_WIN32_WCE) || defined(WIN32)
 		sprintf(info, "m_trianglesCount: %d", m_trianglesCount);
 
 		Utils::asciiToWide(infoStr, info);
 		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+    #endif
 #endif
         m_triangles = new ms3d_triangle_t[m_trianglesCount];
         fread(m_triangles, sizeof(ms3d_triangle_t), m_trianglesCount, file);
@@ -158,12 +160,13 @@ namespace F3D {
         fread(&m_groupsCount, sizeof(uint16), 1, file);
 #ifdef DEBUG
         printf("m_groupsCount:%d\n", m_groupsCount);
-//		_TCHAR infoStr[512];
-//		CHAR info[512];
+
+    #if defined(_WIN32_WCE) || defined(WIN32)
 		sprintf(info, "m_groupsCount: %d", m_groupsCount);
 
 		Utils::asciiToWide(infoStr, info);
 		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+    #endif
 #endif
         //set model mesh count to group count to init model meshs.
         setMeshCount(m_groupsCount);
@@ -221,12 +224,12 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_jointsCount:%d\n", m_jointsCount);
 
-		//_TCHAR infoStr[512];
-		//CHAR info[512];
+    #if defined(_WIN32_WCE) || defined(WIN32)
 		sprintf(info, "m_jointsCount: %d", m_jointsCount);
 
 		Utils::asciiToWide(infoStr, info);
 		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+    #endif
 #endif
         if (m_jointsCount > 0) {
             m_joints = new ms3d_joint_t[m_jointsCount];
