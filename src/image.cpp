@@ -84,13 +84,15 @@ namespace F3D {
         if (!fd) {
 #ifdef DEBUG
             printf("Open %s error!\n", filename);
-        #if (defined(WIN32) || defined(_WIN32_WCE))
-			_TCHAR errorString[512];
-			CHAR error[512];
-			sprintf(error, "open image:[%s] error!\n", Utils::getFileName(filename));
+        #if defined(WIN32) || defined(_WIN32_WCE)
+			TCHAR errorStr[512];
+			#ifdef _WIN32_WCE
+			wsprintf(errorStr, TEXT("open image:[%s] error!"), Utils::getFileName(filename));
+			#else
+			wsprintf(errorStr, TEXT("open image:[%s] error!"), filename);
+            #endif
 
-			Utils::asciiToWide(errorString, error);
-			MessageBox(0, errorString, _T("Image"), MB_OK);
+			MessageBox(0, errorStr, TEXT("Image"), MB_OK);
         #endif
 #endif
             return NULL;

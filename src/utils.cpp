@@ -36,54 +36,34 @@
 #undef LINUX
 
 #if (defined(_MSC_VER) || defined(__MINGW32__))
-// Desktop or mobile Win32 environment:
-#define WIN32
+#define WIN32 // Desktop or mobile Win32 environment:
 #else
-// Linux environment:
-#define LINUX
+#define LINUX // Linux environment:
 #endif
-
 
 #if defined(WIN32)
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <tchar.h>
+#ifdef USE_WRAPPER_GL
 static HMODULE hwdGlesLib = NULL;
+#endif
 #endif // WIN32
 
 #if (defined(LINUX) || defined(ANDROID))
-#include <stdlib.h>
 #include <dlfcn.h>
+#ifdef USE_WRAPPER_GL
 static void *hwdGlesLib = NULL;
+#endif
 #endif // LINUX
 
 #define IMPORTGL_NO_FNPTR_DEFS
 #define IMPORTGL_API
 #define IMPORTGL_FNPTRINIT = NULL
 
-#if (defined(WIN32) || defined(_WIN32_WCE))
-#include <windows.h>
-#include <tchar.h>
-#endif // WIN32
-
 #include "utils.h"
 
 namespace F3D {
 
 #ifdef _WIN32_WCE
-	void Utils::asciiToWide(wchar_t* ws, const char* s) {
-		wchar_t* pszSave = ws;
-		while(*s)
-		{
-			*ws = (wchar_t) *s;
-			s++;
-			ws++;
-		}
-		*ws = 0;
-
-		return;
-	}
-
 	char* Utils::getFileName(const char *filename) {
 		TCHAR wcwd[256];
 		static char cwd[256];
@@ -101,6 +81,7 @@ namespace F3D {
 
 		return tmp;
 	}
+#endif //_WIN32_WCE
 
 #ifdef USE_WRAPPER_GL
 	/* San Angeles Observation OpenGL ES version example
@@ -136,16 +117,12 @@ namespace F3D {
 	#undef IMPORT_FUNC
 
 	#if defined(WIN32) || defined(_WIN32_WCE)
-		hwdGlesLib = LoadLibrary(_T("libgles_cm.dll"));
+		hwdGlesLib = LoadLibrary(TEXT("libgles_cm.dll"));
 		if (hwdGlesLib == NULL)
-			hwdGlesLib = LoadLibrary(_T("libgles_cl.dll"));
+			hwdGlesLib = LoadLibrary(TEXT("libgles_cl.dll"));
 		if (hwdGlesLib == NULL) {
 	#ifdef DEBUG
-		#ifdef _WIN32_WCE
-			MessageBox(NULL, _T("Can't load opengl es library!"), _T("Error"), MB_OK);
-		#elif
-			MessageBox(NULL, "Can't load opengl es library!", "Error", MB_OK);
-		#endif
+			MessageBox(0, TEXT("Can't load opengl es library!"), TEXT("Error"), MB_OK);
 	#endif
 			return 0;   // Cannot find OpenGL ES Common or Common Lite DLL.
 		}
@@ -156,8 +133,12 @@ namespace F3D {
 		 * could be fixed by casting to the true type for each fetch.
 		 */
 	#define IMPORT_FUNC(funcName) do { \
-			void *procAddress = (void *)GetProcAddress(hwdGlesLib, _T(#funcName)); \
-			if (procAddress == NULL) result = 0; \
+			void *procAddress = (void *)GetProcAddress(hwdGlesLib, TEXT(#funcName)); \
+			if (procAddress == NULL) { \
+                TCHAR errorStr[512]; \
+                wsprintf(errorStr, TEXT("function: %s don't exists!"), #funcName); \
+                MessageBox(0, errorStr, TEXT("EGL Info"), MB_OK); \
+                result = 0; } \
 			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
 	#endif // WIN32
 
@@ -171,11 +152,6 @@ namespace F3D {
 	#define IMPORT_FUNC(funcName) do { \
 			void *procAddress = (void *)dlsym(sGLESSO, #funcName); \
 			if (procAddress == NULL) { \
-			_TCHAR errorString[512]; \
-			CHAR error[512]; \
-			sprintf(error, "function: %s don't exists!", #funcName); \
-			Utils::asciiToWide(errorString, error);\
-			MessageBox(m_hwnd, errorString, _T("EGL Info"), MB_OK); \
 			 result = 0; } \
 			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
 	#endif // LINUX
@@ -261,7 +237,6 @@ namespace F3D {
 		dlclose(sGLESSO);
 	#endif
 	}
-#endif
+#endif //USE_WRAPPER_GL
 
-#endif
 }

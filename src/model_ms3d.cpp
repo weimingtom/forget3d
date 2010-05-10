@@ -90,14 +90,16 @@ namespace F3D {
         if (!file) {
             printf("Open MS3D model:%s failure!\n", filename);
 
+        #if defined(WIN32) || defined(_WIN32_WCE)
+			TCHAR errorStr[512];
 			#ifdef _WIN32_WCE
-			_TCHAR errorString[512];
-			CHAR error[512];
-			sprintf(error, "Open MS3d model:[%s] error!\n", Utils::getFileName(filename));
+			wsprintf(errorStr, TEXT("Open MS3d model:[%s] error!"), Utils::getFileName(filename));
+			#else
+			wsprintf(errorStr, TEXT("Open MS3d model:[%s] error!"), filename);
+            #endif
 
-			Utils::asciiToWide(errorString, error);
-			MessageBox(0, errorString, _T("MS3D"), MB_OK);
-			#endif
+			MessageBox(0, errorStr, TEXT("MS3D"), MB_OK);
+		#endif
 
             return false;
         }
@@ -108,13 +110,11 @@ namespace F3D {
         printf("id:%s\n", m_header.id);
         printf("version:%d\n", m_header.version);
 
-    #if defined(_WIN32_WCE) || defined(WIN32)
-		_TCHAR infoStr[512];
-		CHAR info[512];
-		sprintf(info, "id:%s\nversion: %d", m_header.id, m_header.version);
+    #if defined(WIN32) || defined(_WIN32_WCE)
+		TCHAR infoStr[512];
 
-		Utils::asciiToWide(infoStr, info);
-		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+		wsprintf(infoStr, TEXT("id:%s\nversion: %d"), m_header.id, m_header.version);
+		MessageBox(0, infoStr, TEXT("MS3D"), MB_OK);
     #endif
 #endif
 
@@ -131,11 +131,9 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_verticesCount:%d\n", m_verticesCount);
 
-    #if defined(_WIN32_WCE) || defined(WIN32)
-		sprintf(info, "m_verticesCount: %d", m_verticesCount);
-
-		Utils::asciiToWide(infoStr, info);
-		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+    #if defined(WIN32) || defined(_WIN32_WCE)
+		wsprintf(infoStr, TEXT("m_verticesCount: %d"), m_verticesCount);
+		MessageBox(0, infoStr, TEXT("MS3D"), MB_OK);
     #endif
 #endif
         m_vertices = new ms3d_vertex_t[m_verticesCount];
@@ -146,11 +144,9 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_trianglesCount:%d\n", m_trianglesCount);
 
-    #if defined(_WIN32_WCE) || defined(WIN32)
-		sprintf(info, "m_trianglesCount: %d", m_trianglesCount);
-
-		Utils::asciiToWide(infoStr, info);
-		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+    #if defined(WIN32) || defined(_WIN32_WCE)
+		wsprintf(infoStr, TEXT("m_trianglesCount: %d"), m_trianglesCount);
+		MessageBox(0, infoStr, TEXT("MS3D"), MB_OK);
     #endif
 #endif
         m_triangles = new ms3d_triangle_t[m_trianglesCount];
@@ -161,11 +157,9 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_groupsCount:%d\n", m_groupsCount);
 
-    #if defined(_WIN32_WCE) || defined(WIN32)
-		sprintf(info, "m_groupsCount: %d", m_groupsCount);
-
-		Utils::asciiToWide(infoStr, info);
-		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+    #if defined(WIN32) || defined(_WIN32_WCE)
+		wsprintf(infoStr, TEXT("m_groupsCount: %d"), m_groupsCount);
+		MessageBox(0, infoStr, TEXT("MS3D"), MB_OK);
     #endif
 #endif
         //set model mesh count to group count to init model meshs.
@@ -224,11 +218,9 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_jointsCount:%d\n", m_jointsCount);
 
-    #if defined(_WIN32_WCE) || defined(WIN32)
-		sprintf(info, "m_jointsCount: %d", m_jointsCount);
-
-		Utils::asciiToWide(infoStr, info);
-		MessageBox(0, infoStr, _T("MS3D"), MB_OK);
+    #if defined(WIN32) || defined(_WIN32_WCE)
+		wsprintf(infoStr, TEXT("m_jointsCount: %d"), m_jointsCount);
+		MessageBox(0, infoStr, TEXT("MS3D"), MB_OK);
     #endif
 #endif
         if (m_jointsCount > 0) {
@@ -273,12 +265,12 @@ namespace F3D {
 
         //ignore other sections, such as sub version, comments, etc...
         fclose(file);
-	//	MessageBox(0, _T("read file ok, start setupJoints()!"), _T("MS3D"), MB_OK);
+        //MessageBox(0, TEXT("read file ok, start setupJoints()!"), TEXT("MS3D"), MB_OK);
 #undef F3D_PACKED
 
         setupJoints();
 
-//		MessageBox(0, _T("setupJoints ok!"), _T("MS3D"), MB_OK);
+        //MessageBox(0, TEXT("setupJoints ok!"), TEXT("MS3D"), MB_OK);
 
         return true;
     }
@@ -287,19 +279,8 @@ namespace F3D {
         int i, b_idx;
         //setup joints
         for (i = 0; i < m_jointsCount; i++) {
-//			_TCHAR infoStr[512];
-//			CHAR info[512];
-
-//			sprintf(info, "A.m_jointsCount: %d, i = %d", m_jointsCount, i);
-//			Utils::asciiToWide(infoStr, info);
-//			MessageBox(0, infoStr, _T("MS3D"), MB_OK);
-
             m_joints[i].relMatrix->setRotationRadians(m_joints[i].header.rotation);
             m_joints[i].relMatrix->setTranslation(m_joints[i].header.position);
-
-//			sprintf(info, "B.m_jointsCount: %d, i = %d", m_jointsCount, i);
-//			Utils::asciiToWide(infoStr, info);
-//			MessageBox(0, infoStr, _T("MS3D"), MB_OK);
 
             //apply parent joint matrix to current joint
             if (m_joints[i].parentJointIndex != -1) {
@@ -310,13 +291,9 @@ namespace F3D {
                 m_joints[i].absMatrix->set(m_joints[i].relMatrix->getMatrix());
             }
 
-//			sprintf(info, "C.m_jointsCount: %d, i = %d", m_jointsCount, i);
-//			Utils::asciiToWide(infoStr, info);
-//			MessageBox(0, infoStr, _T("MS3D"), MB_OK);
-
             m_joints[i].finMatrix->set(m_joints[i].absMatrix->getMatrix());
         }
-//		MessageBox(0, _T("setupJoints step1 ok!"), _T("MS3D"), MB_OK);
+        //MessageBox(0, TEXT("setupJoints step1 ok!"), TEXT("MS3D"), MB_OK);
         //setup vertices
         for (i = 0; i < m_verticesCount; i++) {
             b_idx = m_vertices[i].boneId;
@@ -325,7 +302,7 @@ namespace F3D {
                 m_joints[b_idx].absMatrix->inverseRotateVect(m_vertices[i].vertex);
             }
         }
-//		MessageBox(0, _T("setupJoints step2 vertices ok!"), _T("MS3D"), MB_OK);
+        //MessageBox(0, TEXT("setupJoints step2 vertices ok!"), TEXT("MS3D"), MB_OK);
         //set triangles normals
         for (i = 0; i < m_trianglesCount; i++) {
             for (int j = 0; j < 3; j++) {
@@ -336,7 +313,7 @@ namespace F3D {
                 }
             }
         }
-	//	MessageBox(0, _T("setupJoints step3 triangles ok!"), _T("MS3D"), MB_OK);
+        //MessageBox(0, TEXT("setupJoints step3 triangles ok!"), TEXT("MS3D"), MB_OK);
     }
 
     void ModelMS3D::prepareFrame() {

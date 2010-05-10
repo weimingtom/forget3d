@@ -146,17 +146,16 @@ namespace F3D {
 #ifdef DEBUG
         printf("maj_ver: %d, min_ver: %d\n", maj_ver, min_ver);
 	#if (defined(WIN32) || defined(_WIN32_WCE))
-		_TCHAR errorString[512];
-		CHAR error[512];
-		sprintf(error, "maj_ver: %d, min_ver: %d", maj_ver, min_ver);
+		TCHAR errorStr[512];
 
-		Utils::asciiToWide(errorString, error);
-		MessageBox(m_hwnd, errorString, _T("EGL Info"), MB_OK);
+		wsprintf(errorStr, TEXT("maj_ver: %d, min_ver: %d"), maj_ver, min_ver);
+		MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
 
-		sprintf(error, "EGL_VENDOR: %s\nEGL_VERSION: %s\nEGL_EXTENSIONS: %s", eglQueryString(m_display, EGL_VENDOR), eglQueryString(m_display, EGL_VERSION), eglQueryString(m_display, EGL_EXTENSIONS));
-
-		Utils::asciiToWide(errorString, error);
-		MessageBox(m_hwnd, errorString, _T("EGL Info"), MB_OK);
+		wsprintf(errorStr, TEXT("EGL_VENDOR: %s\nEGL_VERSION: %s\nEGL_EXTENSIONS: %s"),
+            eglQueryString(m_display, EGL_VENDOR),
+            eglQueryString(m_display, EGL_VERSION),
+            eglQueryString(m_display, EGL_EXTENSIONS));
+        MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
 	#endif
 #endif
         if (!checkEglError("eglInitialize"))
@@ -166,10 +165,8 @@ namespace F3D {
 #ifdef DEBUG
         printf("config_nums: %d\n", config_nums);
 	#if (defined(WIN32) || defined(_WIN32_WCE))
-		sprintf(error, "config_nums: %d\n", config_nums);
-
-		Utils::asciiToWide(errorString, error);
-		MessageBox(m_hwnd, errorString, _T("EGL Info"), MB_OK);
+		wsprintf(errorStr, TEXT("config_nums: %d"), config_nums);
+		MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
 	#endif
 #endif
         if (!checkEglError("eglGetConfigs"))
@@ -274,18 +271,14 @@ namespace F3D {
             printf("initEGL() error!\n");
 
     #if (defined(WIN32) || defined(_WIN32_WCE))
-            MessageBox(hwnd, _T("Init EGL error!"), _T("Error"), MB_OK);
+            MessageBox(hwnd, TEXT("Init EGL error!"), TEXT("Error"), MB_OK);
     #endif
 #endif
             return false;
         }
 
-#ifdef DEBUG
-    #if (!defined(ANDROID) && defined(_WIN32_WCE))
-		MessageBox(hwnd, _T("Init EGL ok, start init GL!"), _T("Info"), MB_OK);
-    #elif (!defined(ANDROID) && defined(WIN32))
-		MessageBox(hwnd, "Init EGL ok, start init GL!", "Info", MB_OK);
-    #endif
+#if defined(DEBUG) && (defined(WIN32) || defined(_WIN32_WCE))
+		MessageBox(hwnd, TEXT("Init EGL ok, start init GL!"), TEXT("Info"), MB_OK);
 #endif
 
         initGL();
@@ -340,12 +333,10 @@ namespace F3D {
 #ifdef DEBUG
             printf("%s() error: 0x%4x!\n", name, err);
 	#if (defined(WIN32) || defined(_WIN32_WCE))
-			_TCHAR errorString[512];
-			CHAR error[512];
-			sprintf(error, "%s() error: 0x%4x!", name, err);
+			TCHAR errorStr[512];
 
-			Utils::asciiToWide(errorString, error);
-			MessageBox(m_hwnd, errorString, _T("GL Info"), MB_OK);
+			wsprintf(errorStr, TEXT("%s() error: 0x%4x!"), name, err);
+			MessageBox(m_hwnd, errorStr, TEXT("GL Info"), MB_OK);
 	#endif /* defined(WIN32) || defined(_WIN32_WCE) */
 #endif /* DEBUG */
             return false;
