@@ -17,5 +17,8 @@
 		<Project filename="g3dviewer.cbp">
 			<Depends filename="forget3d.cbp" />
 		</Project>
+		<Project filename="stars.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>
