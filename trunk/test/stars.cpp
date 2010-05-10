@@ -340,12 +340,12 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     world->setSize(width, height);
-#else
-    world->init();
-#endif
 
 	//after create world, set is_initialized to true
 	is_initialized = true;
+#else
+    world->init();
+#endif
 
     image = new Image();
     texture = image->loadTexture("star.bmp");
@@ -408,7 +408,7 @@ int main(int argc, char *argv[]) {
 #ifdef ANDROID
         gettimeofday(&timeNow, NULL);
         interval = CLOCK(timeNow) - i_time;
-        if (interval >= 20000) {
+        if (interval >= 180000) {
             is_done = 0;
             printf("fps\t\t: %.2f\n", fps * 1000.0f / interval);
         }
