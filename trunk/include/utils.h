@@ -44,16 +44,15 @@ namespace F3D {
 
     class Utils {
 	public:
-#ifdef _WIN32_WCE
-		//change ascii to widestring when format message
-		static void asciiToWide(wchar_t* ws, const char* s);
+    #ifdef _WIN32_WCE
 		//get windows moible file name with absolute path
 		static char* getFileName(const char *filename);
-#endif
-#ifdef USE_WRAPPER_GL
+	#endif
+
+    #ifdef USE_WRAPPER_GL
 		static int Utils::initGlWrapper();
 		static void Utils::deinitGlWrapper();
-#endif
+    #endif
 	};
 
 }
