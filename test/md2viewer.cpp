@@ -113,7 +113,7 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
 #ifdef DEBUG
 		TCHAR szError[32];
 		wsprintf (szError, TEXT("WM_KEYDOWN: 0x%2x"), wParam);
-		MessageBox (NULL, szError, TEXT("Debug"), MB_OK);
+		MessageBox (hwnd, szError, TEXT("Debug"), MB_OK);
 #endif
         if (wParam == VK_ESCAPE || wParam == 0x51 || wParam == 0x86) { //press "ESC" or "Q" then exit
             is_done = 0;
@@ -238,11 +238,8 @@ int main(int argc, char *argv[]) {
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
     if (!world->init(hwnd)) {
-#ifdef _WIN32_WCE
-        MessageBox(hwnd, _T("Init world error!"), _T("Error"), MB_OK);
-#else
-        MessageBox(hwnd, "Init world error!", "Error", MB_OK);
-#endif
+        MessageBox(hwnd, TEXT("Init world error!"), TEXT("Error"), MB_OK);
+
         return 0;
     }
     world->setSize(width, height);
