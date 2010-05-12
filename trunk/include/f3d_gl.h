@@ -32,6 +32,13 @@
  * POSSESSION, USE OR PERFORMANCE OF THIS SOFTWARE.
  *****************************************************************************/
 
+#ifndef F3D_GL_H_
+#define F3D_GL_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Use USE_WRAPPER_GL if you want to link the OpenGL ES at
  * compile/link time and not import it dynamically runtime.
  */
@@ -119,7 +126,7 @@ FNDEF(void, glFogf, (GLenum pname, GLfloat param));
 FNDEF(void, glDepthMask, (GLboolean flag));
 FNDEF(void, glClearDepthf, (GLclampf depth));
 
-#undef FNPTR
+#undef FN
 #define FNPTR(name) funcPtr_##name
 
 #ifndef IMPORTGL_NO_FNPTR_DEFS
@@ -207,4 +214,10 @@ FNDEF(void, glClearDepthf, (GLclampf depth));
 #include <GLES/glext.h>
 #endif
 
+#endif // !USE_WRAPPER_GL
+
+#ifdef __cplusplus
+}
 #endif
+
+#endif // !F3D_GL_H_
