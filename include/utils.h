@@ -50,8 +50,8 @@ namespace F3D {
 	#endif
 
     #ifdef USE_WRAPPER_GL
-		static int Utils::initGlWrapper();
-		static void Utils::deinitGlWrapper();
+		static int initGlWrapper();
+		static void deinitGlWrapper();
     #endif
 	};
 
