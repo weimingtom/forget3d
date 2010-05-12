@@ -32,16 +32,13 @@
  * POSSESSION, USE OR PERFORMANCE OF THIS SOFTWARE.
  *****************************************************************************/
 
-#undef WIN32
-#undef LINUX
+#define IMPORTGL_NO_FNPTR_DEFS
+#define IMPORTGL_API
+#define IMPORTGL_FNPTRINIT = NULL
 
-#if (defined(_MSC_VER) || defined(__MINGW32__))
-#define WIN32 // Desktop or mobile Win32 environment:
-#else
-#define LINUX // Linux environment:
-#endif
+#include "utils.h"
 
-#if defined(WIN32)
+#if (defined(WIN32) || defined(__MINGW32__) || defined(_WIN32_WCE))
 #define WIN32_LEAN_AND_MEAN
 #ifdef USE_WRAPPER_GL
 static HMODULE hwdGlesLib = NULL;
@@ -54,12 +51,6 @@ static HMODULE hwdGlesLib = NULL;
 static void *hwdGlesLib = NULL;
 #endif
 #endif // LINUX
-
-#define IMPORTGL_NO_FNPTR_DEFS
-#define IMPORTGL_API
-#define IMPORTGL_FNPTRINIT = NULL
-
-#include "utils.h"
 
 namespace F3D {
 
@@ -116,14 +107,14 @@ namespace F3D {
 
 	#undef IMPORT_FUNC
 
-	#if defined(WIN32) || defined(_WIN32_WCE)
+	#if (defined(WIN32) || defined(__MINGW32__) || defined(_WIN32_WCE))
 		hwdGlesLib = LoadLibrary(TEXT("libgles_cm.dll"));
 		if (hwdGlesLib == NULL)
 			hwdGlesLib = LoadLibrary(TEXT("libgles_cl.dll"));
 		if (hwdGlesLib == NULL) {
-	#ifdef DEBUG
+        #ifdef DEBUG
 			MessageBox(0, TEXT("Can't load opengl es library!"), TEXT("Error"), MB_OK);
-	#endif
+        #endif
 			return 0;   // Cannot find OpenGL ES Common or Common Lite DLL.
 		}
 
@@ -229,7 +220,7 @@ namespace F3D {
 	}
 
 	void Utils::deinitGlWrapper() {
-	#ifdef WIN32
+	#if (defined(WIN32) || defined(__MINGW32__) || defined(_WIN32_WCE))
 		FreeLibrary(hwdGlesLib);
 	#endif
 
