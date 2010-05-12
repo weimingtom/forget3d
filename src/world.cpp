@@ -128,10 +128,12 @@ namespace F3D {
 
 
 #ifdef USE_WRAPPER_GL
-    int importGLResult;
-	importGLResult = Utils::initGlWrapper();
-    if (!importGLResult) {
-        //return false;
+    int result = Utils::initGlWrapper();
+    if (!result) {
+    #ifdef DEBUG
+        MessageBox(0, TEXT("Import EGL & GL functions error!\nAnd ensure you have a GPU!"), TEXT("Error"), MB_OK);
+    #endif
+        return false;
 	}
 #endif // !USE_WRAPPER_GL
 
