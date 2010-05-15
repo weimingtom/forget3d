@@ -42,14 +42,20 @@
 #define WIN32_LEAN_AND_MEAN
 #ifdef USE_WRAPPER_GL
 static HMODULE hwdGlesLib = NULL;
-#endif
+#ifdef IS_ALONE_EGL
+static HMODULE hwdEglLib = NULL; //system have alone libEGL.dll
+#endif // !IS_ALONE_EGL
+#endif // !USE_WRAPPER_GL
 #endif // WIN32
 
 #if (defined(LINUX) || defined(ANDROID))
 #include <dlfcn.h>
 #ifdef USE_WRAPPER_GL
 static void *hwdGlesLib = NULL;
-#endif
+#ifdef IS_ALONE_EGL
+static void *hwdEglLib = NULL; //if Android 2.0, have alone libEGL.dll
+#endif // !IS_ALONE_EGL
+#endif // !USE_WRAPPER_GL
 #endif // LINUX
 
 namespace F3D {
@@ -107,10 +113,35 @@ namespace F3D {
 
 	#undef IMPORT_FUNC
 
-	#if (defined(WIN32) || defined(__MINGW32__) || defined(_WIN32_WCE))
+#if (defined(WIN32) || defined(__MINGW32__) || defined(_WIN32_WCE))
+	#ifdef IS_ALONE_EGL
+		hwdEglLib = LoadLibrary(TEXT("libEGL.dll")); //if have standar libEGL.dll
+		if (hwdEglLib == NULL)
+			return 0;   // Cannot find OpenGL ES Common or Common Lite SO.
+
+        #define IMPORT_FUNC_E(funcName) do { \
+			void *procAddress = (void *)GetProcAddress(hwdEglLib, TEXT(#funcName)); \
+			if (procAddress == NULL) { \
+                TCHAR errorStr[512]; \
+                wsprintf(errorStr, TEXT("egl function: %s don't exists!"), #funcName); \
+                MessageBox(0, errorStr, TEXT("EGL Info"), MB_OK); \
+                result = 0; \
+            } \
+			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
+	#endif
+
 		hwdGlesLib = LoadLibrary(TEXT("libgles_cm.dll"));
+
+		if (hwdGlesLib == NULL)
+			hwdGlesLib = LoadLibrary(TEXT("libGLES_CM_NoE.dll")); //load rasteroid3.1 egl impl
+
+		if (hwdGlesLib == NULL)
+			hwdGlesLib = LoadLibrary(TEXT("libGLESv1_CM.dll")); //load standard libGLESv1_CM.dll
+
+		// if no libgles_cm.dll, then load libgles_cl.dll
 		if (hwdGlesLib == NULL)
 			hwdGlesLib = LoadLibrary(TEXT("libgles_cl.dll"));
+
 		if (hwdGlesLib == NULL) {
         #ifdef DEBUG
 			MessageBox(0, TEXT("Can't load opengl es library!"), TEXT("Error"), MB_OK);
@@ -123,30 +154,70 @@ namespace F3D {
 		 * void * results in warnings with VC warning level 4, which
 		 * could be fixed by casting to the true type for each fetch.
 		 */
-	#define IMPORT_FUNC(funcName) do { \
+        #define IMPORT_FUNC(funcName) do { \
 			void *procAddress = (void *)GetProcAddress(hwdGlesLib, TEXT(#funcName)); \
 			if (procAddress == NULL) { \
                 TCHAR errorStr[512]; \
                 wsprintf(errorStr, TEXT("function: %s don't exists!"), #funcName); \
                 MessageBox(0, errorStr, TEXT("EGL Info"), MB_OK); \
-                result = 0; } \
+                result = 0; \
+            } \
 			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
 	#endif // WIN32
 
-	#ifdef LINUX
-		sGLESSO = dlopen("libGLES_CM.so", RTLD_NOW);
-		if (sGLESSO == NULL)
-			sGLESSO = dlopen("libGLES_CL.so", RTLD_NOW);
-		if (sGLESSO == NULL)
+#if (defined(LINUX) || defined(ANDROID))
+	#ifdef IS_ALONE_EGL
+		hwdEglLib = dlopen("libEGL.so", RTLD_NOW); //if have standar libEGL.so
+		if (hwdEglLib == NULL)
 			return 0;   // Cannot find OpenGL ES Common or Common Lite SO.
 
-	#define IMPORT_FUNC(funcName) do { \
-			void *procAddress = (void *)dlsym(sGLESSO, #funcName); \
+        #define IMPORT_FUNC_E(funcName) do { \
+			void *procAddress = (void *)dlsym(hwdEglLib, #funcName); \
 			if (procAddress == NULL) { \
-			 result = 0; } \
+                result = 0; \
+            } \
 			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
-	#endif // LINUX
+	#endif // !IS_ALONE_EGL
 
+		hwdGlesLib = dlopen("libGLES_CM.so", RTLD_NOW);
+
+		if (hwdGlesLib == NULL)
+			hwdGlesLib = dlopen("libGLESv1_CM.so", RTLD_NOW);
+
+		if (hwdGlesLib == NULL)
+			hwdGlesLib = dlopen("libGLES_CL.so", RTLD_NOW);
+
+		if (hwdGlesLib == NULL)
+			return 0;   // Cannot find OpenGL ES Common or Common Lite SO.
+
+        #define IMPORT_FUNC(funcName) do { \
+			void *procAddress = (void *)dlsym(hwdGlesLib, #funcName); \
+			if (procAddress == NULL) { \
+                result = 0; \
+            } \
+			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
+#endif // LINUX
+
+#ifdef IS_ALONE_EGL
+        // load egl function from libEGL.so
+		IMPORT_FUNC_E(eglChooseConfig);
+		IMPORT_FUNC_E(eglCreateContext);
+		IMPORT_FUNC_E(eglCreateWindowSurface);
+		IMPORT_FUNC_E(eglDestroyContext);
+		IMPORT_FUNC_E(eglDestroySurface);
+		IMPORT_FUNC_E(eglGetConfigAttrib);
+		IMPORT_FUNC_E(eglGetConfigs);
+		IMPORT_FUNC_E(eglGetDisplay);
+		IMPORT_FUNC_E(eglGetError);
+		IMPORT_FUNC_E(eglInitialize);
+		IMPORT_FUNC_E(eglMakeCurrent);
+		IMPORT_FUNC_E(eglSwapBuffers);
+		IMPORT_FUNC_E(eglTerminate);
+		IMPORT_FUNC_E(eglQueryString);
+	#ifdef ANDROID
+        IMPORT_FUNC_E(eglQuerySurface);
+	#endif
+#else
 		IMPORT_FUNC(eglChooseConfig);
 		IMPORT_FUNC(eglCreateContext);
 		IMPORT_FUNC(eglCreateWindowSurface);
@@ -161,6 +232,7 @@ namespace F3D {
 		IMPORT_FUNC(eglSwapBuffers);
 		IMPORT_FUNC(eglTerminate);
 		IMPORT_FUNC(eglQueryString);
+#endif // !IS_ALONE_EGL
 
 		IMPORT_FUNC(glBlendFunc);
 		IMPORT_FUNC(glClear);
@@ -220,13 +292,19 @@ namespace F3D {
 	}
 
 	void Utils::deinitGlWrapper() {
-	#if (defined(WIN32) || defined(__MINGW32__) || defined(_WIN32_WCE))
+#if (defined(WIN32) || defined(__MINGW32__) || defined(_WIN32_WCE))
 		FreeLibrary(hwdGlesLib);
-	#endif
+	#ifdef IS_ALONE_EGL
+		FreeLibrary(hwdEglLib);
+	#endif //!IS_ALONE_EGL
+#endif
 
-	#ifdef LINUX
-		dlclose(sGLESSO);
-	#endif
+#ifdef LINUX
+		dlclose(hwdGlesLib);
+		#ifdef IS_ALONE_EGL
+		dlclose(hwdEglLib);
+		#endif
+#endif // !LINUX
 	}
 #endif //USE_WRAPPER_GL
 
