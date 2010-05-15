@@ -265,12 +265,8 @@ namespace F3D {
 
         //ignore other sections, such as sub version, comments, etc...
         fclose(file);
-        //MessageBox(0, TEXT("read file ok, start setupJoints()!"), TEXT("MS3D"), MB_OK);
-#undef F3D_PACKED
 
         setupJoints();
-
-        //MessageBox(0, TEXT("setupJoints ok!"), TEXT("MS3D"), MB_OK);
 
         return true;
     }
