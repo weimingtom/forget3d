@@ -194,7 +194,7 @@ namespace F3D {
         if (!checkEglError("eglMakeCurrent"))
             return false;
 
-#if !(defined(WIN32) || defined(_WIN32_WCE))
+#ifdef ANDROID
         eglQuerySurface(m_display, m_surface, EGL_WIDTH, &m_width);
         eglQuerySurface(m_display, m_surface, EGL_HEIGHT, &m_height);
 #endif
@@ -272,10 +272,10 @@ namespace F3D {
 #ifdef DEBUG
             printf("initEGL() error!\n");
 
-    #if (defined(WIN32) || defined(_WIN32_WCE))
+        #if (defined(WIN32) || defined(_WIN32_WCE))
             MessageBox(hwnd, TEXT("Init EGL error!"), TEXT("Error"), MB_OK);
-    #endif
-#endif
+        #endif
+#endif // !DEBUG
             return false;
         }
 
