@@ -39,13 +39,19 @@
 extern "C" {
 #endif
 
+//opengl es header
+#include <GLES/gl.h>
+#include <GLES/egl.h>
+
+//if Android platform, add glext.h
+#ifdef ANDROID
+#include <GLES/glext.h>
+#endif
+
 /* Use USE_WRAPPER_GL if you want to link the OpenGL ES at
  * compile/link time and not import it dynamically runtime.
  */
 #ifdef USE_WRAPPER_GL
-
-#include <GLES/gl.h>
-#include <GLES/egl.h>
 
 #ifndef IMPORTGL_API
 #define IMPORTGL_API extern
@@ -71,6 +77,9 @@ FNDEF(EGLBoolean, eglSwapBuffers, (EGLDisplay dpy, EGLSurface draw));
 FNDEF(EGLBoolean, eglTerminate, (EGLDisplay dpy));
 //add by martin
 FNDEF(const char*, eglQueryString, (EGLDisplay dpy, EGLint name));
+#ifdef ANDROID
+FNDEF(EGLBoolean, eglQuerySurface, (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint* value));
+#endif
 
 FNDEF(void, glBlendFunc, (GLenum sfactor, GLenum dfactor));
 FNDEF(void, glClear, (GLbitfield mask));
@@ -147,6 +156,9 @@ FNDEF(void, glClearDepthf, (GLclampf depth));
 #define eglTerminate            FNPTR(eglTerminate)
 //add by martin
 #define eglQueryString          FNPTR(eglQueryString)
+#ifdef ANDROID
+#define eglQuerySurface          FNPTR(eglQuerySurface)
+#endif
 
 #define glBlendFunc             FNPTR(glBlendFunc)
 #define glClear                 FNPTR(glClear)
@@ -204,15 +216,8 @@ FNDEF(void, glClearDepthf, (GLclampf depth));
 
 #endif // !IMPORTGL_NO_FNPTR_DEFS
 
-#else
-//opengl es header
-#include <GLES/gl.h>
-#include <GLES/egl.h>
+//#else
 
-//if Android platform, add glext.h
-#ifdef ANDROID
-#include <GLES/glext.h>
-#endif
 
 #endif // !USE_WRAPPER_GL
 
