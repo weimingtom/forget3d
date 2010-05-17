@@ -117,7 +117,9 @@ namespace F3D {
 	#ifdef IS_ALONE_EGL
 		hwdEglLib = LoadLibrary(TEXT("libEGL.dll")); //if have standar libEGL.dll
 		if (hwdEglLib == NULL)
-			return 0;   // Cannot find OpenGL ES Common or Common Lite SO.
+			return 0;   // Cannot find OpenGL ES EGL library.
+        else
+			MessageBox(0, TEXT("load opengl es library [libEGL.dll] successfully!"), TEXT("EGL Info"), MB_OK);
 
         #define IMPORT_FUNC_E(funcName) do { \
 			void *procAddress = (void *)GetProcAddress(hwdEglLib, TEXT(#funcName)); \
@@ -130,23 +132,33 @@ namespace F3D {
 			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
 	#endif
 
-		hwdGlesLib = LoadLibrary(TEXT("libgles_cm.dll"));
-
-		if (hwdGlesLib == NULL)
-			hwdGlesLib = LoadLibrary(TEXT("libGLES_CM_NoE.dll")); //load rasteroid3.1 egl impl
-
-		if (hwdGlesLib == NULL)
-			hwdGlesLib = LoadLibrary(TEXT("libGLESv1_CM.dll")); //load standard libGLESv1_CM.dll
-
-		// if no libgles_cm.dll, then load libgles_cl.dll
-		if (hwdGlesLib == NULL)
-			hwdGlesLib = LoadLibrary(TEXT("libgles_cl.dll"));
+		hwdGlesLib = LoadLibrary(TEXT("libGLES_CM_NoE.dll")); //load rasteroid3.1 egl impl
 
 		if (hwdGlesLib == NULL) {
-        #ifdef DEBUG
-			MessageBox(0, TEXT("Can't load opengl es library!"), TEXT("Error"), MB_OK);
-        #endif
-			return 0;   // Cannot find OpenGL ES Common or Common Lite DLL.
+			hwdGlesLib = LoadLibrary(TEXT("libGLESv1_CM.dll")); //load standard libGLESv1_CM.dll
+
+            if (hwdGlesLib == NULL) {
+                hwdGlesLib = LoadLibrary(TEXT("libgles_cm.dll"));// standard opengl es dll
+
+                // if no libgles_cm.dll, then load libgles_cl.dll
+                if (hwdGlesLib == NULL) {
+                    hwdGlesLib = LoadLibrary(TEXT("libgles_cl.dll"));
+
+                    if (hwdGlesLib == NULL) {
+                        MessageBox(0, TEXT("Can't load opengl es library!"), TEXT("Error"), MB_OK);
+
+                        return 0;   // Cannot find OpenGL ES Common or Common Lite DLL.
+                    } else {
+                        MessageBox(0, TEXT("load opengl es library [libgles_cl.dll] successfully!"), TEXT("EGL Info"), MB_OK);
+                    }
+                } else {
+                    MessageBox(0, TEXT("load opengl es library [libgles_cm.dll] successfully!"), TEXT("EGL Info"), MB_OK);
+                }
+            } else {
+                MessageBox(0, TEXT("load opengl es library [libGLESv1_CM.dll] successfully!"), TEXT("EGL Info"), MB_OK);
+            }
+		} else {
+			MessageBox(0, TEXT("load opengl es library [libGLES_CM_NoE.dll] successfully!"), TEXT("EGL Info"), MB_OK);
 		}
 
 		/* The following fetches address to each egl & gl function call
@@ -169,11 +181,14 @@ namespace F3D {
 	#ifdef IS_ALONE_EGL
 		hwdEglLib = dlopen("libEGL.so", RTLD_NOW); //if have standar libEGL.so
 		if (hwdEglLib == NULL)
-			return 0;   // Cannot find OpenGL ES Common or Common Lite SO.
+			return 0;   // Cannot find OpenGL ES EGL SO.
+        else
+            printf(("load opengl es egl library [libEGL.so] successfully!\n"));
 
         #define IMPORT_FUNC_E(funcName) do { \
 			void *procAddress = (void *)dlsym(hwdEglLib, #funcName); \
 			if (procAddress == NULL) { \
+                printf(("function: %s don't exists!\n"), #funcName); \
                 result = 0; \
             } \
 			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
@@ -181,18 +196,25 @@ namespace F3D {
 
 		hwdGlesLib = dlopen("libGLES_CM.so", RTLD_NOW);
 
-		if (hwdGlesLib == NULL)
+		if (hwdGlesLib == NULL) {
 			hwdGlesLib = dlopen("libGLESv1_CM.so", RTLD_NOW);
 
-		if (hwdGlesLib == NULL)
-			hwdGlesLib = dlopen("libGLES_CL.so", RTLD_NOW);
+            if (hwdGlesLib == NULL) {
+                hwdGlesLib = dlopen("libGLES_CL.so", RTLD_NOW);
 
-		if (hwdGlesLib == NULL)
-			return 0;   // Cannot find OpenGL ES Common or Common Lite SO.
+                if (hwdGlesLib == NULL)
+                    return 0;   // Cannot find OpenGL ES Common or Common Lite SO.
+                else
+                    printf(("load opengl es library [libGLES_CL.so] successfully!\n"));
+            } else
+                printf(("load opengl es library [libGLESv1_CM.so] successfully!\n"));
+        } else
+            printf(("load opengl es library [libGLES_CM.so] successfully!\n"));
 
         #define IMPORT_FUNC(funcName) do { \
 			void *procAddress = (void *)dlsym(hwdGlesLib, #funcName); \
 			if (procAddress == NULL) { \
+                printf(("function: %s don't exists!\n"), #funcName); \
                 result = 0; \
             } \
 			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
@@ -232,6 +254,9 @@ namespace F3D {
 		IMPORT_FUNC(eglSwapBuffers);
 		IMPORT_FUNC(eglTerminate);
 		IMPORT_FUNC(eglQueryString);
+	#ifdef ANDROID
+        IMPORT_FUNC(eglQuerySurface);
+	#endif
 #endif // !IS_ALONE_EGL
 
 		IMPORT_FUNC(glBlendFunc);
