@@ -60,6 +60,7 @@
 		</Build>
 		<Unit filename="..\include\camera.h" />
 		<Unit filename="..\include\f3d.h" />
+		<Unit filename="..\include\f3d_gl.h" />
 		<Unit filename="..\include\fog.h" />
 		<Unit filename="..\include\font.h" />
 		<Unit filename="..\include\image.h" />
@@ -87,6 +88,7 @@
 		<Unit filename="..\src\plane.cpp" />
 		<Unit filename="..\src\skydome.cpp" />
 		<Unit filename="..\src\terrain.cpp" />
+		<Unit filename="..\src\utils.cpp" />
 		<Unit filename="..\src\world.cpp" />
 		<Extensions>
 			<code_completion />
