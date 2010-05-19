@@ -988,6 +988,10 @@ SOURCE=..\..\include\f3d.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\include\f3d_gl.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\include\fog.h
 # End Source File
 # Begin Source File
