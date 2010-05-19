@@ -115,11 +115,20 @@ namespace F3D {
 
 #if (defined(WIN32) || defined(__MINGW32__) || defined(_WIN32_WCE))
 	#ifdef IS_ALONE_EGL
-		hwdEglLib = LoadLibrary(TEXT("libEGL.dll")); //if have standar libEGL.dll
-		if (hwdEglLib == NULL)
+		hwdEglLib = LoadLibrary(TEXT(IS_ALONE_EGL)); //if have standar libEGL.dll
+		if (hwdEglLib == NULL) {
+        #ifdef DEBUG
+            TCHAR errorStr[512];
+            wsprintf(errorStr, TEXT("Load opengl es EGL library [%s] error!"), IS_ALONE_EGL);
+            MessageBox(0, errorStr, TEXT("EGL Info"), MB_OK);
+        #endif // ! DEBUG
+
 			return 0;   // Cannot find OpenGL ES EGL library.
-        else
-			MessageBox(0, TEXT("load opengl es library [libEGL.dll] successfully!"), TEXT("EGL Info"), MB_OK);
+        } else {
+        #ifdef DEBUG
+			MessageBox(0, TEXT("load opengl es EGL library successfully!"), TEXT("EGL Info"), MB_OK);
+        #endif // ! DEBUG
+        }
 
         #define IMPORT_FUNC_E(funcName) do { \
 			void *procAddress = (void *)GetProcAddress(hwdEglLib, TEXT(#funcName)); \
@@ -130,36 +139,22 @@ namespace F3D {
                 result = 0; \
             } \
 			*((void **)&FNPTR(funcName)) = procAddress; } while (0)
-	#endif
+	#endif // ! IS_ALONE_EGL
 
-		hwdGlesLib = LoadLibrary(TEXT("libGLES_CM_NoE.dll")); //load rasteroid3.1 egl impl
-
+		hwdGlesLib = LoadLibrary(TEXT(USE_WRAPPER_GL)); //if have standard libEGL.dll
 		if (hwdGlesLib == NULL) {
-			hwdGlesLib = LoadLibrary(TEXT("libGLESv1_CM.dll")); //load standard libGLESv1_CM.dll
+        #ifdef DEBUG
+            TCHAR errorStr[512];
+            wsprintf(errorStr, TEXT("Load opengl es library [%s] error!"), USE_WRAPPER_GL);
+            MessageBox(0, errorStr, TEXT("EGL Info"), MB_OK);
+        #endif // ! DEBUG
 
-            if (hwdGlesLib == NULL) {
-                hwdGlesLib = LoadLibrary(TEXT("libgles_cm.dll"));// standard opengl es dll
-
-                // if no libgles_cm.dll, then load libgles_cl.dll
-                if (hwdGlesLib == NULL) {
-                    hwdGlesLib = LoadLibrary(TEXT("libgles_cl.dll"));
-
-                    if (hwdGlesLib == NULL) {
-                        MessageBox(0, TEXT("Can't load opengl es library!"), TEXT("Error"), MB_OK);
-
-                        return 0;   // Cannot find OpenGL ES Common or Common Lite DLL.
-                    } else {
-                        MessageBox(0, TEXT("load opengl es library [libgles_cl.dll] successfully!"), TEXT("EGL Info"), MB_OK);
-                    }
-                } else {
-                    MessageBox(0, TEXT("load opengl es library [libgles_cm.dll] successfully!"), TEXT("EGL Info"), MB_OK);
-                }
-            } else {
-                MessageBox(0, TEXT("load opengl es library [libGLESv1_CM.dll] successfully!"), TEXT("EGL Info"), MB_OK);
-            }
-		} else {
-			MessageBox(0, TEXT("load opengl es library [libGLES_CM_NoE.dll] successfully!"), TEXT("EGL Info"), MB_OK);
-		}
+			return 0;   // Cannot find OpenGL ES EGL library.
+        } else {
+        #ifdef DEBUG
+			MessageBox(0, TEXT("load opengl es library successfully!"), TEXT("EGL Info"), MB_OK);
+        #endif // ! DEBUG
+        }
 
 		/* The following fetches address to each egl & gl function call
 		 * and stores it to the related function pointer. Casting through
