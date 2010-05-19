@@ -125,13 +125,13 @@ namespace F3D {
         void postMultiply( const float *m2 );
 
         /*	Set the translation of the current matrix. Will erase any previous values. */
-        void setTranslation( const float *translation );
+        void setTranslation( float trans_x, float trans_y, float trans_z );
 
         /*	Set the inverse translation of the current matrix. Will erase any previous values. */
         void setInverseTranslation( const float *translation );
 
         /*	Make a rotation matrix from Euler angles. The 4th row and column are unmodified. */
-        void setRotationRadians( const float *angles );
+        void setRotationRadians( float angle_x, float angle_y, float angle_z );
 
         /*	Make a rotation matrix from Euler angles. The 4th row and column are unmodified. */
         void setRotationDegrees( const float *angles );
@@ -140,7 +140,7 @@ namespace F3D {
         void setRotationQuaternion( const Quaternion& quat );
 
         /*	Make an inverted rotation matrix from Euler angles. The 4th row and column are unmodified. */
-        void setInverseRotationRadians( const float *angles );
+        void setInverseRotationRadians( float anglex, float angley, float anglez );
 
         /*	Make an inverted rotation matrix from Euler angles. The 4th row and column are unmodified. */
         void setInverseRotationDegrees( const float *angles );
@@ -151,10 +151,10 @@ namespace F3D {
         }
 
         /*	Translate a vector by the inverse of the translation part of this matrix. */
-        void inverseTranslateVect( float *pVect ) const;
+        void inverseTranslateVect( float *p_vect, float vect_x, float vect_y, float vect_z ) const;
 
         /*	Rotate a vector by the inverse of the rotation part of this matrix. */
-        void inverseRotateVect( float *pVect ) const;
+        void inverseRotateVect( float *p_vect, float vect_x, float vect_y, float vect_z ) const;
 
     private:
         //	Matrix data, stored in column-major order
@@ -170,20 +170,24 @@ namespace F3D {
         m_matrix[0] = m_matrix[5] = m_matrix[10] = m_matrix[15] = 1;
     }
 
-    inline void Matrix::inverseRotateVect( float *pVect ) const {
+    inline void Matrix::inverseRotateVect( float *p_vect, float vect_x, float vect_y, float vect_z ) const {
         float vec[3];
 
-        vec[0] = pVect[0]*m_matrix[0]+pVect[1]*m_matrix[1]+pVect[2]*m_matrix[2];
-        vec[1] = pVect[0]*m_matrix[4]+pVect[1]*m_matrix[5]+pVect[2]*m_matrix[6];
-        vec[2] = pVect[0]*m_matrix[8]+pVect[1]*m_matrix[9]+pVect[2]*m_matrix[10];
+        vec[0] = vect_x*m_matrix[0] + vect_y*m_matrix[1] + vect_z*m_matrix[2];
+        vec[1] = vect_x*m_matrix[4] + vect_y*m_matrix[5] + vect_z*m_matrix[6];
+        vec[2] = vect_x*m_matrix[8] + vect_y*m_matrix[9] + vect_z*m_matrix[10];
 
-        memcpy( pVect, vec, sizeof( float )*3 );
+        memcpy( p_vect, vec, sizeof( float )*3 );
     }
 
-    inline void Matrix::inverseTranslateVect( float *pVect ) const {
-        pVect[0] = pVect[0]-m_matrix[12];
-        pVect[1] = pVect[1]-m_matrix[13];
-        pVect[2] = pVect[2]-m_matrix[14];
+    inline void Matrix::inverseTranslateVect( float *p_vect, float vect_x, float vect_y, float vect_z ) const {
+		float vec[3];
+
+        vec[0] = vect_x - m_matrix[12];
+        vec[1] = vect_y - m_matrix[13];
+        vec[2] = vect_z - m_matrix[14];
+
+		memcpy( p_vect, vec, sizeof( float )*3 );
     }
 
     /**
@@ -197,8 +201,8 @@ namespace F3D {
         /*	Constructor. (0, 0, 0, 1) */
         Vector();
 
-        /*	Constructor. 3 float values. */
-        Vector( const float *vector );
+		/*	Constructor. 3 float values. */
+        Vector( float vec_x, float vec_y, float vec_z );
 
         /*	Destructor. */
         ~Vector();
@@ -215,7 +219,7 @@ namespace F3D {
         void transform3( const Matrix *m );
 
         /*	Set the values of the vector. Takes 3 float values. */
-        void set( const float *vector );
+        void set( float vec_x, float vec_y, float vec_z  );
 
         /*	Translate by another vector. */
         void add( const Vector& v );
@@ -243,10 +247,10 @@ namespace F3D {
         m_vector[3] = 1;
     }
 
-    inline void Vector::set( const float *values ) {
-        m_vector[0] = values[0];
-        m_vector[1] = values[1];
-        m_vector[2] = values[2];
+    inline void Vector::set( float vec_x, float vec_y, float vec_z ) {
+        m_vector[0] = vec_x;
+        m_vector[1] = vec_y;
+        m_vector[2] = vec_z;
     }
 
     inline void Vector::add( const Vector& v ) {
