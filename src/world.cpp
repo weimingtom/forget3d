@@ -152,12 +152,6 @@ namespace F3D {
 
 		wsprintf(errorStr, TEXT("maj_ver: %d, min_ver: %d"), maj_ver, min_ver);
 		MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
-
-		wsprintf(errorStr, TEXT("EGL_VENDOR: %s\nEGL_VERSION: %s\nEGL_EXTENSIONS: %s"),
-            eglQueryString(m_display, EGL_VENDOR),
-            eglQueryString(m_display, EGL_VERSION),
-            eglQueryString(m_display, EGL_EXTENSIONS));
-        MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
 	#endif
 #endif
         if (!checkEglError("eglInitialize"))
@@ -210,6 +204,17 @@ namespace F3D {
 
         printf("m_width\t\t: %d\n", m_width);
         printf("m_height\t: %d\n", m_height);
+
+	#if (defined(WIN32) || defined(_WIN32_WCE))
+		wsprintf(errorStr, TEXT("m_width: %d, m_height: %d"), m_width, m_height);
+		MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
+
+		wsprintf(errorStr, TEXT("EGL_VENDOR: %s\nEGL_VERSION: %s\nEGL_EXTENSIONS: %s"),
+            eglQueryString(m_display, EGL_VENDOR),
+            eglQueryString(m_display, EGL_VERSION),
+            eglQueryString(m_display, EGL_EXTENSIONS));
+        MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
+	#endif
 #endif
 
         checkEglError("eglAll");
@@ -294,6 +299,12 @@ namespace F3D {
 		//after resize screen, call initGL() again
 		initGL();
     }
+
+	void World::resize(int width, int height) {
+		setSize(width, height);
+		//after resize screen, call initGL() again
+		initGL();
+	}
 
     int World::getWidth() {
         return m_width;
