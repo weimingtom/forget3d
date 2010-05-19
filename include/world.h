@@ -95,6 +95,7 @@ namespace F3D {
 		bool init();
 #endif
         void setSize(int width, int height);
+		void resize(int width, int height);
         void setPerspective(GLfloat fovy, GLfloat znear, GLfloat zfar);
         void prepareRender();
         void finishRender();
