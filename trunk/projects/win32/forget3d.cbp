@@ -17,6 +17,9 @@
 					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add option="-fno-strict-aliasing" />
+					<Add option="-DNDEBUG" />
+					<Add option='-DUSE_WRAPPER_GL=\&quot;libGLES_CM_NoE.dll\&quot;' />
+					<Add option='-DIS_ALONE_EGL=\&quot;libEGL.dll\&quot;' />
 					<Add directory="..\..\include" />
 					<Add directory="..\include" />
 				</Compiler>
@@ -36,6 +39,8 @@
 					<Add option="-g" />
 					<Add option="-fno-strict-aliasing" />
 					<Add option="-DDEBUG" />
+					<Add option='-DUSE_WRAPPER_GL=\&quot;libGLES_CM_NoE.dll\&quot;' />
+					<Add option='-DIS_ALONE_EGL=\&quot;libEGL.dll\&quot;' />
 					<Add directory="..\..\include" />
 					<Add directory="..\include" />
 				</Compiler>
