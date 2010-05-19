@@ -58,8 +58,8 @@ namespace F3D {
 #define F3D_PACKED __attribute__((packed))
 #elif (defined(WIN32) || defined(_WIN32_WCE))
 #ifndef F3D_PACKED
-#pragma pack( push, packing )
-#pragma pack( 1 )
+#pragma pack( push, 1 )
+//#pragma pack( 1 )
 #define F3D_PACKED
 #endif
 #endif
@@ -142,7 +142,7 @@ namespace F3D {
     } F3D_PACKED ms3d_joint_t;
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
-#pragma pack( pop, packing )
+#pragma pack( pop )
 #endif
 #undef F3D_PACKED
 
