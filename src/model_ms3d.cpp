@@ -275,8 +275,8 @@ namespace F3D {
         int i, b_idx;
         //setup joints
         for (i = 0; i < m_jointsCount; i++) {
-            m_joints[i].relMatrix->setRotationRadians(m_joints[i].header.rotation);
-            m_joints[i].relMatrix->setTranslation(m_joints[i].header.position);
+            m_joints[i].relMatrix->setRotationRadians( m_joints[i].header.rotation[0], m_joints[i].header.rotation[1], m_joints[i].header.rotation[2] );
+            m_joints[i].relMatrix->setTranslation( m_joints[i].header.position[0], m_joints[i].header.position[1], m_joints[i].header.position[2]);
 
             //apply parent joint matrix to current joint
             if (m_joints[i].parentJointIndex != -1) {
@@ -289,27 +289,29 @@ namespace F3D {
 
             m_joints[i].finMatrix->set(m_joints[i].absMatrix->getMatrix());
         }
-        //MessageBox(0, TEXT("setupJoints step1 ok!"), TEXT("MS3D"), MB_OK);
         //setup vertices
         for (i = 0; i < m_verticesCount; i++) {
             b_idx = m_vertices[i].boneId;
             if (b_idx != -1) {
-                m_joints[b_idx].absMatrix->inverseTranslateVect(m_vertices[i].vertex);
-                m_joints[b_idx].absMatrix->inverseRotateVect(m_vertices[i].vertex);
+                m_joints[b_idx].absMatrix->inverseTranslateVect( m_vertices[i].vertex,
+					m_vertices[i].vertex[0], m_vertices[i].vertex[1], m_vertices[i].vertex[2] );
+                m_joints[b_idx].absMatrix->inverseRotateVect(m_vertices[i].vertex,
+					m_vertices[i].vertex[0], m_vertices[i].vertex[1], m_vertices[i].vertex[2] );
             }
         }
-        //MessageBox(0, TEXT("setupJoints step2 vertices ok!"), TEXT("MS3D"), MB_OK);
         //set triangles normals
         for (i = 0; i < m_trianglesCount; i++) {
             for (int j = 0; j < 3; j++) {
                 b_idx = m_vertices[m_triangles[i].vertexIndices[j]].boneId;
                 if (b_idx != -1) {
                     const Matrix* matrix = m_joints[b_idx].absMatrix;
-                    matrix->inverseRotateVect(m_triangles[i].vertexNormals[j]);
+                    matrix->inverseRotateVect( m_triangles[i].vertexNormals[j],
+						m_triangles[i].vertexNormals[j][0],
+						m_triangles[i].vertexNormals[j][1],
+						m_triangles[i].vertexNormals[j][2] );
                 }
             }
         }
-        //MessageBox(0, TEXT("setupJoints step3 triangles ok!"), TEXT("MS3D"), MB_OK);
     }
 
     void ModelMS3D::prepareFrame() {
@@ -333,9 +335,13 @@ namespace F3D {
             Matrix *transform = new Matrix();
 
             if (m_frameIdx < m_joints[i].header.numKeyFramesRot)
-                transform->setRotationRadians(m_joints[i].keyFramesRot[m_frameIdx].rotation);
+                transform->setRotationRadians( m_joints[i].keyFramesRot[m_frameIdx].rotation[0],
+					m_joints[i].keyFramesRot[m_frameIdx].rotation[1],
+					m_joints[i].keyFramesRot[m_frameIdx].rotation[2] );
             if (m_frameIdx < m_joints[i].header.numKeyFramesTrans)
-                transform->setTranslation(m_joints[i].keyFramesTrans[m_frameIdx].position);
+                transform->setTranslation( m_joints[i].keyFramesTrans[m_frameIdx].position[0],
+					m_joints[i].keyFramesTrans[m_frameIdx].position[1],
+					m_joints[i].keyFramesTrans[m_frameIdx].position[2] );
 
             Matrix *relativeFinal = new Matrix();
             relativeFinal->set(m_joints[i].relMatrix->getMatrix());
@@ -369,11 +375,13 @@ namespace F3D {
                     ms3d_vertex_t vertex = m_vertices[triangle.vertexIndices[m]];
                     int b_idx = vertex.boneId;
                     if (b_idx != -1) {
-						Vector *vector_n = new Vector(triangle.vertexNormals[m]);
+						Vector *vector_n = new Vector( triangle.vertexNormals[m][0],
+							triangle.vertexNormals[m][1],
+							triangle.vertexNormals[m][2] );
 						vector_n->transform3(m_joints[b_idx].finMatrix);
 						vector_n->normalize();
 
-						Vector *vector_v = new Vector(vertex.vertex);
+						Vector *vector_v = new Vector( vertex.vertex[0], vertex.vertex[1], vertex.vertex[2] );
 						vector_v->transform(m_joints[b_idx].finMatrix);
                         for (n = 0; n < 3; n++) {
                             vertices[v_idx++] = vector_v->getVector()[n]; // copy vertices

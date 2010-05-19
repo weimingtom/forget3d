@@ -150,10 +150,10 @@ namespace F3D {
         set( newMatrix );
     }
 
-    void Matrix::setTranslation( const float *translation ) {
-        m_matrix[12] = translation[0];
-        m_matrix[13] = translation[1];
-        m_matrix[14] = translation[2];
+    void Matrix::setTranslation( float trans_x, float trans_y, float trans_z ) {
+        m_matrix[12] = trans_x;
+        m_matrix[13] = trans_y;
+        m_matrix[14] = trans_z;
     }
 
     void Matrix::setInverseTranslation( const float *translation ) {
@@ -169,7 +169,7 @@ namespace F3D {
         vec[1] = ( float )( angles[1]*180.0/M_PI );
         vec[2] = ( float )( angles[2]*180.0/M_PI );
 
-        setRotationRadians( vec );
+        setRotationRadians( vec[0], vec[1], vec[2] );
     }
 
     void Matrix::setInverseRotationDegrees( const float *angles ) {
@@ -179,16 +179,16 @@ namespace F3D {
         vec[1] = ( float )( angles[1]*180.0/M_PI );
         vec[2] = ( float )( angles[2]*180.0/M_PI );
 
-        setInverseRotationRadians( vec );
+        setInverseRotationRadians( vec[0], vec[1], vec[2] );
     }
 
-    void Matrix::setRotationRadians( const float *angles ) {
-        double cr = cos( angles[0] );
-        double sr = sin( angles[0] );
-        double cp = cos( angles[1] );
-        double sp = sin( angles[1] );
-        double cy = cos( angles[2] );
-        double sy = sin( angles[2] );
+    void Matrix::setRotationRadians( float angle_x, float angle_y, float angle_z ) {
+        double cr = cos( angle_x );
+        double sr = sin( angle_x );
+        double cp = cos( angle_y );
+        double sp = sin( angle_y );
+        double cy = cos( angle_z );
+        double sy = sin( angle_z );
 
         m_matrix[0] = ( float )( cp*cy );
         m_matrix[1] = ( float )( cp*sy );
@@ -206,13 +206,13 @@ namespace F3D {
         m_matrix[10] = ( float )( cr*cp );
     }
 
-    void Matrix::setInverseRotationRadians( const float *angles ) {
-        double cr = cos( angles[0] );
-        double sr = sin( angles[0] );
-        double cp = cos( angles[1] );
-        double sp = sin( angles[1] );
-        double cy = cos( angles[2] );
-        double sy = sin( angles[2] );
+    void Matrix::setInverseRotationRadians( float anglex, float angley, float anglez ) {
+        double cr = cos( anglex );
+        double sr = sin( anglex );
+        double cp = cos( angley );
+        double sp = sin( angley );
+        double cy = cos( anglez );
+        double sy = sin( anglez );
 
         m_matrix[0] = ( float )( cp*cy );
         m_matrix[4] = ( float )( cp*sy );
@@ -257,11 +257,11 @@ namespace F3D {
         reset();
     }
 
-    Vector::Vector( const float *values ) {
+    Vector::Vector( float vec_x, float vec_y, float vec_z  ) {
 #if (defined(DEBUG) && defined(MATH_DEBUG))
-        printf("Vector constructor with values...\n");
+        printf("Vector constructor with values[vec_x, vec_y, vec_z]...\n");
 #endif
-        set( values );
+        set( vec_x, vec_y, vec_z );
         m_vector[3] = 1;
     }
 
