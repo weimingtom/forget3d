@@ -184,11 +184,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance,
                         instance,
                         NULL);
     if (!hwnd) {
-#ifdef _WIN32_WCE
+#if DEBUG
         MessageBox(hwnd, TEXT("CreateWindow error!"), TEXT("Error"), MB_OK);
-#else
-        MessageBox(hwnd, "CreateWindow error!", "Error", MB_OK);
-#endif
+#endif // ! DEBUG
         return FALSE;
 	}
 
@@ -250,37 +248,24 @@ int main(int argc, char *argv[]) {
     //skydome->setPosition(0.0f, (float)(-128 * sinf(DTOR * 10.0f)), 0.0f);
     printf("%.2f\n", (float)(-128 * sinf(DTOR * 10.0f)));
 
-#if (defined(_WIN32_WCE) && defined(DEBUG))
-    MessageBox(hwnd, TEXT("Start load MS3d model!"), TEXT("Info"), MB_OK);
-#endif
-
     model = new ModelMS3D();
     model->loadModel("run.ms3d");
-#if (defined(_WIN32_WCE) && defined(DEBUG))
-	MessageBox(hwnd, TEXT("loadModel ok, start setScale !"), TEXT("Info"), MB_OK);
-#endif
+
     model->setScale(0.5f, 0.5f, 0.5f);
     model->setPosition(20.0f, 20.0f, -40.0f);
-#if (defined(_WIN32_WCE) && defined(DEBUG))
-	MessageBox(hwnd, TEXT("loadModel ok, start setTextureId !"), TEXT("Info"), MB_OK);
-#endif
+
     if (texture2 != NULL)
         model->setTextureId(texture2->textureId);
     if (texture3 != NULL)
         model->setTextureId(texture3->textureId, 1);
 
-#if (defined(_WIN32_WCE) && defined(DEBUG))
-	MessageBox(hwnd, TEXT("End load ms3d model!"), TEXT("Info"), MB_OK);
-#endif
-
     font = new Font(16, 16, 24, 36, "font.bmp");
 
     printf("start loop...\n");
-#if (defined(_WIN32_WCE) && defined(DEBUG))
+#if ((defined(_WIN32_WCE) || defined(WIN32)) && defined(DEBUG))
 	MessageBox(hwnd, TEXT("start loop!"), TEXT("Info"), MB_OK);
-#elif (defined(WIN32) && defined(DEBUG))
-	MessageBox(hwnd, "start loop!", "Info", MB_OK);
 #endif
+
     is_done = 1;
 #ifdef ANDROID
     gettimeofday(&timeNow, NULL);
