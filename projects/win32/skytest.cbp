@@ -14,6 +14,9 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-DNDEBUG" />
+					<Add option='-DUSE_WRAPPER_GL=&quot;libGLES_CM_NoE.dll&quot;' />
+					<Add option='-DIS_ALONE_EGL=&quot;libEGL.dll&quot;' />
 					<Add directory="..\..\include" />
 					<Add directory="..\include" />
 				</Compiler>
@@ -23,8 +26,6 @@
 					<Add library="user32" />
 					<Add library="gdi32" />
 					<Add library="f3d" />
-					<Add library="..\..\lib\win32\libEGL.lib" />
-					<Add library="..\..\lib\win32\libGLES_CM_NoE.lib" />
 					<Add directory="..\..\lib\win32" />
 				</Linker>
 			</Target>
@@ -37,6 +38,8 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DDEBUG" />
+					<Add option='-DUSE_WRAPPER_GL=\&quot;libGLES_CM_NoE.dll\&quot;' />
+					<Add option='-DIS_ALONE_EGL=\&quot;libEGL.dll\&quot;' />
 					<Add directory="..\..\include" />
 					<Add directory="..\include" />
 				</Compiler>
@@ -45,8 +48,6 @@
 					<Add library="user32" />
 					<Add library="gdi32" />
 					<Add library="f3d_d" />
-					<Add library="..\..\lib\win32\libEGL.lib" />
-					<Add library="..\..\lib\win32\libGLES_CM_NoE.lib" />
 					<Add directory="..\..\lib\win32" />
 				</Linker>
 			</Target>
