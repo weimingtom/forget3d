@@ -114,7 +114,7 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
         width = rc.right;
         height = rc.bottom;
 		if (is_initialized) {
-			world->setSize(width, height);
+			world->resize(width, height);
 		}
 
         break;
@@ -206,15 +206,15 @@ int main(int argc, char *argv[]) {
 
     world = new World();
     //world->setBgColor(0.5f, 0.5f, 0.5f, 0.0f);
-
+	
+	world->setSize(width, height);
 #if (defined(WIN32) || defined(_WIN32_WCE))
     if (!world->init(hwnd)) {
         MessageBox(hwnd, TEXT("Init world error!"), TEXT("Error"), MB_OK);
 
         return 0;
     }
-    world->setSize(width, height);
-
+    
 	//after create world, set is_initialized to true
 	is_initialized = true;
 #else
