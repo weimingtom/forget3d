@@ -216,9 +216,6 @@ FNDEF(void, glClearDepthf, (GLclampf depth));
 
 #endif // !IMPORTGL_NO_FNPTR_DEFS
 
-//#else
-
-
 #endif // !USE_WRAPPER_GL
 
 #ifdef __cplusplus
