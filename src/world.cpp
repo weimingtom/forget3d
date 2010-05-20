@@ -126,19 +126,23 @@ namespace F3D {
         };
 #endif
 
-
 #ifdef USE_WRAPPER_GL
-    int result = Utils::initGlWrapper();
-    if (!result) {
-    #ifdef DEBUG
-        MessageBox(0, TEXT("Import EGL & GL functions error!\nAnd ensure you have a GPU!"), TEXT("Error"), MB_OK);
-    #endif
-        return false;
-	}
+        int result = Utils::initGlWrapper();
+        if (!result) {
+#ifdef DEBUG
+            MessageBox(0, TEXT("Import EGL & GL functions error!\nAnd ensure you have a GPU!"), TEXT("Error"), MB_OK);
+#endif
+            return false;
+        }
 #endif // !USE_WRAPPER_GL
 
         //start init EGL
+#if (defined(WIN32) || defined(_WIN32_WCE)) && defined(IS_DC_EGL)
+        HDC hdc = GetDC( m_hwnd );
+        m_display = eglGetDisplay( (NativeDisplayType)hdc );
+#else
         m_display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+#endif
 #ifndef USE_VINCENT
         if (!checkEglError("eglGetDisplay"))
             return false;
