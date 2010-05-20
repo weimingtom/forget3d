@@ -206,15 +206,15 @@ int main(int argc, char *argv[]) {
 
     world = new World();
     //world->setBgColor(0.5f, 0.5f, 0.5f, 0.0f);
-	
-	world->setSize(width, height);
+
 #if (defined(WIN32) || defined(_WIN32_WCE))
+    world->setSize(width, height); //before init world, set windows size
     if (!world->init(hwnd)) {
         MessageBox(hwnd, TEXT("Init world error!"), TEXT("Error"), MB_OK);
 
         return 0;
     }
-    
+
 	//after create world, set is_initialized to true
 	is_initialized = true;
 #else
