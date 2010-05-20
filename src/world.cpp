@@ -296,8 +296,6 @@ namespace F3D {
     void World::setSize(int width, int height) {
         m_width = width;
         m_height = height;
-		//after resize screen, call initGL() again
-		initGL();
     }
 
 	void World::resize(int width, int height) {
