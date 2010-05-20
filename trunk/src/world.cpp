@@ -40,6 +40,8 @@ namespace F3D {
      */
 
     World::World() :
+			m_width(0),
+			m_height(0),
             m_bgred(0.0f),
             m_bggreen(0.0f),
             m_bgblue(0.0f),
