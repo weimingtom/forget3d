@@ -62,13 +62,14 @@ namespace F3D {
             pallete[i].red = buff[2];
             pallete[i].green = buff[1];
             pallete[i].blue = buff[0];
+            pallete[i].alpha = buff[3];
         }
         return;
     }
 
     Texture *Image::loadTexture(const char *filename) {
         FILE *fd;
-        int  bpp, raster, i, j, skip, index = 0;
+        int  bpp, raster, i, j, skip, compression, index = 0;
         Texture *texture = (Texture *) malloc(sizeof(Texture));
         unsigned char buff[4];
         unsigned char id[2];
@@ -125,12 +126,22 @@ namespace F3D {
 #ifdef DEBUG
         printf("Image width: %d, height: %d.\n", m_width, m_height);
 #endif
-        buffer = (unsigned char *) malloc(m_width * m_height * 3 * sizeof(unsigned char));
-        if (!buffer) {
-            return NULL;
-        }
         texture->width = m_width;
         texture->height = m_height;
+
+        //read compression
+        if (fseek(fd, BMP_RLE_OFFSET, SEEK_SET) == -1) {
+            return NULL;
+        }
+        fread (buff, 4, 1, fd);
+        compression = buff[0] + (buff[1]<<8) + (buff[2]<<16) + (buff[3]<<24);
+
+        if (compression != 0) {
+#ifdef DEBUG
+			printf("Oly uncompressed bitmap is supported\n");
+#endif
+			return NULL;
+		}
 
         //read bpp
         if (fseek(fd, BMP_BPP_OFFSET, SEEK_SET) == -1) {
@@ -142,11 +153,18 @@ namespace F3D {
 #ifdef DEBUG
         printf("Image bpp: %d.\n", bpp);
 #endif
+        buffer = (unsigned char *) malloc(m_width * m_height * (bpp == 32 ? 4 : 3) * sizeof(unsigned char));
+        if (!buffer) {
+            return NULL;
+        }
+
         switch (bpp) {
         case 8: /* 8bit palletized */
             skip = fill4B(m_width);
+            //if 8bit, read pallete first
             fetchPallete(fd, pallete, 256);
             fseek(fd, raster, SEEK_SET);
+            //really read image data
             for (i = 0; i < m_height; i++) {
                 for (j = 0; j < m_width; j++) {
                     //read(fd, buff, 1);
@@ -178,6 +196,19 @@ namespace F3D {
                 }
             }
             break;
+        case 32: /* 32 RGB */
+            fseek(fd, raster, SEEK_SET);
+            for (i = 0; i < m_height; i++) {
+                for (j = 0; j < m_width; j++) {
+                    //read(fd, buff, 3);
+                    fread (buff, 4, 1, fd);
+                    buffer[index++] = buff[2];
+                    buffer[index++] = buff[1];
+                    buffer[index++] = buff[0];
+                    buffer[index++] = buff[3];
+                }
+            }
+            break;
         default:
 #ifdef DEBUG
         printf("Unsupport bpp: %d.\n", bpp);
@@ -192,7 +223,8 @@ namespace F3D {
 
         glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, (bpp == 32 ? GL_RGBA : GL_RGB),
+            m_width, m_height, 0, (bpp == 32 ? GL_RGBA : GL_RGB), GL_UNSIGNED_BYTE, buffer);
 
 #ifdef DEBUG
         printf("Load image %s success!\n", filename);
