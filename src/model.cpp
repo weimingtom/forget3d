@@ -282,6 +282,11 @@ namespace F3D {
 
     void Model::setTextureId(GLint textureId, int meshIndex) {
         m_meshs[meshIndex].setTextureId(textureId);
+        //if textureId = 0, set texture to all meshes
+        if (meshIndex == 0) {
+            for (int i = 1; i < m_meshCount; i++)
+                m_meshs[i].setTextureId(textureId);
+        }
     }
 
     void Model::setPosition(GLfloat x, GLfloat y, GLfloat z) {
