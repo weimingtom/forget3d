@@ -110,7 +110,7 @@ namespace F3D {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-        glColor4f(1.0f, 0.0f, 0.0f, 0.8f);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
         for (unsigned int i = 0; i < strlen(str); i++) {
             int index = (int)(str[i] - 32);
