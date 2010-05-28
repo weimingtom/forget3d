@@ -51,10 +51,14 @@ namespace F3D {
             m_zfar(1000.0f),
             m_camera(NULL),
             m_fog(NULL),
+#ifndef ANDROID_NDK
             m_light(NULL),
             m_display(EGL_NO_DISPLAY),
             m_context(EGL_NO_CONTEXT),
             m_surface(EGL_NO_SURFACE) {
+#else
+            m_light(NULL) {
+#endif
 #ifdef DEBUG
         printf("World constructor...\n");
 #endif
@@ -90,6 +94,7 @@ namespace F3D {
     }
 
     bool World::initEGL() {
+#ifndef ANDROID_NDK
         EGLint config_nums = -1;
         EGLint maj_ver;
         EGLint min_ver;
@@ -224,7 +229,7 @@ namespace F3D {
 #endif
 
         checkEglError("eglAll");
-
+#endif
         return true;
     }
 
@@ -264,10 +269,13 @@ namespace F3D {
     }
 
     void World::deinitEGL() {
+#ifndef ANDROID_NDK
         eglMakeCurrent(m_display, NULL, NULL, NULL);
         eglDestroyContext(m_display, m_context);
         eglDestroySurface(m_display, m_surface);
         eglTerminate(m_display);
+#endif
+
 #ifdef USE_WRAPPER_GL
 		Utils:: deinitGlWrapper();
 #endif //USE_WRAPPER_GL
@@ -344,6 +352,7 @@ namespace F3D {
     }
 
     bool World::checkEglError(const char *name) {
+#ifndef ANDROID_NDK
         unsigned err = eglGetError();
 
         if (err != EGL_SUCCESS) {
@@ -360,6 +369,9 @@ namespace F3D {
         } else {
             return true;
         }
+#else
+        return true;
+#endif // !ANDROID_NDK
     }
 
     void World::prepareRender() {
@@ -380,7 +392,9 @@ namespace F3D {
     }
 
     void World::finishRender() {
+#ifndef ANDROID_NDK
         eglSwapBuffers(m_display, m_surface);
+#endif
     }
 
 }
