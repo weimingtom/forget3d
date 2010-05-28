@@ -15,13 +15,12 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-mthumb" />
+					<Add option="-mthumb-interwork" />
 					<Add option="-msoft-float" />
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-O2" />
 					<Add option="-Wall" />
-					<Add option="-include AndroidConfig.h" />
 					<Add option="-fpic" />
-					<Add option="-mthumb-interwork" />
 					<Add option="-ffunction-sections" />
 					<Add option="-funwind-tables" />
 					<Add option="-fstack-protector" />
@@ -53,13 +52,12 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-mthumb" />
+					<Add option="-mthumb-interwork" />
 					<Add option="-msoft-float" />
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-include AndroidConfig.h" />
 					<Add option="-fpic" />
-					<Add option="-mthumb-interwork" />
 					<Add option="-ffunction-sections" />
 					<Add option="-funwind-tables" />
 					<Add option="-fstack-protector" />
@@ -78,6 +76,44 @@
 					<Add option="-DDEBUG" />
 					<Add directory="..\include" />
 				</Compiler>
+			</Target>
+			<Target title="ndk">
+				<Option output="..\lib\libf3d.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="..\objs\ndk" />
+				<Option type="2" />
+				<Option compiler="armelfgcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-mthumb" />
+					<Add option="-mthumb-interwork" />
+					<Add option="-msoft-float" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-fpic" />
+					<Add option="-ffunction-sections" />
+					<Add option="-funwind-tables" />
+					<Add option="-fstack-protector" />
+					<Add option="-fno-short-enums" />
+					<Add option="-march=armv5te" />
+					<Add option="-mtune=xscale" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-finline-limit=64" />
+					<Add option="-DANDROID" />
+					<Add option="-DANDROID_NDK" />
+					<Add option="-D__ARM_ARCH_5__" />
+					<Add option="-D__ARM_ARCH_5T__" />
+					<Add option="-D__ARM_ARCH_5E__" />
+					<Add option="-D__ARM_ARCH_5TE__" />
+					<Add option="-DNDEBUG" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
 			</Target>
 		</Build>
 		<Unit filename="..\include\camera.h" />
