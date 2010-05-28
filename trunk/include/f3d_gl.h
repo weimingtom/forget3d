@@ -41,7 +41,9 @@ extern "C" {
 
 //opengl es header
 #include <GLES/gl.h>
+#ifndef ANDROID_NDK
 #include <GLES/egl.h>
+#endif
 
 //if Android platform, add glext.h
 #ifdef ANDROID

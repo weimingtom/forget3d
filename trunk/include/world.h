@@ -72,9 +72,11 @@ namespace F3D {
         bool checkEglError(const char *name);
     public:
         //egl variables
+#ifndef ANDROID_NDK
         EGLDisplay m_display;
         EGLContext m_context;
         EGLSurface m_surface;
+#endif
         /**
         * Constructor
         */
