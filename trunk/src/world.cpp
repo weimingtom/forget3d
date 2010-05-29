@@ -67,8 +67,9 @@ namespace F3D {
     World::~World() {
         deinitEGL();
 
-        delete m_camera;
-        delete m_fog;
+        DELETEANDNULL(m_camera, false);
+        DELETEANDNULL(m_fog, false);
+        DELETEANDNULL(m_light, false);
 #ifdef DEBUG
         printf("World destructor...\n");
 #endif
@@ -383,12 +384,14 @@ namespace F3D {
         if (m_fog != NULL) {
             glEnable(GL_FOG);
             m_fog->initFog();
-        }
+        } else
+            glDisable(GL_FOG);
 
         if (m_light != NULL) {
             glEnable(GL_LIGHTING);
             m_light->initLight();
-        }
+        } else
+            glDisable(GL_LIGHTING);
     }
 
     void World::finishRender() {
