@@ -62,13 +62,8 @@ static int  i_time = 0;
 static struct timeval timeNow;
 #elif (defined(WIN32) || defined(_WIN32_WCE))
 static DWORD i_time = 0;
-#ifdef WIN32
-static int	width = 640;
-static int	height = 480;
-#else
-static int	width = 240;
-static int	height = 320;
-#endif
+static int	width = 480;
+static int	height = 640;
 static int  is_initialized = false;
 static HWND	hwnd;
 #endif
@@ -241,6 +236,7 @@ int main(int argc, char *argv[]) {
     model->setColors(colors, 12 * sizeof(GLubyte));
     model->setTriangleNums(1, 0);
     //init second triangle
+    colors[2] = colors[6] = 128;
     model->setVertices(vertices1, 9 * sizeof(GLfloat), 1);
     model->setColors(colors, 12 * sizeof(GLubyte), 1);
     model->setTriangleNums(1, 1);
