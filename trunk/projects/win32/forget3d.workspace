@@ -20,5 +20,11 @@
 		<Project filename="stars.cbp">
 			<Depends filename="forget3d.cbp" />
 		</Project>
+		<Project filename="ms3dviewer.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
+		<Project filename="lights.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>
