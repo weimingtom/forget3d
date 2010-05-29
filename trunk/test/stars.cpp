@@ -76,13 +76,8 @@ static int  i_time = 0;
 static struct timeval timeNow;
 #elif (defined(WIN32) || defined(_WIN32_WCE))
 static DWORD i_time = 0;
-#ifdef WIN32
-static int	width = 640;
-static int	height = 480;
-#else
-static int	width = 240;
-static int	height = 320;
-#endif
+static int	width = 480;
+static int	height = 640;
 static int  is_initialized = false;
 static HWND	hwnd;
 #endif
