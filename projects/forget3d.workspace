@@ -2,22 +2,28 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="forget3d.cbp" active="1" />
-		<Project filename="triangle.cbp">
+		<Project filename="g3dviewer.cbp">
 			<Depends filename="forget3d.cbp" />
 		</Project>
 		<Project filename="gears.cbp">
 			<Depends filename="forget3d.cbp" />
 		</Project>
+		<Project filename="lights.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
 		<Project filename="md2viewer.cbp">
+			<Depends filename="forget3d.cbp" />
+		</Project>
+		<Project filename="ms3dviewer.cbp">
 			<Depends filename="forget3d.cbp" />
 		</Project>
 		<Project filename="skytest.cbp">
 			<Depends filename="forget3d.cbp" />
 		</Project>
-		<Project filename="g3dviewer.cbp">
+		<Project filename="stars.cbp">
 			<Depends filename="forget3d.cbp" />
 		</Project>
-		<Project filename="stars.cbp">
+		<Project filename="triangle.cbp">
 			<Depends filename="forget3d.cbp" />
 		</Project>
 	</Workspace>
