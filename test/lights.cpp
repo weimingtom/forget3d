@@ -3271,6 +3271,7 @@ int main(int argc, char *argv[]) {
     printf("world->init()...\n");
 
     world = new World();
+    world->setBgColor(0.3f, 0.3f, 0.4f, 1.0f);
 #if (defined(WIN32) || defined(_WIN32_WCE))
     world->setSize(width, height);
     if (!world->init(hwnd)) {
@@ -3328,9 +3329,9 @@ int main(int argc, char *argv[]) {
 #endif
         world->prepareRender();
 
-        glScalef(5.0f, 5.0f, 5.0f);
+        glScalef(8.0f, 8.0f, 8.0f);
         glRotatef(rotation, 1.0f, 0.0f, 0.0f);
-        glRotatef(1.2 * rotation, 0.0f, 1.0f, 0.0f);
+        glRotatef(1.2f * rotation, 0.0f, 1.0f, 0.0f);
 
         //draw teapot
         glEnableClientState(GL_VERTEX_ARRAY);
