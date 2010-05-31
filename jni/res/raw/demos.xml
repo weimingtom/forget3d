@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<demos>
+	<!-- NeHe Lessons -->
+	<demo>
+		<id>1</id>
+		<title>1.Stars</title>
+		<image>raw/stars</image>
+		<description>Stars demo.</description>
+	</demo>
+	<demo>
+		<id>2</id>
+		<title>2.Lights</title>
+		<image>raw/lights</image>
+		<description>Lights demo.</description>
+	</demo>
+</demos>
