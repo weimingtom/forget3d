@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ms3dviewer" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="release">
+				<Option output="ms3dviewer" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\objs\release" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-mthumb" />
+					<Add option="-msoft-float" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-include AndroidConfig.h" />
+					<Add option="-fpic" />
+					<Add option="-mthumb-interwork" />
+					<Add option="-ffunction-sections" />
+					<Add option="-funwind-tables" />
+					<Add option="-fstack-protector" />
+					<Add option="-fno-short-enums" />
+					<Add option="-march=armv5te" />
+					<Add option="-mtune=xscale" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-finline-limit=64" />
+					<Add option="-DANDROID" />
+					<Add option="-D__ARM_ARCH_5__" />
+					<Add option="-D__ARM_ARCH_5T__" />
+					<Add option="-D__ARM_ARCH_5E__" />
+					<Add option="-D__ARM_ARCH_5TE__" />
+					<Add option="-DNDEBUG" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-nostdlib -Bdynamic" />
+					<Add option="-Wl,-T,armelf.x" />
+					<Add option="-Wl,-dynamic-linker,/system/bin/linker" />
+					<Add option="-Wl,--no-undefined" />
+					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtbegin_dynamic.o" />
+					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtend.o" />
+					<Add library="..\lib\libf3d.a" />
+					<Add library="c" />
+					<Add library="GLESv1_CM" />
+					<Add library="ui" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="adb push ms3dviewer /dev/sample/ms3dviewer" />
+					<Add after="adb shell chmod 777 /dev/sample/ms3dviewer" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+			<Target title="debug">
+				<Option output="ms3dviewer_d" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\objs\debug" />
+				<Option type="1" />
+				<Option compiler="armelfgcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-mthumb" />
+					<Add option="-msoft-float" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-g" />
+					<Add option="-include AndroidConfig.h" />
+					<Add option="-fpic" />
+					<Add option="-mthumb-interwork" />
+					<Add option="-ffunction-sections" />
+					<Add option="-funwind-tables" />
+					<Add option="-fstack-protector" />
+					<Add option="-fno-short-enums" />
+					<Add option="-march=armv5te" />
+					<Add option="-mtune=xscale" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-finline-limit=64" />
+					<Add option="-DANDROID" />
+					<Add option="-D__ARM_ARCH_5__" />
+					<Add option="-D__ARM_ARCH_5T__" />
+					<Add option="-D__ARM_ARCH_5E__" />
+					<Add option="-D__ARM_ARCH_5TE__" />
+					<Add option="-DDEBUG" />
+					<Add directory="..\include" />
+				</Compiler>
+				<Linker>
+					<Add option="-nostdlib -Bdynamic" />
+					<Add option="-Wl,-T,armelf.x" />
+					<Add option="-Wl,-dynamic-linker,/system/bin/linker" />
+					<Add option="-Wl,--no-undefined" />
+					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtbegin_dynamic.o" />
+					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtend.o" />
+					<Add library="..\lib\libf3d_d.a" />
+					<Add library="c" />
+					<Add library="GLESv1_CM" />
+					<Add library="ui" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="adb push ms3dviewer_d /dev/sample/ms3dviewer_d" />
+					<Add after="adb shell chmod 777 /dev/sample/ms3dviewer_d" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Unit filename="..\test\ms3dviewer.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
