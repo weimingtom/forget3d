@@ -78,7 +78,7 @@
 				</Compiler>
 			</Target>
 			<Target title="ndk">
-				<Option output="..\lib\libf3d.a" prefix_auto="0" extension_auto="0" />
+				<Option output="..\lib\libf3d_ndk.a" prefix_auto="0" extension_auto="0" />
 				<Option working_dir="" />
 				<Option object_output="..\objs\ndk" />
 				<Option type="2" />
