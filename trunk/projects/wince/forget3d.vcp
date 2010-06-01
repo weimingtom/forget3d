@@ -100,7 +100,7 @@ BSC32=bscmake.exe
 # PROP Target_Dir ""
 CPP=clarm.exe
 # ADD BASE CPP /nologo /W3 /D _WIN32_WCE=$(CEVersion) /D "$(CePlatform)" /D "NDEBUG" /D "ARM" /D "_ARM_" /D "ARMV4" /D UNDER_CE=$(CEVersion) /D "UNICODE" /D "_UNICODE" /D "_LIB" /YX /O2 /M$(CECrtMT) /c
-# ADD CPP /nologo /W3 /I "..\..\include" /I "..\include" /D _WIN32_WCE=$(CEVersion) /D "$(CePlatform)" /D "NDEBUG" /D "ARM" /D "_ARM_" /D "ARMV4" /D UNDER_CE=$(CEVersion) /D "UNICODE" /D "_UNICODE" /D "_LIB" /D USE_WRAPPER_GL=\"libGLES_CM_NoE.dll\" /D IS_ALONE_EGL=\"libEGL.dll\" /YX /O2 /M$(CECrtMT) /c
+# ADD CPP /nologo /W3 /I "..\..\include" /I "..\include" /D _WIN32_WCE=$(CEVersion) /D "$(CePlatform)" /D "NDEBUG" /D "ARM" /D "_ARM_" /D "ARMV4" /D UNDER_CE=$(CEVersion) /D "UNICODE" /D "_UNICODE" /D "_LIB" /D USE_WRAPPER_GL=\"libgles_cm.dll\" /YX /O2 /M$(CECrtMT) /c
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"..\..\objs\armv4Rel\libf3d.lib"
@@ -154,7 +154,7 @@ SOURCE=..\..\src\camera.cpp
 DEP_CPP_CAMER=\
 	"..\..\include\camera.h"\
 	"..\..\include\f3d.h"\
-	"..\..\include\utils.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -165,7 +165,7 @@ DEP_CPP_CAMER=\
 DEP_CPP_CAMER=\
 	"..\..\include\camera.h"\
 	"..\..\include\f3d.h"\
-	"..\..\include\utils.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -204,8 +204,8 @@ SOURCE=..\..\src\fog.cpp
 
 DEP_CPP_FOG_C=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\fog.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -215,8 +215,8 @@ DEP_CPP_FOG_C=\
 
 DEP_CPP_FOG_C=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\fog.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -255,6 +255,7 @@ SOURCE=..\..\src\font.cpp
 
 DEP_CPP_FONT_=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\font.h"\
 	"..\..\include\image.h"\
 	"..\..\include\utils.h"\
@@ -267,6 +268,7 @@ DEP_CPP_FONT_=\
 
 DEP_CPP_FONT_=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\font.h"\
 	"..\..\include\image.h"\
 	"..\..\include\utils.h"\
@@ -312,6 +314,7 @@ SOURCE=..\..\src\image.cpp
 
 DEP_CPP_IMAGE=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\image.h"\
 	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
@@ -323,6 +326,7 @@ DEP_CPP_IMAGE=\
 
 DEP_CPP_IMAGE=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\image.h"\
 	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
@@ -365,8 +369,8 @@ SOURCE=..\..\src\light.cpp
 
 DEP_CPP_LIGHT=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\light.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -376,8 +380,8 @@ DEP_CPP_LIGHT=\
 
 DEP_CPP_LIGHT=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\light.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -416,8 +420,8 @@ SOURCE=..\..\src\mathlib.cpp
 
 DEP_CPP_MATHL=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\mathlib.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -427,8 +431,8 @@ DEP_CPP_MATHL=\
 
 DEP_CPP_MATHL=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\mathlib.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -467,8 +471,8 @@ SOURCE=..\..\src\model.cpp
 
 DEP_CPP_MODEL=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -478,8 +482,8 @@ DEP_CPP_MODEL=\
 
 DEP_CPP_MODEL=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -518,6 +522,7 @@ SOURCE=..\..\src\model_g3d.cpp
 
 DEP_CPP_MODEL_=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_g3d.h"\
 	"..\..\include\utils.h"\
@@ -530,6 +535,7 @@ DEP_CPP_MODEL_=\
 
 DEP_CPP_MODEL_=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_g3d.h"\
 	"..\..\include\utils.h"\
@@ -576,6 +582,7 @@ SOURCE=..\..\src\model_md2.cpp
 DEP_CPP_MODEL_M=\
 	"..\..\include\anorms.h"\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_md2.h"\
 	"..\..\include\utils.h"\
@@ -589,6 +596,7 @@ DEP_CPP_MODEL_M=\
 DEP_CPP_MODEL_M=\
 	"..\..\include\anorms.h"\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_md2.h"\
 	"..\..\include\utils.h"\
@@ -636,6 +644,8 @@ SOURCE=..\..\src\model_ms3d.cpp
 
 DEP_CPP_MODEL_MS=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\..\include\mathlib.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_ms3d.h"\
 	"..\..\include\utils.h"\
@@ -648,6 +658,8 @@ DEP_CPP_MODEL_MS=\
 
 DEP_CPP_MODEL_MS=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\..\include\mathlib.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_ms3d.h"\
 	"..\..\include\utils.h"\
@@ -695,9 +707,9 @@ SOURCE=..\..\src\plane.cpp
 
 DEP_CPP_PLANE=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\plane.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -707,9 +719,9 @@ DEP_CPP_PLANE=\
 
 DEP_CPP_PLANE=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\plane.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -750,9 +762,9 @@ SOURCE=..\..\src\skydome.cpp
 
 DEP_CPP_SKYDO=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\skydome.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -762,9 +774,9 @@ DEP_CPP_SKYDO=\
 
 DEP_CPP_SKYDO=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\skydome.h"\
-	"..\..\include\utils.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
 	"..\include\GLES\gl.h"\
@@ -805,6 +817,7 @@ SOURCE=..\..\src\terrain.cpp
 
 DEP_CPP_TERRA=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\terrain.h"\
 	"..\..\include\utils.h"\
@@ -817,6 +830,7 @@ DEP_CPP_TERRA=\
 
 DEP_CPP_TERRA=\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\model.h"\
 	"..\..\include\terrain.h"\
 	"..\..\include\utils.h"\
@@ -914,6 +928,7 @@ SOURCE=..\..\src\world.cpp
 DEP_CPP_WORLD=\
 	"..\..\include\camera.h"\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\fog.h"\
 	"..\..\include\light.h"\
 	"..\..\include\utils.h"\
@@ -928,6 +943,7 @@ DEP_CPP_WORLD=\
 DEP_CPP_WORLD=\
 	"..\..\include\camera.h"\
 	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
 	"..\..\include\fog.h"\
 	"..\..\include\light.h"\
 	"..\..\include\utils.h"\
