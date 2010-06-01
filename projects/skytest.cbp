@@ -13,19 +13,29 @@
 				<Option compiler="armelfgcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
+					<Add option="-mthumb" />
+					<Add option="-mthumb-interwork" />
 					<Add option="-msoft-float" />
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-O2" />
-					<Add option="-include AndroidConfig.h" />
+					<Add option="-Wall" />
 					<Add option="-fpic" />
 					<Add option="-ffunction-sections" />
 					<Add option="-funwind-tables" />
 					<Add option="-fstack-protector" />
 					<Add option="-fno-short-enums" />
-					<Add option="-fno-rtti" />
-					<Add option="-fstrict-aliasing" />
+					<Add option="-march=armv5te" />
+					<Add option="-mtune=xscale" />
 					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-finline-limit=64" />
 					<Add option="-DANDROID" />
+					<Add option="-D__ARM_ARCH_5__" />
+					<Add option="-D__ARM_ARCH_5T__" />
+					<Add option="-D__ARM_ARCH_5E__" />
+					<Add option="-D__ARM_ARCH_5TE__" />
+					<Add option="-DNDEBUG" />
 					<Add directory="..\include" />
 				</Compiler>
 				<Linker>
@@ -33,6 +43,8 @@
 					<Add option="-nostdlib -Bdynamic" />
 					<Add option="-Wl,-T,armelf.x" />
 					<Add option="-Wl,-dynamic-linker,/system/bin/linker" />
+					<Add option="-Wl,--no-undefined" />
+					<Add option="-Wl,-rpath-link=/cygdrive/e/android-ndk-r4/build/prebuilt/windows/arm-eabi-4.4.0/arm-eabi/lib" />
 					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtbegin_dynamic.o" />
 					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtend.o" />
 					<Add library="..\lib\libf3d.a" />
@@ -53,18 +65,27 @@
 				<Option compiler="armelfgcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
+					<Add option="-mthumb" />
+					<Add option="-msoft-float" />
+					<Add option="-fomit-frame-pointer" />
 					<Add option="-g" />
-					<Add option="-include AndroidConfig.h" />
 					<Add option="-fpic" />
+					<Add option="-mthumb-interwork" />
 					<Add option="-ffunction-sections" />
 					<Add option="-funwind-tables" />
 					<Add option="-fstack-protector" />
 					<Add option="-fno-short-enums" />
-					<Add option="-fno-rtti" />
-					<Add option="-fstrict-aliasing" />
+					<Add option="-march=armv5te" />
+					<Add option="-mtune=xscale" />
 					<Add option="-fno-exceptions" />
-					<Add option="-fomit-frame-pointer" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-finline-limit=64" />
 					<Add option="-DANDROID" />
+					<Add option="-D__ARM_ARCH_5__" />
+					<Add option="-D__ARM_ARCH_5T__" />
+					<Add option="-D__ARM_ARCH_5E__" />
+					<Add option="-D__ARM_ARCH_5TE__" />
 					<Add option="-DDEBUG" />
 					<Add directory="..\include" />
 				</Compiler>
@@ -72,6 +93,8 @@
 					<Add option="-nostdlib -Bdynamic" />
 					<Add option="-Wl,-T,armelf.x" />
 					<Add option="-Wl,-dynamic-linker,/system/bin/linker" />
+					<Add option="-Wl,--no-undefined" />
+					<Add option="-Wl,-rpath-link=/cygdrive/e/android-ndk-r4/build/prebuilt/windows/arm-eabi-4.4.0/arm-eabi/lib" />
 					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtbegin_dynamic.o" />
 					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtend.o" />
 					<Add library="..\lib\libf3d_d.a" />
