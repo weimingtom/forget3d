@@ -15,6 +15,6 @@
  		<activity android:name=".StarsActivity" android:label="Stars" android:configChanges="orientation|keyboardHidden" />
  		<activity android:name=".LightsActivity" android:label="Stars" android:configChanges="orientation|keyboardHidden" />
     </application>
-    <uses-sdk android:minSdkVersion="7" />
+    <uses-sdk android:minSdkVersion="5" />
 
 </manifest> 
