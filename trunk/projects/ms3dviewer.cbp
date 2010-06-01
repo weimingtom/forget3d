@@ -14,13 +14,12 @@
 				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-mthumb" />
+					<Add option="-mthumb-interwork" />
 					<Add option="-msoft-float" />
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-O2" />
 					<Add option="-Wall" />
-					<Add option="-include AndroidConfig.h" />
 					<Add option="-fpic" />
-					<Add option="-mthumb-interwork" />
 					<Add option="-ffunction-sections" />
 					<Add option="-funwind-tables" />
 					<Add option="-fstack-protector" />
@@ -45,6 +44,7 @@
 					<Add option="-Wl,-T,armelf.x" />
 					<Add option="-Wl,-dynamic-linker,/system/bin/linker" />
 					<Add option="-Wl,--no-undefined" />
+					<Add option="-Wl,-rpath-link=/cygdrive/e/android-ndk-r4/build/prebuilt/windows/arm-eabi-4.4.0/arm-eabi/lib" />
 					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtbegin_dynamic.o" />
 					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtend.o" />
 					<Add library="..\lib\libf3d.a" />
@@ -69,7 +69,6 @@
 					<Add option="-msoft-float" />
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-g" />
-					<Add option="-include AndroidConfig.h" />
 					<Add option="-fpic" />
 					<Add option="-mthumb-interwork" />
 					<Add option="-ffunction-sections" />
@@ -95,6 +94,7 @@
 					<Add option="-Wl,-T,armelf.x" />
 					<Add option="-Wl,-dynamic-linker,/system/bin/linker" />
 					<Add option="-Wl,--no-undefined" />
+					<Add option="-Wl,-rpath-link=/cygdrive/e/android-ndk-r4/build/prebuilt/windows/arm-eabi-4.4.0/arm-eabi/lib" />
 					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtbegin_dynamic.o" />
 					<Add option="$(#arm_toolchain)\arm-eabi\lib\crtend.o" />
 					<Add library="..\lib\libf3d_d.a" />
