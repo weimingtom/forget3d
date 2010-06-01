@@ -65,7 +65,6 @@ static int  interval = 0;
 
 #ifdef ANDROID
 static int  i_time = 0;
-static int  is_changed = false;
 static struct timeval timeNow;
 #elif (defined(WIN32) || defined(_WIN32_WCE))
 static DWORD i_time = 0;
