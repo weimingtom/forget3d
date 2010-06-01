@@ -43,6 +43,9 @@ extern "C" {
 #include <GLES/gl.h>
 #ifndef ANDROID_NDK
 #include <GLES/egl.h>
+#ifdef ANDROID
+extern "C" EGLNativeWindowType android_createDisplaySurface(void);
+#endif
 #endif
 
 //if Android platform, add glext.h
