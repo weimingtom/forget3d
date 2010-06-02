@@ -223,6 +223,9 @@ namespace F3D {
 
         glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
         glTexImage2D(GL_TEXTURE_2D, 0, (bpp == 32 ? GL_RGBA : GL_RGB),
             m_width, m_height, 0, (bpp == 32 ? GL_RGBA : GL_RGB), GL_UNSIGNED_BYTE, buffer);
 
