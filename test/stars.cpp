@@ -93,14 +93,12 @@ static void drawScene() {
     glEnable(GL_TEXTURE_2D);
 
 	glDisable(GL_DEPTH_TEST);
-	glClearDepthf(1.0f);
 
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE ); //GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_ONE
     glEnable(GL_BLEND);
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE ); //GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_ONE
 
     /* Select Our Texture */
     glBindTexture(GL_TEXTURE_2D, texture->textureId);
-    glLoadIdentity();
 
 	glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -392,7 +390,7 @@ int main(int argc, char *argv[]) {
         drawScene();
 
         //printf("strFps: %s\n", strFps);
-        //font->drawString(4, 4, strFps);
+        font->drawString(4, 4, strFps);
 
         world->finishRender();
 
