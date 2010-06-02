@@ -98,17 +98,13 @@ namespace F3D {
 
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_FOG);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA
         glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA
 
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, m_textureId);
 
-        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -131,12 +127,11 @@ namespace F3D {
             glDrawTexiOES(x + i * fontWidth, y, 0, fontWidth, fontHeight);
         }
 
-        glDisable(GL_TEXTURE_2D);
         glEnable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
+        glDisable(GL_TEXTURE_2D);
 
-        glPopMatrix();
-
+		glPopMatrix();
 #endif
     }
 
