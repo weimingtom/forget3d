@@ -41,9 +41,10 @@
 				ExecutionBucket="7"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\include;..\..\include"
-				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;DEBUG;_CONSOLE;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;USE_WRAPPER_GL;IS_ALONE_EGL"
+				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;DEBUG;_CONSOLE;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE;USE_WRAPPER_GL=\&quot;libgles_cm.dll\&quot;"
 				MinimalRebuild="true"
 				RuntimeLibrary="1"
+				StructMemberAlignment="0"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -70,6 +71,8 @@
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/skytest.pdb"
+				GenerateMapFile="true"
+				MapFileName="$(OutDir)/skytest.map"
 				SubSystem="0"
 				EntryPointSymbol="WinMainCRTStartup"
 			/>
@@ -90,7 +93,7 @@
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
-				RemoteDirectory=""
+				RemoteDirectory="%CSIDL_PROGRAM_FILES%\forget3d"
 				RegisterOutput="0"
 				AdditionalFiles=""
 			/>
@@ -173,7 +176,7 @@
 			/>
 			<DeploymentTool
 				ForceDirty="-1"
-				RemoteDirectory=""
+				RemoteDirectory="%CSIDL_PROGRAM_FILES%\forget3d"
 				RegisterOutput="0"
 				AdditionalFiles=""
 			/>
