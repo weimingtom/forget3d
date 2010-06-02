@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="g3dviewer"
-	ProjectGUID="{F452A893-E6A5-45D5-B59B-8466A68DEF30}"
+	Name="lights"
+	ProjectGUID="{6604CAF2-871E-499E-9121-4F4F724D57A1}"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -64,11 +64,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.01 /MACHINE:ARM /MACHINE:THUMB"
 				AdditionalDependencies="aygshell.lib"
-				OutputFile="$(OutDir)/g3dviewer_d.exe"
+				OutputFile="$(OutDir)/lights_d.exe"
 				LinkIncremental="2"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/g3dviewer.pdb"
+				ProgramDatabaseFile="$(OutDir)/lights.pdb"
 				SubSystem="0"
 				EntryPointSymbol="WinMainCRTStartup"
 			/>
@@ -145,11 +145,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.01 /MACHINE:ARM /MACHINE:THUMB"
 				AdditionalDependencies="aygshell.lib"
-				OutputFile="$(OutDir)/g3dviewer.exe"
+				OutputFile="$(OutDir)/lights.exe"
 				LinkIncremental="1"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="false"
-				ProgramDatabaseFile="$(OutDir)/g3dviewer.pdb"
+				ProgramDatabaseFile="$(OutDir)/lights.pdb"
 				SubSystem="0"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -189,7 +189,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\test\g3dviewer.cpp"
+				RelativePath="..\..\test\lights.cpp"
 				>
 			</File>
 		</Filter>
