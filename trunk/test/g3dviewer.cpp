@@ -51,7 +51,6 @@ using namespace F3D;
 //F3D variables
 World*		world = NULL;
 Camera*		camera = NULL;
-Image*		image = NULL;
 ModelG3D*   model = NULL;
 Font*		font = NULL;
 Plane*      plane = NULL;
@@ -222,11 +221,9 @@ int main(int argc, char *argv[]) {
 
     world->setCamera(camera);
 
-    image = new Image();
-
-    Texture* texture0 = image->loadTexture("floor.bmp");
-    Texture* texture1 = image->loadTexture("clouds.bmp");
-    Texture* texture2 = image->loadTexture("guard.bmp");
+    Texture* texture0 = Image::loadTexture("floor.bmp");
+    Texture* texture1 = Image::loadTexture("clouds.bmp");
+    Texture* texture2 = Image::loadTexture("guard.bmp");
 
     plane = new Plane(4, 4, 128.0f);
     if (texture0 != NULL)
@@ -241,10 +238,8 @@ int main(int argc, char *argv[]) {
     model = new ModelG3D();
     model->loadModel("guard.g3d");
     model->setScale(10.0f, 10.0f, 10.0f);
-    if (texture2 != NULL) {
-        for (int i = 0; i < model->getMeshCount(); i++)
-            model->setTextureId(texture2->textureId, i);
-    }
+    if (texture2 != NULL)
+        model->setTextureId(texture2->textureId);
 
     font = new Font(16, 16, 24, 36, "font.bmp");
 
@@ -311,7 +306,6 @@ int main(int argc, char *argv[]) {
 
     delete world;
     delete model;
-    delete image;
     delete font;
 	delete plane;
 	delete skydome;

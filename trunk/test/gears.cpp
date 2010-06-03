@@ -61,7 +61,6 @@ using namespace F3D;
 //F3D variables
 World*		world = NULL;
 Camera*		camera = NULL;
-Image*		image = NULL;
 Font*		font = NULL;
 Light*      light = NULL;
 
@@ -501,7 +500,6 @@ int main(int argc, char *argv[]) {
     }
 
     delete font;
-    delete image;
     delete light;
     delete world;
 

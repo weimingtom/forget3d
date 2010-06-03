@@ -48,7 +48,6 @@ using namespace F3D;
 World*		world = NULL;
 Camera*		camera = NULL;
 Font*       font = NULL;
-Image*		image = NULL;
 Texture*	texture = NULL;
 
 static char	strFps[16];
@@ -337,8 +336,7 @@ int main(int argc, char *argv[]) {
     world->init();
 #endif
 
-    image = new Image();
-    texture = image->loadTexture("star.bmp");
+    texture = Image::loadTexture("star.bmp");
 
     camera = new Camera();
     camera->setEye(0.0f, 0.0f, 15.0f);

@@ -51,7 +51,6 @@ using namespace F3D;
 //F3D variables
 World*		world = NULL;
 Camera*		camera = NULL;
-Image*		image = NULL;
 Font*		font = NULL;
 Skydome*    skydome = NULL;
 Plane*      plane = NULL;
@@ -230,11 +229,10 @@ int main(int argc, char *argv[]) {
 
     world->setCamera(camera);
 
-    image = new Image();
-    Texture* texture0 = image->loadTexture("clouds.bmp");
-    Texture* texture1 = image->loadTexture("floor.bmp");
-    Texture* texture2 = image->loadTexture("DM_Base.bmp");
-	Texture* texture3 = image->loadTexture("DM_Face.bmp");
+    Texture* texture0 = Image::loadTexture("clouds.bmp");
+    Texture* texture1 = Image::loadTexture("floor.bmp");
+    Texture* texture2 = Image::loadTexture("DM_Base.bmp");
+	Texture* texture3 = Image::loadTexture("DM_Face.bmp");
 
     plane = new Plane(4, 4, 64.0f);
     if (texture1 != NULL)
@@ -331,7 +329,6 @@ int main(int argc, char *argv[]) {
     delete plane;
     delete skydome;
     delete model;
-    delete image;
     delete world;
 
     return 0;
