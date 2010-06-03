@@ -40,19 +40,28 @@ namespace F3D {
      */
 
     Image::Image(const char *filename) :
-            m_texture(NULL) {
+            m_texture(NULL),
+            m_color(NULL) {
 #ifdef DEBUG
         printf("Image constructor...\n");
 #endif
         m_texture = loadTexture(filename);
         m_width = m_texture->width;
         m_height = m_texture->height;
+
+        m_color = (Color4f*) malloc(sizeof(Color4f));
+        m_color->red = 1.0f;
+        m_color->green = 1.0f;
+        m_color->blue = 1.0f;
+        m_color->alpha = 1.0f;
     }
 
     Image::~Image() {
 #ifdef DEBUG
         printf("Image destructor...\n");
 #endif
+        DELETEANDNULL(m_color, false);
+        DELETEANDNULL(m_texture, false);
     }
 
     GLuint Image::getWidth() {
@@ -61,6 +70,17 @@ namespace F3D {
 
     GLuint Image::getHeight() {
         return m_height;
+    }
+
+    void Image::setFontColor(Color4f* color) {
+        m_color->red = color->red;
+        m_color->green = color->green;
+        m_color->blue = color->blue;
+        m_color->alpha = color->alpha;
+    }
+
+    Color4f* Image::getFontColor() {
+        return m_color;
     }
 
     void Image::drawImage(int x, int y) {
@@ -93,7 +113,7 @@ namespace F3D {
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-        glColor4f(1.0f, 0.0f, 0.0f, 1.5f);
+        glColor4f(m_color->red, m_color->green, m_color->blue, m_color->alpha);
 
         GLint crop[4] = { crpX, crpY, crpWidth, crpHeight };
         glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, crop);
