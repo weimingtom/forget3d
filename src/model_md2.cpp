@@ -72,7 +72,7 @@ namespace F3D {
 
     bool ModelMD2::loadModel(const char *filename) {
         FILE *file;
-        byte buffer[MD2_MAX_FRAMESIZE];
+        GLubyte buffer[MD2_MAX_FRAMESIZE];
         int i;
 
 #ifdef _WIN32_WCE
@@ -336,7 +336,7 @@ namespace F3D {
         return 0;
     }
 
-    void ModelMD2::getAnimationFrames(int animation, unsigned int *startFrame, unsigned int *endFrame) {
+    void ModelMD2::getAnimationFrames(int animation, GLuint *startFrame, GLuint *endFrame) {
         int i, j, pos;
         int count, numFrames, frameCount;
         int lastId;

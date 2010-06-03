@@ -88,7 +88,7 @@ namespace F3D {
         setMeshCount(m_header.meshCount);
         m_g3dMeshs = new g3d_mesh_t[m_meshCount];
 
-        for (uint16 i = 0; i < m_header.meshCount; i++) {
+        for (GLushort i = 0; i < m_header.meshCount; i++) {
             fread(&m_g3dMeshs[i].header, sizeof(g3d_mesh_header_t), 1, file);
 #ifdef DEBUG
             printf ("Mesh[%d] name:%s\n", i, m_g3dMeshs[i].header.name);
@@ -98,7 +98,7 @@ namespace F3D {
             printf ("Mesh[%d] textures:%d\n", i, m_g3dMeshs[i].header.textures);
 #endif
             //read textures
-            for (uint16 j = 0; j < m_g3dMeshs[i].header.textures; j++) {
+            for (GLushort j = 0; j < m_g3dMeshs[i].header.textures; j++) {
                 char texName[G3D_NAME_SIZE];
                 fread(texName, G3D_NAME_SIZE, 1, file);
 #ifdef DEBUG
@@ -111,7 +111,7 @@ namespace F3D {
             int indicesCount = m_g3dMeshs[i].header.indexCount;
             int v_size = frameCount * vertexCount * sizeof(Vec3f);
             int u_size = vertexCount * sizeof(Vec2f);
-            int i_size = indicesCount * sizeof(unsigned int);
+            int i_size = indicesCount * sizeof(GLuint);
             //read mesh all frame vertices
             m_g3dMeshs[i].vertices = new Vec3f[frameCount * vertexCount];
             fread(&m_g3dMeshs[i].vertices[0], v_size, 1, file);
@@ -124,7 +124,7 @@ namespace F3D {
                 fread(&m_g3dMeshs[i].uvs[0], u_size, 1, file);
             }
             //read mesh all frame indices
-            m_g3dMeshs[i].indices = new unsigned int[indicesCount];
+            m_g3dMeshs[i].indices = new GLuint[indicesCount];
             fread(&m_g3dMeshs[i].indices[0], i_size, 1, file);
 
             setTriangleNums(indicesCount / 3, i);
