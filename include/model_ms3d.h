@@ -73,27 +73,27 @@ namespace F3D {
     } F3D_PACKED ms3d_header_t;
 
     typedef struct {
-        byte    flags;      // SELECTED | SELECTED2 | HIDDEN
+        GLubyte    flags;      // SELECTED | SELECTED2 | HIDDEN
         float   vertex[3];
         char    boneId;     // -1 = no bone
-        byte    referenceCount;
+        GLubyte    referenceCount;
     } F3D_PACKED ms3d_vertex_t;
 
     typedef struct {
-        uint16  flags;                  // SELECTED | SELECTED2 | HIDDEN
-        uint16  vertexIndices[3];
+        GLushort  flags;                  // SELECTED | SELECTED2 | HIDDEN
+        GLushort  vertexIndices[3];
         float   vertexNormals[3][3];
         float   s[3];
         float   t[3];
-        byte    smoothingGroup;         // 1 - 32
-        byte    groupIndex;
+        GLubyte    smoothingGroup;         // 1 - 32
+        GLubyte    groupIndex;
     } F3D_PACKED ms3d_triangle_t;
 
     typedef struct {
-        byte    flags;              // SELECTED | HIDDEN
+        GLubyte    flags;              // SELECTED | HIDDEN
         char    name[MS3D_NAME_SIZE];
-        uint16  numTriangles;
-        uint16  *triangleIndices;   // the groups group the triangles
+        GLushort  numTriangles;
+        GLushort  *triangleIndices;   // the groups group the triangles
         char    materialIndex;      // -1 = no material
     } F3D_PACKED ms3d_group_t;
 
@@ -121,13 +121,13 @@ namespace F3D {
     } F3D_PACKED ms3d_keyframe_pos_t;
 
     typedef struct {
-        byte    flags;              // SELECTED | DIRTY
+        GLubyte    flags;              // SELECTED | DIRTY
         char    name[32];
         char    parentName[32];
         float   rotation[3];        // local reference matrix
         float   position[3];
-        uint16  numKeyFramesRot;
-        uint16  numKeyFramesTrans;
+        GLushort  numKeyFramesRot;
+        GLushort  numKeyFramesTrans;
     } F3D_PACKED ms3d_joint_header_t;
 
     typedef struct {
@@ -152,18 +152,18 @@ namespace F3D {
     class ModelMS3D : public Model {
     private:
         ms3d_header_t   m_header;
-        uint16          m_verticesCount;
+        GLushort        m_verticesCount;
         ms3d_vertex_t   *m_vertices;
-        uint16          m_trianglesCount;
+        GLushort        m_trianglesCount;
         ms3d_triangle_t *m_triangles;
-        uint16          m_groupsCount;
+        GLushort        m_groupsCount;
         ms3d_group_t    *m_groups;
-        uint16          m_materialsCount;
+        GLushort        m_materialsCount;
         ms3d_material_t *m_materials;
         float           m_animationFPS;
         float           m_currentTime;
         int             m_totalFrames;
-        uint16          m_jointsCount;
+        GLushort        m_jointsCount;
         ms3d_joint_t    *m_joints;
         //frame variables
         int             m_frameCount;

@@ -72,14 +72,14 @@ namespace F3D {
     } md2_header_t;
 
     typedef struct {
-        byte vertex[3];
-        byte lightNormalIndex;
+        GLubyte vertex[3];
+        GLubyte lightNormalIndex;
     } md2_alias_triangleVertex_t;
 
     typedef struct {
         float vertex[3];
         float normal[3];
-        //byte lightNormalIndex;
+        //GLubyte lightNormalIndex;
     } md2_triangleVertex_t;
 
     typedef struct {
@@ -106,10 +106,10 @@ namespace F3D {
     typedef char md2_skin_t[64];
 
     typedef struct {
-        unsigned int index;
+        GLuint index;
         char name[16];
-        unsigned int min_idx;
-        unsigned int max_idx;
+        GLuint min_idx;
+        GLuint max_idx;
     } md2_action_t;
 
     /**
@@ -124,14 +124,14 @@ namespace F3D {
         md2_frame_t				*m_frames;
         md2_action_t            *m_actions;
         int                     m_textureId;
-        unsigned int            m_frameIdx;
+        GLuint            m_frameIdx;
         int                     m_actionIdx;
         int                     m_actionCount;
         //private functions
         void prepareFrame();
         int getAnimationCount();
         const char* getAnimationName (int animation);
-        void getAnimationFrames(int animation, unsigned int *startFrame, unsigned int *endFrame);
+        void getAnimationFrames(int animation, GLuint *startFrame, GLuint *endFrame);
     public:
         /**
         * Constructor

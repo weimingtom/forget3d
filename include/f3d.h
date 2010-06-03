@@ -59,25 +59,24 @@
 #define DTOR (M_PI / 180.0f)
 #define SQR(x) (x * x)
 
-#ifndef byte
-typedef unsigned char byte;
-#endif /* byte */
-
-#ifndef uint16
-typedef unsigned short  uint16;
-#endif /* uint16 */
+typedef struct {
+    GLubyte red;
+    GLubyte green;
+    GLubyte blue;
+    GLubyte alpha;
+} Color;
 
 typedef struct {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
-    unsigned char alpha;
-} Color;
+    GLfloat red;
+    GLfloat green;
+    GLfloat blue;
+    GLfloat alpha;
+} Color4f;
 
 typedef struct {
     GLsizei width;
     GLsizei height;
-    GLuint textureId;
+    GLuint  textureId;
 } Texture;
 
 typedef struct {
