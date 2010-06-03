@@ -70,7 +70,6 @@ static int  is_initialized = false;
 static int  is_twinkled = 1;
 static GLfloat zoom = -15.0f;   /* Viewing Distance Away From Stars */
 static GLfloat tilt = 90.0f;    /* Tilt The View */
-static int is_drawFps = 0;
 static int is_lighted = 1;
 static GLfloat rotation = 0.0f;
 

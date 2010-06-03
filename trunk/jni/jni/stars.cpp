@@ -244,9 +244,7 @@ void JNICALL Java_com_forget3d_demo_F3DStarsRenderer_f3dStarsRender(JNIEnv* env,
 	drawScene();
 
 	//printf("strFps: %s\n", strFps);
-	if (is_drawFps) {
-		font->drawString(4, 4, strFps);
-	}
+	font->drawString(4, 4, strFps);
 
 //	world->finishRender();
 
@@ -296,5 +294,4 @@ void JNICALL Java_com_forget3d_demo_F3DStarsRenderer_f3dStarsTwinkled(JNIEnv* en
     __android_log_print(ANDROID_LOG_INFO, "Forget3D", "call f3dStarsTwinkled...");
 
 	is_twinkled = !is_twinkled;
-	is_drawFps = !is_drawFps;
 }
