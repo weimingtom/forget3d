@@ -57,10 +57,10 @@ namespace F3D {
      */
 
     typedef struct {
-        byte    magic[3];
-        byte    version;
-        uint16  meshCount;
-        byte    type;
+        GLubyte    magic[3];
+        GLubyte    version;
+        GLushort  meshCount;
+        GLubyte    type;
     } F3D_PACKED g3d_header_t;
 
     typedef struct {
@@ -81,7 +81,7 @@ namespace F3D {
         Vec3f               *vertices;
         Vec3f               *normals;
         Vec2f               *uvs;
-        unsigned int        *indices;
+        GLuint        *indices;
     } F3D_PACKED g3d_mesh_t;
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
