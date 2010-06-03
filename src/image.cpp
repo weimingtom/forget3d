@@ -39,10 +39,14 @@ namespace F3D {
      * Image class for all games using F3D.
      */
 
-    Image::Image() {
+    Image::Image(const char *filename) :
+            m_texture(NULL) {
 #ifdef DEBUG
         printf("Image constructor...\n");
 #endif
+        m_texture = loadTexture(filename);
+        m_width = m_texture->width;
+        m_height = m_texture->height;
     }
 
     Image::~Image() {
@@ -51,8 +55,60 @@ namespace F3D {
 #endif
     }
 
+    GLuint Image::getWidth() {
+        return m_width;
+    }
+
+    GLuint Image::getHeight() {
+        return m_height;
+    }
+
+    void Image::drawImage(int x, int y) {
+        drawImage(x, y, 0, 0, m_width, m_height, m_width, m_height);
+    }
+
+    void Image::drawImage(int x, int y, int width, int height) {
+        drawImage(x, y, 0, 0, m_width, m_height, width, height);
+    }
+
+    void Image::drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight) {
+        drawImage(x, y, crpX, crpY, crpWidth, crpHeight, crpWidth, crpHeight);
+    }
+
+    void Image::drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight, int width, int height) {
+#ifndef GL_OES_draw_texture
+#ifdef DEBUG
+        printf("Unsupport GL_OES_draw_texture extension...\n");
+#endif
+#else
+        glPushMatrix();
+
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_FOG);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA
+
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, m_texture->textureId);
+
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+        glColor4f(1.0f, 0.0f, 0.0f, 1.5f);
+
+        GLint crop[4] = { crpX, crpY, crpWidth, crpHeight };
+        glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, crop);
+        glDrawTexiOES(x, y, 0, width, height);
+
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
+        glDisable(GL_TEXTURE_2D);
+
+		glPopMatrix();
+#endif // ! GL_OES_draw_texture
+    }
+
     void Image::fetchPallete(FILE *fd, Color pallete[], int count) {
-        unsigned char buff[4];
+        GLubyte buff[4];
         int i;
 
         fseek(fd, BMP_COLOR_OFFSET, SEEK_SET);
@@ -67,14 +123,15 @@ namespace F3D {
         return;
     }
 
-    Texture *Image::loadTexture(const char *filename) {
+    Texture* Image::loadTexture(const char *filename) {
         FILE *fd;
-        int  bpp, raster, i, j, skip, compression, index = 0;
+        int  bpp, raster, i, j, skip, compression, width, height, index = 0;
+
         Texture *texture = (Texture *) malloc(sizeof(Texture));
-        unsigned char buff[4];
-        unsigned char id[2];
-        //unsigned char *buffer = [width * height * 3];
-        unsigned char *buffer;
+        GLubyte buff[4];
+        GLubyte id[2];
+        //GLubyte *buffer = [width * height * 3];
+        GLubyte *buffer;
         Color pallete[256];
 
 #ifdef _WIN32_WCE
@@ -119,15 +176,15 @@ namespace F3D {
         }
         //read width
         fread (buff, 4, 1, fd);
-        m_width = buff[0] + (buff[1]<<8) + (buff[2]<<16) + (buff[3]<<24);
+        width = buff[0] + (buff[1]<<8) + (buff[2]<<16) + (buff[3]<<24);
         //read height
         fread (buff, 4, 1, fd);
-        m_height = buff[0] + (buff[1]<<8) + (buff[2]<<16) + (buff[3]<<24);
+        height = buff[0] + (buff[1]<<8) + (buff[2]<<16) + (buff[3]<<24);
 #ifdef DEBUG
-        printf("Image width: %d, height: %d.\n", m_width, m_height);
+        printf("Image width: %d, height: %d.\n", width, height);
 #endif
-        texture->width = m_width;
-        texture->height = m_height;
+        texture->width = width;
+        texture->height = height;
 
         //read compression
         if (fseek(fd, BMP_RLE_OFFSET, SEEK_SET) == -1) {
@@ -153,20 +210,20 @@ namespace F3D {
 #ifdef DEBUG
         printf("Image bpp: %d.\n", bpp);
 #endif
-        buffer = (unsigned char *) malloc(m_width * m_height * (bpp == 32 ? 4 : 3) * sizeof(unsigned char));
+        buffer = (GLubyte *) malloc(width * height * (bpp == 32 ? 4 : 3) * sizeof(GLubyte));
         if (!buffer) {
             return NULL;
         }
 
         switch (bpp) {
         case 8: /* 8bit palletized */
-            skip = fill4B(m_width);
+            skip = fill4B(width);
             //if 8bit, read pallete first
             fetchPallete(fd, pallete, 256);
             fseek(fd, raster, SEEK_SET);
             //really read image data
-            for (i = 0; i < m_height; i++) {
-                for (j = 0; j < m_width; j++) {
+            for (i = 0; i < height; i++) {
+                for (j = 0; j < width; j++) {
                     //read(fd, buff, 1);
                     fread (buff, 1, 1, fd);
                     buffer[index++] = pallete[buff[0]].red;
@@ -180,10 +237,10 @@ namespace F3D {
             }
             break;
         case 24: /* 24bit RGB */
-            skip = fill4B(m_width * 3);
+            skip = fill4B(width * 3);
             fseek(fd, raster, SEEK_SET);
-            for (i = 0; i < m_height; i++) {
-                for (j = 0; j < m_width; j++) {
+            for (i = 0; i < height; i++) {
+                for (j = 0; j < width; j++) {
                     //read(fd, buff, 3);
                     fread (buff, 3, 1, fd);
                     buffer[index++] = buff[2];
@@ -198,8 +255,8 @@ namespace F3D {
             break;
         case 32: /* 32 RGB */
             fseek(fd, raster, SEEK_SET);
-            for (i = 0; i < m_height; i++) {
-                for (j = 0; j < m_width; j++) {
+            for (i = 0; i < height; i++) {
+                for (j = 0; j < width; j++) {
                     //read(fd, buff, 3);
                     fread (buff, 4, 1, fd);
                     buffer[index++] = buff[2];
@@ -227,7 +284,7 @@ namespace F3D {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
         glTexImage2D(GL_TEXTURE_2D, 0, (bpp == 32 ? GL_RGBA : GL_RGB),
-            m_width, m_height, 0, (bpp == 32 ? GL_RGBA : GL_RGB), GL_UNSIGNED_BYTE, buffer);
+            width, height, 0, (bpp == 32 ? GL_RGBA : GL_RGB), GL_UNSIGNED_BYTE, buffer);
 
 #ifdef DEBUG
         printf("Load image %s success!\n", filename);
