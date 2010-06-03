@@ -127,7 +127,7 @@ namespace F3D {
         }
 
         //read vertices
-        fread(&m_verticesCount, sizeof(uint16), 1, file);
+        fread(&m_verticesCount, sizeof(GLushort), 1, file);
 #ifdef DEBUG
         printf("m_verticesCount:%d\n", m_verticesCount);
 
@@ -140,7 +140,7 @@ namespace F3D {
         fread(m_vertices, sizeof(ms3d_vertex_t), m_verticesCount, file);
 
         //read triangles
-        fread(&m_trianglesCount, sizeof(uint16), 1, file);
+        fread(&m_trianglesCount, sizeof(GLushort), 1, file);
 #ifdef DEBUG
         printf("m_trianglesCount:%d\n", m_trianglesCount);
 
@@ -153,7 +153,7 @@ namespace F3D {
         fread(m_triangles, sizeof(ms3d_triangle_t), m_trianglesCount, file);
 
         //read groups
-        fread(&m_groupsCount, sizeof(uint16), 1, file);
+        fread(&m_groupsCount, sizeof(GLushort), 1, file);
 #ifdef DEBUG
         printf("m_groupsCount:%d\n", m_groupsCount);
 
@@ -167,12 +167,12 @@ namespace F3D {
 
         m_groups = new ms3d_group_t[m_groupsCount];
         for (i = 0; i < m_groupsCount; i++) {
-            fread(&m_groups[i].flags, sizeof(byte), 1, file);
+            fread(&m_groups[i].flags, sizeof(GLubyte), 1, file);
             fread(&m_groups[i].name, MS3D_NAME_SIZE, 1, file);
-            fread(&m_groups[i].numTriangles, sizeof(uint16), 1, file);
+            fread(&m_groups[i].numTriangles, sizeof(GLushort), 1, file);
             //after read triangles count, read triangle indices
-            m_groups[i].triangleIndices = new uint16[m_groups[i].numTriangles];
-            fread(&m_groups[i].triangleIndices[0], sizeof(uint16), m_groups[i].numTriangles, file);
+            m_groups[i].triangleIndices = new GLushort[m_groups[i].numTriangles];
+            fread(&m_groups[i].triangleIndices[0], sizeof(GLushort), m_groups[i].numTriangles, file);
             //read material index
             fread(&m_groups[i].materialIndex, sizeof(char), 1, file);
 
@@ -186,7 +186,7 @@ namespace F3D {
         }
 
         //read materials
-        fread(&m_materialsCount, sizeof(uint16), 1, file);
+        fread(&m_materialsCount, sizeof(GLushort), 1, file);
 #ifdef DEBUG
         printf("m_materialsCount:%d\n", m_materialsCount);
 #endif
@@ -214,7 +214,7 @@ namespace F3D {
         printf("m_totalFrames:%d\n", m_totalFrames);
 #endif
         //read joints
-        fread(&m_jointsCount, sizeof(uint16), 1, file);
+        fread(&m_jointsCount, sizeof(GLushort), 1, file);
 #ifdef DEBUG
         printf("m_jointsCount:%d\n", m_jointsCount);
 

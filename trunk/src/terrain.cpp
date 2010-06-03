@@ -41,7 +41,7 @@ namespace F3D {
 
     Terrain::Terrain(const char *filename, int size, int scale) {
         FILE *fp;
-        unsigned char *hmap;
+        GLubyte *hmap;
         int vt_idx = 0, uv_idx = 0, hm_idx = 0, in_idx = 0, x, y;
         // used for the texture calculation
         float texdelta = 2.0f/size;
@@ -49,7 +49,7 @@ namespace F3D {
         float v_tile = 1.0f;
 
         // allocate some memory for the heightmap
-        hmap = (unsigned char *)malloc(size * size * sizeof(unsigned char));
+        hmap = (GLubyte *)malloc(size * size * sizeof(GLubyte));
 
 #ifdef DEBUG
         printf("Terrain constructor...\n");
@@ -65,7 +65,7 @@ namespace F3D {
 
         // read in the heightmap into hmap
         if (fp != NULL)
-            fread(hmap, sizeof(unsigned char), size*size, fp);
+            fread(hmap, sizeof(GLubyte), size*size, fp);
         else {
 #ifdef DEBUG
         printf("Open terrain file error!\n");
