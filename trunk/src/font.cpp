@@ -40,7 +40,9 @@ namespace F3D {
      */
     Font::Font(GLuint charWidth,
                GLuint charHeight,
-               const char *texName) {
+               const char *texName) :
+            m_texture(NULL),
+            m_color(NULL) {
         createFont(charWidth, charHeight, charWidth, charHeight, texName);
     }
 
@@ -49,7 +51,9 @@ namespace F3D {
                GLuint charHeight,
                GLuint fontWidth,
                GLuint fontHeight,
-               const char *texName) {
+               const char *texName) :
+            m_texture(NULL),
+            m_color(NULL){
         createFont(charWidth, charHeight, fontWidth, fontHeight, texName);
     }
 
@@ -80,6 +84,10 @@ namespace F3D {
 #endif
 
         m_color = (Color4f*) malloc(sizeof(Color4f));
+        m_color->red = 1.0f;
+        m_color->green = 1.0f;
+        m_color->blue = 1.0f;
+        m_color->alpha = 1.0f;
     }
 
     Font::~Font() {
@@ -120,7 +128,7 @@ namespace F3D {
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glColor4f(m_color->red, m_color->green, m_color->blue, m_color->alpha);
 
         for (GLuint i = 0; i < strlen(str); i++) {
             int index = (int)(str[i] - 32);
@@ -156,7 +164,7 @@ namespace F3D {
         m_color->alpha = color->alpha;
     }
 
-    Color4f* Font::gettFontColor() {
+    Color4f* Font::getFontColor() {
         return m_color;
     }
 
