@@ -38,11 +38,25 @@ namespace F3D {
     /**
      * Font class for all games using F3D.
      */
+    Font::Font(GLuint charWidth,
+               GLuint charHeight,
+               const char *texName) {
+        createFont(charWidth, charHeight, charWidth, charHeight, texName);
+    }
+
     //another font constructor with real draw font width,height
-    Font::Font(unsigned int charWidth,
-               unsigned int charHeight,
-               unsigned int fontWidth,
-               unsigned int fontHeight,
+    Font::Font(GLuint charWidth,
+               GLuint charHeight,
+               GLuint fontWidth,
+               GLuint fontHeight,
+               const char *texName) {
+        createFont(charWidth, charHeight, fontWidth, fontHeight, texName);
+    }
+
+    void Font::createFont(GLuint charWidth,
+               GLuint charHeight,
+               GLuint fontWidth,
+               GLuint fontHeight,
                const char *texName) {
 #ifdef DEBUG
         printf("Font constructor...\n");
@@ -57,30 +71,30 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_fontWidth: %d, m_fontHeight: %d\n", m_fontWidth, m_fontHeight);
 #endif
-        Image *image = new Image();
-        Texture *texture = image->loadTexture(texName);
+        m_texture = Image::loadTexture(texName);
 
-        m_colCount = texture->width / m_charWidth;
-        m_rowCount = texture->height / m_charHeight - 1;
+        m_colCount = m_texture->width / m_charWidth;
+        m_rowCount = m_texture->height / m_charHeight - 1;
 #ifdef DEBUG
         printf("m_colCount: %d, m_rowCount: %d\n", m_colCount, m_rowCount);
 #endif
-        m_textureId = texture->textureId;
 
-        delete image;
+        m_color = (Color4f*) malloc(sizeof(Color4f));
     }
 
     Font::~Font() {
 #ifdef DEBUG
         printf("Font destructor...\n");
 #endif
+        DELETEANDNULL(m_color, false);
+        DELETEANDNULL(m_texture, false);
     }
 
-    unsigned int Font::getFonWidth() {
+    GLuint Font::getFonWidth() {
         return m_fontWidth;
     }
 
-    unsigned int Font::getFonHeight() {
+    GLuint Font::getFonHeight() {
         return m_fontHeight;
     }
 
@@ -102,13 +116,13 @@ namespace F3D {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA
 
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, m_textureId);
+        glBindTexture(GL_TEXTURE_2D, m_texture->textureId);
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-        for (unsigned int i = 0; i < strlen(str); i++) {
+        for (GLuint i = 0; i < strlen(str); i++) {
             int index = (int)(str[i] - 32);
 #if (defined(DEBUG) && defined(SHOW_FONT_POS))
             printf("str[%d]: %c, index: %d\n", i, str[i], index);
@@ -133,6 +147,17 @@ namespace F3D {
 
 		glPopMatrix();
 #endif
+    }
+
+    void Font::setFontColor(Color4f* color) {
+        m_color->red = color->red;
+        m_color->green = color->green;
+        m_color->blue = color->blue;
+        m_color->alpha = color->alpha;
+    }
+
+    Color4f* Font::gettFontColor() {
+        return m_color;
     }
 
 }
