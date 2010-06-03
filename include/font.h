@@ -39,40 +39,52 @@
 #include "image.h"
 
 namespace F3D {
+/**
+ * Font class for all games using F3D.
+ */
+class Font {
+private:
+    GLuint      m_charWidth;
+    GLuint      m_charHeight;
+    GLuint      m_colCount;
+    GLuint      m_rowCount;
+    GLuint      m_fontWidth;
+    GLuint      m_fontHeight;
+    Texture*    m_texture;
+    Color4f*    m_color;
+    //private functions
+    void createFont(GLuint charWidth,
+                    GLuint charHeight,
+                    GLuint fontWidth,
+                    GLuint fontHeight,
+                    const char *texName);
+public:
     /**
-     * Font class for all games using F3D.
+    * Constructor
+    */
+    Font(GLuint charWidth,
+         GLuint charHeight,
+         const char *texName);
+    //another font constructor with real draw font width,height
+    Font(GLuint charWidth,
+         GLuint charHeight,
+         GLuint fontWidth,
+         GLuint fontHeight,
+         const char *texName);
+
+    /**
+     * Destructor
      */
-    class Font {
-    private:
-        unsigned int    m_charWidth;
-        unsigned int    m_charHeight;
-        unsigned int    m_colCount;
-        unsigned int    m_rowCount;
-        unsigned int    m_fontWidth;
-        unsigned int    m_fontHeight;
-        GLint           m_textureId;
-        //private functions
-    public:
-        /**
-        * Constructor
-        */
-        //another font constructor with real draw font width,height
-        Font(unsigned int charWidth,
-             unsigned int charHeight,
-             unsigned int fontWidth,
-             unsigned int fontHeight,
-             const char *texName);
+    virtual ~Font();
 
-        /**
-         * Destructor
-         */
-        virtual ~Font();
-
-        void drawString(int x, int y, const char *str);
-        void drawString(int x, int y, int fontWidth, int fontHeight, const char *str);
-        unsigned int getFonWidth();
-        unsigned int getFonHeight();
-    };
+    void drawString(int x, int y, const char *str);
+    void drawString(int x, int y, int fontWidth, int fontHeight, const char *str);
+    GLuint getFonWidth();
+    GLuint getFonHeight();
+    //font color
+    void setFontColor(Color4f* color);
+    Color4f* gettFontColor();
+};
 
 }
 
