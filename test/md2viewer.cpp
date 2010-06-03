@@ -52,7 +52,6 @@ using namespace F3D;
 //F3D variables
 World*		world = NULL;
 Camera*		camera = NULL;
-Image*		image = NULL;
 ModelMD2*	model = NULL;
 ModelMD2*	weapon = NULL;
 Font*		font = NULL;
@@ -258,11 +257,10 @@ int main(int argc, char *argv[]) {
     world->setCamera(camera);
     world->setFog(fog);
 
-    image = new Image();
-    Texture* texture0 = image->loadTexture("tris.bmp");
-    Texture* texture1 = image->loadTexture("weapon.bmp");
-    Texture* texture2 = image->loadTexture("floor.bmp");
-    Texture* texture3 = image->loadTexture("clouds.bmp");
+    Texture* texture0 = Image::loadTexture("tris.bmp");
+    Texture* texture1 = Image::loadTexture("weapon.bmp");
+    Texture* texture2 = Image::loadTexture("floor.bmp");
+    Texture* texture3 = Image::loadTexture("clouds.bmp");
 
     model = new ModelMD2();
     model->loadModel("tris.md2");
@@ -375,7 +373,6 @@ int main(int argc, char *argv[]) {
     delete world;
     delete model;
     delete weapon;
-    delete image;
     delete font;
 	delete plane;
 	delete skydome;

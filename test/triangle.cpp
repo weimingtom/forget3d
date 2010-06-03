@@ -50,6 +50,7 @@ World*		world = NULL;
 Camera*		camera = NULL;
 Model*      model = NULL;
 Font*       font = NULL;
+Image*      image = NULL;
 
 static GLfloat rotation = 0.0f;
 static char	strFps[16];
@@ -246,7 +247,9 @@ int main(int argc, char *argv[]) {
 
     printf("create triangle OK!\n");
 
-    font = new Font(16, 16, 24, 36, "font.bmp");
+    font = new Font(16, 16, "font.bmp");
+
+    image = new Image("f3d_logo.bmp");
 
     printf("start loop...\n");
     is_done = 1;
@@ -277,7 +280,10 @@ int main(int argc, char *argv[]) {
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
-        font->drawString(4, 4, strFps);
+        font->drawString(4, height - 40, 24, 36, strFps);
+
+        //draw f3d logo
+        image->drawImage(width - 100, 4, 96, 96);
 
         world->finishRender();
 
@@ -308,6 +314,7 @@ int main(int argc, char *argv[]) {
     delete font;
     delete model;
     delete world;
+    delete image;
 
     return 0;
 }
