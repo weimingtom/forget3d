@@ -47,29 +47,41 @@
 #define fill4B(a)	( ( 4 - ( (a) % 4 ) ) & 0x03)
 
 namespace F3D {
+/**
+ * Image class for all games using F3D.
+ */
+
+class Image {
+private:
+    Texture* m_texture;
+    GLuint   m_width;
+    GLuint   m_height;
+    //private function
+    static void fetchPallete(FILE *fd, Color pallete[], int count);
+public:
     /**
-     * Image class for all games using F3D.
+    * Constructor
+    */
+    Image(const char *filename);
+
+    /**
+     * Destructor
      */
-
-    class Image {
-    private:
-        GLsizei m_width;
-        GLsizei m_height;
-        //private function
-        void fetchPallete(FILE *fd, Color pallete[], int count);
-    public:
-        /**
-        * Constructor
-        */
-        Image();
-
-        /**
-         * Destructor
-         */
-        virtual ~Image();
-
-        Texture *loadTexture(const char *filename);
-    };
+    virtual ~Image();
+    //static function loadTexture
+    static Texture* loadTexture(const char *filename);
+    //darw image at (x, y)
+    void drawImage(int x, int y);
+    //darw image at (x, y) with new size(width, height)
+    void drawImage(int x, int y, int width, int height);
+    //darw image at (x, y) with crop image(crpX, crpY, crpWidth, crpHeight)
+    void drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight);
+    //darw image at (x, y) with crop image(crpX, crpY) and new size(width, height)
+    void drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight, int width, int height);
+    //get image width & height
+    GLuint getWidth();
+    GLuint getHeight();
+};
 
 }
 
