@@ -230,6 +230,8 @@ int main(int argc, char *argv[]) {
         0, 0, 255 ,0
     };
 
+    Color4f color = {0.0f, 1.0f, 1.0f, 1.0f};
+
     model = new Model();
     model->setMeshCount(2);
     //init first triangle
@@ -248,8 +250,11 @@ int main(int argc, char *argv[]) {
     printf("create triangle OK!\n");
 
     font = new Font(16, 16, "font.bmp");
+    font->setFontColor(&color);
 
     image = new Image("f3d_logo.bmp");
+	color.red = 1.0f;
+    image->setFontColor(&color);
 
     printf("start loop...\n");
     is_done = 1;
@@ -280,10 +285,11 @@ int main(int argc, char *argv[]) {
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
-        font->drawString(4, height - 40, 24, 36, strFps);
+        font->drawString(4, height - 40, 24, 36, "Triangle");
+        font->drawString(4, height - 62, 12, 18, strFps);
 
-        //draw f3d logo
-        image->drawImage(width - 100, 4, 96, 96);
+        //draw f3d logo, at (width - display width - 4)
+        image->drawImage(width - 132, 4, 128, 128);
 
         world->finishRender();
 
