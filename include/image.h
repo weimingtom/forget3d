@@ -54,6 +54,7 @@ namespace F3D {
 class Image {
 private:
     Texture* m_texture;
+    Color4f* m_color;
     GLuint   m_width;
     GLuint   m_height;
     //private function
@@ -81,6 +82,9 @@ public:
     //get image width & height
     GLuint getWidth();
     GLuint getHeight();
+    //image color
+    void setFontColor(Color4f* color);
+    Color4f* getFontColor();
 };
 
 }

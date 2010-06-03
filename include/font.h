@@ -83,7 +83,7 @@ public:
     GLuint getFonHeight();
     //font color
     void setFontColor(Color4f* color);
-    Color4f* gettFontColor();
+    Color4f* getFontColor();
 };
 
 }
