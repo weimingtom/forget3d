@@ -77,6 +77,7 @@ typedef struct {
     GLsizei width;
     GLsizei height;
     GLuint  textureId;
+    GLint   type;
 } Texture;
 
 typedef struct {
@@ -115,5 +116,11 @@ typedef struct {
 			delete pointer; \
         pointer = NULL; \
     }
+
+#ifdef ANDROID
+#define stricmp strcasecmp
+#elif defined(_WIN32_WCE)
+#define stricmp _stricmp
+#endif
 
 #endif // F3D_H_

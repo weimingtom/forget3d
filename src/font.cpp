@@ -94,8 +94,8 @@ namespace F3D {
 #ifdef DEBUG
         printf("Font destructor...\n");
 #endif
-        DELETEANDNULL(m_color, false);
-        DELETEANDNULL(m_texture, false);
+        FREEANDNULL(m_color);
+        FREEANDNULL(m_texture);
     }
 
     GLuint Font::getFonWidth() {

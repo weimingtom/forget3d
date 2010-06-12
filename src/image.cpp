@@ -34,6 +34,19 @@
 
 #include "image.h"
 
+//bmp file offset
+#define BMP_TORASTER_OFFSET	10
+#define BMP_SIZE_OFFSET		18
+#define BMP_BPP_OFFSET		28
+#define BMP_RLE_OFFSET		30
+#define BMP_COLOR_OFFSET	54
+//tga file offset
+#define TGA_COLORMAP_OFFSET	1
+#define TGA_SIZE_OFFSET	    12
+#define TGA_DATA_OFFSET	    18
+
+#define fill4B(a)	( ( 4 - ( (a) % 4 ) ) & 0x03)
+
 namespace F3D {
     /**
      * Image class for all games using F3D.
@@ -60,8 +73,8 @@ namespace F3D {
 #ifdef DEBUG
         printf("Image destructor...\n");
 #endif
-        DELETEANDNULL(m_color, false);
-        DELETEANDNULL(m_texture, false);
+        FREEANDNULL(m_color);
+        FREEANDNULL(m_texture);
     }
 
     GLuint Image::getWidth() {
@@ -145,14 +158,8 @@ namespace F3D {
 
     Texture* Image::loadTexture(const char *filename) {
         FILE *fd;
-        int  bpp, raster, i, j, skip, compression, width, height, index = 0;
-
+        GLubyte *buffer = NULL;
         Texture *texture = (Texture *) malloc(sizeof(Texture));
-        GLubyte buff[4];
-        GLubyte id[2];
-        //GLubyte *buffer = [width * height * 3];
-        GLubyte *buffer;
-        Color pallete[256];
 
 #ifdef _WIN32_WCE
 		fd = fopen(Utils::getFileName(filename), "rb");
@@ -175,15 +182,53 @@ namespace F3D {
 #endif
             return NULL;
         }
+
+        // Check for known extensions
+        if ( stricmp(strstr(filename, "."), ".bmp") == 0 ) {
+            buffer = loadBMP(fd, texture);
+        } else if ( stricmp(strstr(filename, "."), ".tga") == 0 ) {
+            buffer = loadTGA(fd, texture);
+        } else {
+            printf("Unsupport image file format!\n");
+            return NULL;
+        }
+
+        if (buffer == NULL)
+            return NULL;
+
+        fclose(fd);
+
+        glGenTextures(1, &(texture->textureId));
+        glBindTexture(GL_TEXTURE_2D, texture->textureId);
+
+        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, texture->type, texture->width, texture->height, 0, texture->type, GL_UNSIGNED_BYTE, buffer);
+
+#ifdef DEBUG
+        printf("Load image %s success!\n", filename);
+#endif
+        FREEANDNULL(buffer);
+
+        return texture;
+    }
+
+    GLubyte *Image::loadBMP(FILE *fd, Texture *texture) {
+        int  bpp, raster, i, j, skip, compression, width, height, index = 0;
+        GLubyte buff[4];
+        GLubyte id[2];
+        Color pallete[256];
+
         //check is real bmp file
         fread (id, 2, 1, fd);
 
         if ( !(id[0]=='B' && id[1]=='M') ) {
             return NULL;
         }
-#ifdef DEBUG
-        printf("Load %s success!\n", filename);
-#endif
+
         if (fseek(fd, BMP_TORASTER_OFFSET, SEEK_SET) == -1) {
             return NULL;
         }
@@ -215,7 +260,7 @@ namespace F3D {
 
         if (compression != 0) {
 #ifdef DEBUG
-			printf("Oly uncompressed bitmap is supported\n");
+			printf("Only uncompressed bitmap is supported\n");
 #endif
 			return NULL;
 		}
@@ -230,10 +275,12 @@ namespace F3D {
 #ifdef DEBUG
         printf("Image bpp: %d.\n", bpp);
 #endif
-        buffer = (GLubyte *) malloc(width * height * (bpp == 32 ? 4 : 3) * sizeof(GLubyte));
+        GLubyte *buffer = (GLubyte *) malloc(width * height * (bpp == 32 ? 4 : 3) * sizeof(GLubyte));
         if (!buffer) {
             return NULL;
         }
+
+        texture->type = (bpp == 32 ? GL_RGBA : GL_RGB);
 
         switch (bpp) {
         case 8: /* 8bit palletized */
@@ -293,25 +340,94 @@ namespace F3D {
             return NULL;
         }
 
-        fclose(fd);
+        return buffer;
+    }
 
-        glGenTextures(1, &(texture->textureId));
-        glBindTexture(GL_TEXTURE_2D, texture->textureId);
+    GLubyte *Image::loadTGA(FILE *fd, Texture *texture) {
+        int  i, j, index = 0;
+        GLubyte	color_map, image_type, bpp;
+        GLushort width, height;
+        GLubyte buff[4];
+        GLubyte size[2];
 
-        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        //read color map & image type
+        if (fseek(fd, TGA_COLORMAP_OFFSET, SEEK_SET) == -1) {
+            return NULL;
+        }
+        fread(&color_map, 1, 1, fd);
+        //read image type
+        fread(&image_type, 1, 1, fd);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, (bpp == 32 ? GL_RGBA : GL_RGB),
-            width, height, 0, (bpp == 32 ? GL_RGBA : GL_RGB), GL_UNSIGNED_BYTE, buffer);
-
+        if (image_type != 2) {
 #ifdef DEBUG
-        printf("Load image %s success!\n", filename);
+			printf("Only uncompressed tga is supported!\n");
 #endif
-        FREEANDNULL(buffer);
+			return NULL;
+		}
+        if (color_map != 0) {
+#ifdef DEBUG
+			printf("Truecolor image with colormap not supported!\n");
+#endif
+			return NULL;
+		}
+        //read size(width, height) & bpp
+        if (fseek(fd, TGA_SIZE_OFFSET, SEEK_SET) == -1) {
+            return NULL;
+        }
+        fread(size, 2, 1, fd);
+        width = size[0] + (size[1]<<8);
+        fread(size, 2, 1, fd);
+        height = size[0] + (size[1]<<8);
+        //read bpp
+        fread(&bpp, 1, 1, fd);
+#ifdef DEBUG
+        printf("Image[tga] width: %d, height: %d, bpp: %d.\n", width, height, bpp);
+#endif
+        texture->width = width;
+        texture->height = height;
+        texture->type = (bpp == 32 ? GL_RGBA : GL_RGB);
 
-        return texture;
+        GLubyte *buffer = (GLubyte *) malloc(width * height * (bpp == 32 ? 4 : 3) * sizeof(GLubyte));
+        if (!buffer) {
+            return NULL;
+        }
+        //read image buffer
+        if (fseek(fd, TGA_DATA_OFFSET, SEEK_SET) == -1) {
+            return NULL;
+        }
+
+        switch (bpp) {
+        case 24: /* 24bit RGB */
+            for (i = 0; i < height; i++) {
+                for (j = 0; j < width; j++) {
+                    //read(fd, buff, 3);
+                    fread (buff, 3, 1, fd);
+                    buffer[index++] = buff[2];
+                    buffer[index++] = buff[1];
+                    buffer[index++] = buff[0];
+                }
+            }
+            break;
+        case 32: /* 32 RGB */
+            for (i = 0; i < height; i++) {
+                for (j = 0; j < width; j++) {
+                    //read(fd, buff, 3);
+                    fread (buff, 4, 1, fd);
+                    buffer[index++] = buff[2];
+                    buffer[index++] = buff[1];
+                    buffer[index++] = buff[0];
+                    buffer[index++] = buff[3];
+                }
+            }
+            break;
+        default:
+#ifdef DEBUG
+        printf("Unsupport bpp: %d.\n", bpp);
+#endif
+            return NULL;
+        }
+
+        return buffer;
     }
 
 }
