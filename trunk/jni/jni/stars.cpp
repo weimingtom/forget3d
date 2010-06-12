@@ -172,9 +172,7 @@ void JNICALL Java_com_forget3d_demo_F3DStarsRenderer_f3dStarsInit(JNIEnv* env, j
     world = new World();
     world->init();
 
-	DELETEANDNULL(image, false);
-    image = new Image();
-    texture = image->loadTexture("/sdcard/star.bmp");
+    texture = Image::loadTexture("/sdcard/star.bmp");
 	__android_log_print(ANDROID_LOG_INFO, "Forget3D", "load texture: %s ...", "/sdcard/star.bmp");
 
 	DELETEANDNULL(camera, false);
