@@ -3141,6 +3141,10 @@ void JNICALL Java_com_forget3d_demo_F3DLightsRenderer_f3dLightsInit(JNIEnv* env,
     DELETEANDNULL(font, false);
     font = new Font(16, 16, 24, 36, "/sdcard/font.bmp");
     __android_log_print(ANDROID_LOG_INFO, "Forget3D", "font create OK...");
+	
+	DELETEANDNULL(image, false);
+	image = new Image("/sdcard/f3d_logo.bmp");
+	__android_log_print(ANDROID_LOG_INFO, "Forget3D", "font image OK...");
 
     printf("start loop...\n");
     is_done = 1;
@@ -3216,6 +3220,9 @@ void JNICALL Java_com_forget3d_demo_F3DLightsRenderer_f3dLightsRender(JNIEnv* en
 
     //printf("strFps: %s\n", strFps);
     font->drawString(4, 4, strFps);
+	
+	//draw f3d logo, at (width - display width - 4, 4)
+	image->drawImage(width - 132, 4, 128, 128);
 
     world->finishRender();
 
