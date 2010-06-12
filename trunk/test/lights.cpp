@@ -3338,7 +3338,6 @@ int main(int argc, char *argv[]) {
         glEnableClientState(GL_NORMAL_ARRAY);
         glVertexPointer(3, GL_FLOAT, 0, teapot_vertices);
         glNormalPointer(GL_FLOAT, 0, teapot_normals);
-        glEnable(GL_NORMALIZE);
 
         int start = 0, i = 0;
         while(i < NUM_INDICES) {
