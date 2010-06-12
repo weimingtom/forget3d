@@ -245,17 +245,12 @@ namespace F3D {
         glMatrixMode(GL_MODELVIEW); //GL_PROJECTION,GL_MODELVIEW
         glLoadIdentity();
 
-        // Set the screen background color.
-        glClearColor(m_bgred, m_bggreen, m_bgblue, m_bgalpha);
-
         // set some init status
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         glShadeModel(GL_SMOOTH);//GL_SMOOTH,GL_FLAT
         //glEnable(GL_CULL_FACE);
         //glCullFace(GL_FRONT);
-
-		glClearDepthf(1.0f);
 
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); //GL_FASTEST GL_NICEST
 
@@ -376,9 +371,12 @@ namespace F3D {
     }
 
     void World::prepareRender() {
+        // Set the screen background color.
+        glClearColor(m_bgred, m_bggreen, m_bgblue, m_bgalpha);
+		glClearDepthf(1.0f);
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
         m_camera->gluLookAt();
@@ -391,9 +389,14 @@ namespace F3D {
 
         if (m_light != NULL) {
             glEnable(GL_LIGHTING);
+            glEnable(GL_NORMALIZE);
+            glEnable(GL_COLOR_MATERIAL);
             m_light->initLight();
-        } else
+        } else {
             glDisable(GL_LIGHTING);
+            glDisable(GL_NORMALIZE);
+            glDisable(GL_COLOR_MATERIAL);
+        }
     }
 
     void World::finishRender() {

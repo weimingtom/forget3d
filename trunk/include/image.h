@@ -38,14 +38,6 @@
 #include "f3d.h"
 #include "utils.h"
 
-#define BMP_TORASTER_OFFSET	10
-#define BMP_SIZE_OFFSET		18
-#define BMP_BPP_OFFSET		28
-#define BMP_RLE_OFFSET		30
-#define BMP_COLOR_OFFSET	54
-
-#define fill4B(a)	( ( 4 - ( (a) % 4 ) ) & 0x03)
-
 namespace F3D {
 /**
  * Image class for all games using F3D.
@@ -59,6 +51,8 @@ private:
     GLuint   m_height;
     //private function
     static void fetchPallete(FILE *fd, Color pallete[], int count);
+    static GLubyte *loadBMP(FILE *fd, Texture *texture);
+    static GLubyte *loadTGA(FILE *fd, Texture *texture);
 public:
     /**
     * Constructor
@@ -71,6 +65,7 @@ public:
     virtual ~Image();
     //static function loadTexture
     static Texture* loadTexture(const char *filename);
+
     //darw image at (x, y)
     void drawImage(int x, int y);
     //darw image at (x, y) with new size(width, height)
