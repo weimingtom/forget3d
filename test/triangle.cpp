@@ -285,8 +285,7 @@ int main(int argc, char *argv[]) {
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
-        font->drawString(4, height - 40, 24, 36, "Triangle");
-        font->drawString(4, height - 62, 12, 18, strFps);
+        font->drawString(4, height - 40, 24, 36, strFps);
 
         //draw f3d logo, at (width - display width - 4)
         image->drawImage(width - 132, 4, 128, 128);
