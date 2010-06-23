@@ -57,6 +57,7 @@ static char	strFps[16];
 static int	fps = 0;
 static int  is_done = 0;
 static int  interval = 0;
+static int  camera_idx = 1;
 
 #ifdef ANDROID
 static int  i_time = 0;
@@ -95,7 +96,10 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
 #endif
         if (wParam == VK_ESCAPE || wParam == 0x51 || wParam == 0x86) {
             is_done = 0;
-        }
+        } else if (wParam == VK_UP || wParam == VK_DOWN) {
+            camera_idx = (camera_idx ? 0 : 1);
+            world->setActiveCamera(camera_idx);
+		}
 
         useDefWindowProc = 1;
         break;
@@ -111,6 +115,16 @@ static LRESULT CALLBACK WndProc(HWND wnd, UINT message,
 		if (is_initialized) {
 			world->resize(width, height);
 		}
+        break;
+
+    case WM_LBUTTONUP:
+    case WM_LBUTTONDOWN:
+        printf("%s event, x: %d, y: %d\n", message == WM_LBUTTONUP ? "WM_LBUTTONUP" : "WM_LBUTTONDOWN", LOWORD(lParam), HIWORD(lParam));
+        if (message == WM_LBUTTONUP) {
+            camera_idx = (camera_idx ? 0 : 1);
+            world->setActiveCamera(camera_idx);
+        }
+
         break;
 
     default:
@@ -208,10 +222,15 @@ int main(int argc, char *argv[]) {
     world->init();
 #endif
 
-    camera = new Camera();
+    world->setCameraCount(2);
+
+    camera = world->getActiveCamera();
     camera->setEye(0.0f, 0.0f, 20.0f);
 
-    world->setCamera(camera);
+    camera = world->getCamera(1);
+    camera->setEye(0.0f, 20.0f, 20.0f);
+
+    world->setActiveCamera(1);
 
     //triangle data
     GLfloat vertices0[9] = {
@@ -230,8 +249,6 @@ int main(int argc, char *argv[]) {
         0, 0, 255 ,0
     };
 
-    Color4f color = {0.0f, 1.0f, 1.0f, 1.0f};
-
     model = new Model();
     model->setMeshCount(2);
     //init first triangle
@@ -249,11 +266,11 @@ int main(int argc, char *argv[]) {
 
     printf("create triangle OK!\n");
 
+    Color4f color = {1.0f, 1.0f, 1.0f, 1.0f};
     font = new Font(16, 16, "font.bmp");
     font->setFontColor(&color);
 
     image = new Image("f3d_logo.bmp");
-	color.red = 1.0f;
     image->setFontColor(&color);
 
     printf("start loop...\n");
@@ -285,7 +302,13 @@ int main(int argc, char *argv[]) {
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
+        color.blue = 0.0f;
+        font->setFontColor(&color);
         font->drawString(4, height - 40, 24, 36, strFps);
+
+        color.blue = 1.0f;
+        font->setFontColor(&color);
+        font->drawString(4, 4, 12, 18, "Tap screen!");
 
         //draw f3d logo, at (width - display width - 4)
         image->drawImage(width - 132, 4, 128, 128);
