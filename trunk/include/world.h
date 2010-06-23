@@ -48,20 +48,29 @@ namespace F3D {
      */
     class World {
     private:
-        int     m_width;
-        int     m_height;
-        GLfloat m_bgred;
-        GLfloat m_bggreen;
-        GLfloat m_bgblue;
-        GLfloat m_bgalpha;
-        GLfloat m_fovy;
-        GLfloat m_znear;
-        GLfloat m_zfar;
-        Camera  *m_camera;
-        Fog     *m_fog;
-        Light   *m_light;
+        //egl variables
+#ifndef ANDROID_NDK
+        EGLDisplay  m_display;
+        EGLContext  m_context;
+        EGLSurface  m_surface;
+#endif
+        int         m_width;
+        int         m_height;
+        GLfloat     m_bgred;
+        GLfloat     m_bggreen;
+        GLfloat     m_bgblue;
+        GLfloat     m_bgalpha;
+        GLfloat     m_fovy;
+        GLfloat     m_znear;
+        GLfloat     m_zfar;
+        //multiple camera support
+        int         m_cameraCount;
+        int         m_cameraIndex;
+        Camera      *m_cameras;
+        Fog         *m_fog;
+        Light       *m_light;
 #if (defined(WIN32) || defined(_WIN32_WCE))
-		HWND	m_hwnd;
+		HWND        m_hwnd;
 #endif
 
         //private functions
@@ -71,12 +80,6 @@ namespace F3D {
         void deinitEGL();
         bool checkEglError(const char *name);
     public:
-        //egl variables
-#ifndef ANDROID_NDK
-        EGLDisplay m_display;
-        EGLContext m_context;
-        EGLSurface m_surface;
-#endif
         /**
         * Constructor
         */
@@ -87,7 +90,13 @@ namespace F3D {
          */
         virtual ~World();
 
-        void setCamera(Camera* camera);
+        // camera functions
+        void setCameraCount(int cameraCount);
+        int getCameraCount();
+        Camera *getCamera(int cameraIndex);
+        void setActiveCamera(int cameraIndex);
+        Camera *getActiveCamera();
+
         void setFog(Fog* fog);
         void setLight(Light* light);
         void setBgColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
