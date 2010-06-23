@@ -3286,10 +3286,8 @@ int main(int argc, char *argv[]) {
     world->init();
 #endif
 
-    camera = new Camera();
+    camera = world->getActiveCamera();
     camera->setEye(3.0f, 2.0f, 0.0f);
-
-    world->setCamera(camera);
 
 	GLfloat ambients[] = {0.2f, 0.2f, 0.2f, 1.0f};
 	GLfloat diffuses[] = {1.0f, 0.6f, 0.0f, 1.0f};

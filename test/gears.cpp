@@ -399,7 +399,7 @@ int main(int argc, char *argv[]) {
     printf("world->init() OK!\n");
 #endif
 
-    camera = new Camera();
+    camera = world->getActiveCamera();
 #if (defined(_WIN32_WCE) || defined(ANDROID))
     camera->setEye(3.0f, 0.0f, 18.0f);
 #else
@@ -408,8 +408,7 @@ int main(int argc, char *argv[]) {
 
     light = new Light();
     light->setPosition(pos);
-    //set light & camera
-    world->setCamera(camera);
+    //set light
     world->setLight(light);
 
     font = new Font(16, 16, 24, 36, "font.bmp");
