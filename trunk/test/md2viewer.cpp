@@ -244,7 +244,7 @@ int main(int argc, char *argv[]) {
     world->init();
 #endif
 
-    camera = new Camera();
+    camera = world->getActiveCamera();
     camera->setEye(60.0f, 15.0f, 60.0f);
 
     float fogColor[] = { 0.9f, 0.9f, 0.9f, 1.0f };
@@ -254,7 +254,6 @@ int main(int argc, char *argv[]) {
     fog->setFogEnd(5.0f);
     fog->setFogDensity(0.004f);
 
-    world->setCamera(camera);
     world->setFog(fog);
 
     Texture* texture0 = Image::loadTexture("tris.bmp");

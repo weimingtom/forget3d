@@ -223,11 +223,9 @@ int main(int argc, char *argv[]) {
     MessageBox(hwnd, TEXT("Init world OK!"), TEXT("Info"), MB_OK);
 #endif
 
-    camera = new Camera();
+    camera = world->getActiveCamera();
     camera->setEye(60.0f, 30.0f, 60.0f);
     camera->setCenter(0.0f, 15.0f, 0.0f);
-
-    world->setCamera(camera);
 
     Texture* texture0 = Image::loadTexture("clouds.bmp");
     Texture* texture1 = Image::loadTexture("floor.bmp");

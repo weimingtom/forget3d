@@ -338,10 +338,8 @@ int main(int argc, char *argv[]) {
 
     texture = Image::loadTexture("star.bmp");
 
-    camera = new Camera();
+    camera = world->getActiveCamera();
     camera->setEye(0.0f, 0.0f, 15.0f);
-
-    world->setCamera(camera);
 
 	/* Create A Loop That Goes Through All The Stars */
     for (int loop=0; loop < NUM; loop++) {

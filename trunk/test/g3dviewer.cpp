@@ -215,11 +215,9 @@ int main(int argc, char *argv[]) {
     world->init();
 #endif
 
-    camera = new Camera();
+    camera = world->getActiveCamera();
     camera->setEye(30.0f, 15.0f, 30.0f);
     camera->setCenter(0.0f, 5.0f, 0.0f);
-
-    world->setCamera(camera);
 
     Texture* texture0 = Image::loadTexture("floor.bmp");
     Texture* texture1 = Image::loadTexture("clouds.bmp");
