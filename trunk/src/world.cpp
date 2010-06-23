@@ -40,6 +40,11 @@ namespace F3D {
      */
 
     World::World() :
+#ifndef ANDROID_NDK
+            m_display(EGL_NO_DISPLAY),
+            m_context(EGL_NO_CONTEXT),
+            m_surface(EGL_NO_SURFACE),
+#endif
 			m_width(0),
 			m_height(0),
             m_bgred(0.0f),
@@ -49,25 +54,20 @@ namespace F3D {
             m_fovy(60.0f),
             m_znear(1.0f),
             m_zfar(1000.0f),
-            m_camera(NULL),
+            m_cameras(NULL),
             m_fog(NULL),
-#ifndef ANDROID_NDK
-            m_light(NULL),
-            m_display(EGL_NO_DISPLAY),
-            m_context(EGL_NO_CONTEXT),
-            m_surface(EGL_NO_SURFACE) {
-#else
             m_light(NULL) {
-#endif
 #ifdef DEBUG
         printf("World constructor...\n");
 #endif
+        setCameraCount(1);
+        setActiveCamera(0);
     }
 
     World::~World() {
         deinitEGL();
 
-        DELETEANDNULL(m_camera, false);
+        DELETEANDNULL(m_cameras, true);
         DELETEANDNULL(m_fog, false);
         DELETEANDNULL(m_light, false);
 #ifdef DEBUG
@@ -82,8 +82,37 @@ namespace F3D {
         m_bgalpha = alpha;
     }
 
-    void World::setCamera(Camera* camera) {
-        m_camera = camera;
+    // camera functions
+    void World::setCameraCount(int cameraCount) {
+        if (m_cameras != NULL) {
+            delete[] m_cameras;
+            m_cameras = NULL;
+        }
+
+        if (cameraCount > 0) {
+#ifdef DEBUG
+            printf("World create [%d] cameras ...\n", cameraCount);
+#endif
+            m_cameraCount = cameraCount;
+            // create meshs
+            m_cameras = new Camera[m_cameraCount];
+        }
+    }
+
+    int World::getCameraCount() {
+        return m_cameraCount;
+    }
+
+    Camera *World::getCamera(int cameraIndex) {
+        return &m_cameras[cameraIndex];
+    }
+
+    void World::setActiveCamera(int cameraIndex) {
+        m_cameraIndex = cameraIndex;
+    }
+
+    Camera *World::getActiveCamera() {
+        return &m_cameras[m_cameraIndex];
     }
 
     void World::setFog(Fog* fog) {
@@ -379,7 +408,7 @@ namespace F3D {
 
         glLoadIdentity();
 
-        m_camera->gluLookAt();
+        m_cameras[m_cameraIndex].gluLookAt();
 
         if (m_fog != NULL) {
             glEnable(GL_FOG);
