@@ -78,8 +78,8 @@ public:
     GLuint getWidth();
     GLuint getHeight();
     //image color
-    void setFontColor(Color4f* color);
-    Color4f* getFontColor();
+    void setImageColor(Color4f* color);
+    Color4f* getImageColor();
 };
 
 }
