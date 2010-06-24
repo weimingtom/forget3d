@@ -58,6 +58,7 @@ static int	fps = 0;
 static int  is_done = 0;
 static int  interval = 0;
 static int  camera_idx = 1;
+static GLfloat alpha = 1.0f;
 
 #ifdef ANDROID
 static int  i_time = 0;
@@ -266,12 +267,12 @@ int main(int argc, char *argv[]) {
 
     printf("create triangle OK!\n");
 
-    Color4f color = {1.0f, 1.0f, 1.0f, 1.0f};
+    Color4f color = {1.0f, 1.0f, 1.0f, 0.2f};
     font = new Font(16, 16, "font.bmp");
     font->setFontColor(&color);
 
     image = new Image("f3d_logo.bmp");
-    image->setFontColor(&color);
+    image->setImageColor(&color);
 
     printf("start loop...\n");
     is_done = 1;
@@ -302,6 +303,7 @@ int main(int argc, char *argv[]) {
         model->renderModel();
 
         //printf("strFps: %s\n", strFps);
+        color.alpha = 1.0;
         color.blue = 0.0f;
         font->setFontColor(&color);
         font->drawString(4, height - 40, 24, 36, strFps);
@@ -311,6 +313,9 @@ int main(int argc, char *argv[]) {
         font->drawString(4, 4, 12, 18, "Tap screen!");
 
         //draw f3d logo, at (width - display width - 4)
+        color.alpha = alpha;
+        printf("alpha = %.3f\n", alpha);
+        image->setImageColor(&color);
         image->drawImage(width - 132, 4, 128, 128);
 
         world->finishRender();
@@ -335,6 +340,11 @@ int main(int argc, char *argv[]) {
             interval = 0;
             i_time = GetTickCount();
             fps = 0;
+
+            alpha -= 0.05f;
+
+            if (alpha <= 0.0f)
+                alpha = 1.0f;
         }
 #endif
     }
