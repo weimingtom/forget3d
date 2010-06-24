@@ -85,14 +85,14 @@ namespace F3D {
         return m_height;
     }
 
-    void Image::setFontColor(Color4f* color) {
+    void Image::setImageColor(Color4f* color) {
         m_color->red = color->red;
         m_color->green = color->green;
         m_color->blue = color->blue;
         m_color->alpha = color->alpha;
     }
 
-    Color4f* Image::getFontColor() {
+    Color4f* Image::getImageColor() {
         return m_color;
     }
 
