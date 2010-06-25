@@ -311,7 +311,7 @@ int main(int argc, char *argv[]) {
 
         color.blue = 1.0f;
         font->setFontColor(&color);
-        font->drawString(4, 4, 12, 18, "Tap screen!");
+        font->drawString(4, 4, 24, 36, "Tap screen!");
 
         //draw f3d logo, at (width - display width - 4)
         image->drawImage(width - 132, 4, 128, 128);
