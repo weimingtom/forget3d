@@ -52,13 +52,13 @@ namespace F3D {
      * Image class for all games using F3D.
      */
 
-    Image::Image(const char *filename) :
+    Image::Image(const char *filename, GLboolean is_absPath) :
             m_texture(NULL),
             m_color(NULL) {
 #ifdef DEBUG
         printf("Image constructor...\n");
 #endif
-        m_texture = loadTexture(filename);
+        m_texture = loadTexture(filename, is_absPath);
         m_width = m_texture->width;
         m_height = m_texture->height;
 
@@ -156,26 +156,19 @@ namespace F3D {
         return;
     }
 
-    Texture* Image::loadTexture(const char *filename) {
+    Texture* Image::loadTexture(const char *filename, GLboolean is_absPath) {
         FILE *fd;
         GLubyte *buffer = NULL;
         Texture *texture = (Texture *) malloc(sizeof(Texture));
 
-#ifdef _WIN32_WCE
-		fd = fopen(Utils::getFileName(filename), "rb");
-#else
-		fd = fopen(filename, "rb");
-#endif
+		fd = fopen(Utils::getFileName(filename, is_absPath), "rb");
+
         if (!fd) {
 #ifdef DEBUG
             printf("Open %s error!\n", filename);
         #if defined(WIN32) || defined(_WIN32_WCE)
 			TCHAR errorStr[512];
-			#ifdef _WIN32_WCE
-			wsprintf(errorStr, TEXT("open image:[%s] error!"), Utils::getFileName(filename));
-			#else
-			wsprintf(errorStr, TEXT("open image:[%s] error!"), filename);
-            #endif
+			wsprintf(errorStr, TEXT("open image:[%s] error!"), Utils::getFileName(filename, is_absPath));
 
 			MessageBox(0, errorStr, TEXT("Image"), MB_OK);
         #endif

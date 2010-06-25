@@ -78,25 +78,18 @@ namespace F3D {
         FREEANDNULL(m_joints);
     }
 
-    bool ModelMS3D::loadModel(const char *filename) {
+    bool ModelMS3D::loadModel(const char *filename, GLboolean is_absPath) {
         FILE *file;
         int i, j;
 
-#ifdef _WIN32_WCE
-        file = fopen(Utils::getFileName(filename), "rb");
-#else
-		file = fopen(filename, "rb");
-#endif
+        file = fopen(Utils::getFileName(filename, is_absPath), "rb");
+
         if (!file) {
             printf("Open MS3D model:%s failure!\n", filename);
 
         #if defined(WIN32) || defined(_WIN32_WCE)
 			TCHAR errorStr[512];
-			#ifdef _WIN32_WCE
 			wsprintf(errorStr, TEXT("Open MS3d model:[%s] error!"), Utils::getFileName(filename));
-			#else
-			wsprintf(errorStr, TEXT("Open MS3d model:[%s] error!"), filename);
-            #endif
 
 			MessageBox(0, errorStr, TEXT("MS3D"), MB_OK);
 		#endif

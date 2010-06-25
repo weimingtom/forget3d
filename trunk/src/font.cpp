@@ -40,10 +40,11 @@ namespace F3D {
      */
     Font::Font(GLuint charWidth,
                GLuint charHeight,
-               const char *texName) :
+               const char *texName,
+			   GLboolean is_absPath) :
             m_texture(NULL),
             m_color(NULL) {
-        createFont(charWidth, charHeight, charWidth, charHeight, texName);
+        createFont(charWidth, charHeight, charWidth, charHeight, texName, is_absPath);
     }
 
     //another font constructor with real draw font width,height
@@ -51,17 +52,19 @@ namespace F3D {
                GLuint charHeight,
                GLuint fontWidth,
                GLuint fontHeight,
-               const char *texName) :
+               const char *texName,
+			   GLboolean is_absPath) :
             m_texture(NULL),
             m_color(NULL){
-        createFont(charWidth, charHeight, fontWidth, fontHeight, texName);
+        createFont(charWidth, charHeight, fontWidth, fontHeight, texName, is_absPath);
     }
 
     void Font::createFont(GLuint charWidth,
                GLuint charHeight,
                GLuint fontWidth,
                GLuint fontHeight,
-               const char *texName) {
+               const char *texName,
+			   GLboolean is_absPath) {
 #ifdef DEBUG
         printf("Font constructor...\n");
 #endif
@@ -75,7 +78,7 @@ namespace F3D {
 #ifdef DEBUG
         printf("m_fontWidth: %d, m_fontHeight: %d\n", m_fontWidth, m_fontHeight);
 #endif
-        m_texture = Image::loadTexture(texName);
+        m_texture = Image::loadTexture(texName, is_absPath);
 
         m_colCount = m_texture->width / m_charWidth;
         m_rowCount = m_texture->height / m_charHeight - 1;
