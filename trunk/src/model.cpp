@@ -236,7 +236,8 @@ namespace F3D {
 
     Model::Model() :
             m_meshs(NULL),
-            m_meshCount(0) {
+            m_meshCount(0),
+            m_isLoop(GL_TRUE) {
 #ifdef DEBUG
         printf("Model constructor...\n");
 #endif
@@ -325,6 +326,14 @@ namespace F3D {
 
     int Model::getMeshCount() {
         return m_meshCount;
+    }
+
+    void Model::setIsLoop(GLboolean isLoop) {
+        m_isLoop = isLoop;
+    }
+
+    GLboolean Model::getIsLoop() {
+        return m_isLoop;
     }
 
     void Model::prepareFrame() {

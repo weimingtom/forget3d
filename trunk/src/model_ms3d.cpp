@@ -417,7 +417,7 @@ namespace F3D {
 
         m_frameIdx++;
         if (m_frameIdx >= m_frameCount)
-            m_frameIdx = 0;
+            m_frameIdx = m_isLoop ? 0 : m_frameCount - 1;
 
         //after prepare frame, set m_isPrepared to true
         if (!m_isPrepared)
