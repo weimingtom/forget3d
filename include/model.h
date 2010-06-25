@@ -94,6 +94,7 @@ namespace F3D {
     protected:
         Mesh    *m_meshs;
         int     m_meshCount;
+        GLboolean   m_isLoop;
         //private functions
         virtual void prepareFrame();
     public:
@@ -120,6 +121,9 @@ namespace F3D {
         void setScale(GLfloat x, GLfloat y, GLfloat z);
         void setMeshCount(int meshCount);
         int getMeshCount();
+        //isLoop flag
+        void setIsLoop(GLboolean isLoop);
+        GLboolean getIsLoop();
         /**
          * Render model
          */
