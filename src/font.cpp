@@ -121,7 +121,7 @@ namespace F3D {
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_FOG);
         glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE); //GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA
 
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, m_texture->textureId);
