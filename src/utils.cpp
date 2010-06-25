@@ -59,26 +59,34 @@ static void *hwdEglLib = NULL; //if Android 2.0, have alone libEGL.dll
 #endif // LINUX
 
 namespace F3D {
+    /**
+     * Camera class for all games using F3D.
+     */
 
-#ifdef _WIN32_WCE
-	char* Utils::getFileName(const char *filename) {
-		TCHAR wcwd[256];
-		static char cwd[256];
+    char* Utils::getFileName(const char *filename, GLboolean is_absPath) {
 		static char tmp[256];
+#ifdef _WIN32_WCE
+		TCHAR wcwd[256];
+		char cwd[256];
 		char *last;
 
-		GetModuleFileName(NULL,wcwd,256);
+        if (!is_absPath) {
+            GetModuleFileName(NULL, wcwd, 256);
 
-		_snprintf(cwd,256,"%S",wcwd);
+            _snprintf(cwd, 256, "%S", wcwd);
 
-		last=strrchr(cwd,'\\');
-		last[0]='\0';
+            last=strrchr(cwd, '\\');
+            last[0] = '\0';
 
-		sprintf(tmp, "%s\\%s", cwd, filename);
+            sprintf(tmp, "%s\\%s", cwd, filename);
+        } else
+            sprintf(tmp, "%s", filename);
+#else
+        sprintf(tmp, "%s", filename);
+#endif //_WIN32_WCE
 
 		return tmp;
 	}
-#endif //_WIN32_WCE
 
 #ifdef USE_WRAPPER_GL
 	/* San Angeles Observation OpenGL ES version example

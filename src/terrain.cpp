@@ -39,7 +39,7 @@ namespace F3D {
      * Terrain class for all games using F3D.
      */
 
-    Terrain::Terrain(const char *filename, int size, int scale) {
+    Terrain::Terrain(const char *filename, int size, int scale, GLboolean is_absPath) {
         FILE *fp;
         GLubyte *hmap;
         int vt_idx = 0, uv_idx = 0, hm_idx = 0, in_idx = 0, x, y;
@@ -57,11 +57,7 @@ namespace F3D {
         setMeshCount(1);
 
         // open the heightmap file
-#ifdef _WIN32_WCE
-		fp = fopen(Utils::getFileName(filename), "rb");
-#else
-		fp = fopen(filename, "rb");
-#endif
+		fp = fopen(Utils::getFileName(filename, is_absPath), "rb");
 
         // read in the heightmap into hmap
         if (fp != NULL)

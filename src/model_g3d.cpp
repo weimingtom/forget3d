@@ -57,14 +57,11 @@ namespace F3D {
 #endif
     }
 
-    bool ModelG3D::loadModel(const char *filename) {
+    bool ModelG3D::loadModel(const char *filename, GLboolean is_absPath) {
         FILE *file;
 
-#ifdef _WIN32_WCE
-		file = fopen(Utils::getFileName(filename), "rb");
-#else
-		file = fopen(filename, "rb");
-#endif
+		file = fopen(Utils::getFileName(filename, is_absPath), "rb");
+
         if (!file)
             return false;
 

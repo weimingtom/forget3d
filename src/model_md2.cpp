@@ -70,16 +70,13 @@ namespace F3D {
         FREEANDNULL(m_actions);
     }
 
-    bool ModelMD2::loadModel(const char *filename) {
+    bool ModelMD2::loadModel(const char *filename, GLboolean is_absPath) {
         FILE *file;
         GLubyte buffer[MD2_MAX_FRAMESIZE];
         int i;
 
-#ifdef _WIN32_WCE
-        file = fopen(Utils::getFileName(filename), "rb");
-#else
-		file = fopen(filename, "rb");
-#endif
+        file = fopen(Utils::getFileName(filename, is_absPath), "rb");
+
         if (!file)
             return false;
 
