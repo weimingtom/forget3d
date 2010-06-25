@@ -44,10 +44,8 @@ namespace F3D {
 
     class Utils {
 	public:
-    #ifdef _WIN32_WCE
-		//get windows moible file name with absolute path
-		static char* getFileName(const char *filename);
-	#endif
+		//global get file name with absolute path or not
+		static char* getFileName(const char *filename, GLboolean is_absPath = GL_FALSE);
 
     #ifdef USE_WRAPPER_GL
 		static int initGlWrapper();
