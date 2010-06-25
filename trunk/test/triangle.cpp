@@ -58,7 +58,7 @@ static int	fps = 0;
 static int  is_done = 0;
 static int  interval = 0;
 static int  camera_idx = 1;
-static GLfloat alpha = 1.0f;
+static GLfloat alpha = 0.0f;
 
 #ifdef ANDROID
 static int  i_time = 0;
@@ -272,6 +272,7 @@ int main(int argc, char *argv[]) {
     font->setFontColor(&color);
 
     image = new Image("f3d_logo.bmp");
+    color.alpha = alpha;
     image->setImageColor(&color);
 
     printf("start loop...\n");
@@ -313,15 +314,18 @@ int main(int argc, char *argv[]) {
         font->drawString(4, 4, 12, 18, "Tap screen!");
 
         //draw f3d logo, at (width - display width - 4)
-        color.alpha = alpha;
-        printf("alpha = %.3f\n", alpha);
-        image->setImageColor(&color);
         image->drawImage(width - 132, 4, 128, 128);
 
         world->finishRender();
 
         fps++;
         rotation += 2.0f;
+
+        if (alpha <= 1.0f) {
+            alpha += 0.002f;
+            color.alpha = alpha;
+            image->setImageColor(&color);
+        }
 #ifdef ANDROID
         gettimeofday(&timeNow, NULL);
         interval = CLOCK(timeNow) - i_time;
@@ -340,11 +344,6 @@ int main(int argc, char *argv[]) {
             interval = 0;
             i_time = GetTickCount();
             fps = 0;
-
-            alpha -= 0.05f;
-
-            if (alpha <= 0.0f)
-                alpha = 1.0f;
         }
 #endif
     }
