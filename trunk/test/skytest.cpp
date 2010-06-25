@@ -244,6 +244,7 @@ int main(int argc, char *argv[]) {
     printf("%.2f\n", (float)(-128 * sinf(DTOR * 10.0f)));
 
     model = new ModelMS3D();
+    model->setIsLoop(GL_FALSE);
     model->loadModel("run.ms3d");
 
     model->setScale(0.5f, 0.5f, 0.5f);
