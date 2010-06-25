@@ -113,7 +113,7 @@ namespace F3D {
          */
         virtual ~ModelG3D();
 
-        bool loadModel(const char *filename);
+        bool loadModel(const char *filename, GLboolean is_absPath = GL_FALSE);
     };
 
 }

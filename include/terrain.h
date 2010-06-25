@@ -50,7 +50,7 @@ namespace F3D {
         /**
         * Constructor
         */
-        Terrain(const char *filename, int size, int scale);
+        Terrain(const char *filename, int size, int scale, GLboolean is_absPath = GL_FALSE);
 
         /**
          * Destructor

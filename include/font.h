@@ -57,20 +57,23 @@ private:
                     GLuint charHeight,
                     GLuint fontWidth,
                     GLuint fontHeight,
-                    const char *texName);
+                    const char *texName,
+					GLboolean is_absPath = GL_FALSE);
 public:
     /**
     * Constructor
     */
     Font(GLuint charWidth,
          GLuint charHeight,
-         const char *texName);
+         const char *texName,
+		 GLboolean is_absPath = GL_FALSE);	// the texName is absolute path?
     //another font constructor with real draw font width,height
     Font(GLuint charWidth,
          GLuint charHeight,
          GLuint fontWidth,
          GLuint fontHeight,
-         const char *texName);
+         const char *texName,
+		 GLboolean is_absPath = GL_FALSE);
 
     /**
      * Destructor

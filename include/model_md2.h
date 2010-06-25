@@ -143,7 +143,7 @@ namespace F3D {
          */
         virtual ~ModelMD2();
 
-        bool loadModel(const char *filename);
+        bool loadModel(const char *filename, GLboolean is_absPath = GL_FALSE);
         void setActionIndex(int index);
         const char* getActionName(int index);
         int getActionCount();

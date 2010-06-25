@@ -57,14 +57,14 @@ public:
     /**
     * Constructor
     */
-    Image(const char *filename);
+    Image(const char *filename, GLboolean is_absPath = GL_FALSE);
 
     /**
      * Destructor
      */
     virtual ~Image();
     //static function loadTexture
-    static Texture* loadTexture(const char *filename);
+    static Texture* loadTexture(const char *filename, GLboolean is_absPath = GL_FALSE);
 
     //darw image at (x, y)
     void drawImage(int x, int y);
