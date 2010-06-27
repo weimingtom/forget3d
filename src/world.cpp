@@ -189,10 +189,10 @@ namespace F3D {
 #ifdef DEBUG
         printf("maj_ver: %d, min_ver: %d\n", maj_ver, min_ver);
 	#if (defined(WIN32) || defined(_WIN32_WCE))
-		TCHAR errorStr[512];
+		TCHAR infoStr[512];
 
-		wsprintf(errorStr, TEXT("maj_ver: %d, min_ver: %d"), maj_ver, min_ver);
-		MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
+		wsprintf(infoStr, TEXT("maj_ver: %d, min_ver: %d"), maj_ver, min_ver);
+		MessageBox(m_hwnd, infoStr, TEXT("EGL Info"), MB_OK);
 	#endif
 #endif
         if (!checkEglError("eglInitialize"))
@@ -202,8 +202,8 @@ namespace F3D {
 #ifdef DEBUG
         printf("config_nums: %d\n", config_nums);
 	#if (defined(WIN32) || defined(_WIN32_WCE))
-		wsprintf(errorStr, TEXT("config_nums: %d"), config_nums);
-		MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
+		wsprintf(infoStr, TEXT("config_nums: %d"), config_nums);
+		MessageBox(m_hwnd, infoStr, TEXT("EGL Info"), MB_OK);
 	#endif
 #endif
         if (!checkEglError("eglGetConfigs"))
@@ -229,10 +229,8 @@ namespace F3D {
         if (!checkEglError("eglMakeCurrent"))
             return false;
 
-#ifdef ANDROID
         eglQuerySurface(m_display, m_surface, EGL_WIDTH, &m_width);
         eglQuerySurface(m_display, m_surface, EGL_HEIGHT, &m_height);
-#endif
 
 #ifdef DEBUG
         printf("********EGL info********\n");
@@ -247,14 +245,17 @@ namespace F3D {
         printf("m_height\t: %d\n", m_height);
 
 	#if (defined(WIN32) || defined(_WIN32_WCE))
-		wsprintf(errorStr, TEXT("m_width: %d, m_height: %d"), m_width, m_height);
-		MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
+		wsprintf(infoStr, TEXT("m_width: %d, m_height: %d"), m_width, m_height);
+		MessageBox(m_hwnd, infoStr, TEXT("EGL Info"), MB_OK);
 
-		wsprintf(errorStr, TEXT("EGL_VENDOR: %s\nEGL_VERSION: %s\nEGL_EXTENSIONS: %s"),
+        CHAR infoChr[512];
+        sprintf(infoChr, "EGL_VENDOR: %s\nEGL_VERSION: %s\nEGL_EXTENSIONS: %s",
             eglQueryString(m_display, EGL_VENDOR),
             eglQueryString(m_display, EGL_VERSION),
             eglQueryString(m_display, EGL_EXTENSIONS));
-        MessageBox(m_hwnd, errorStr, TEXT("EGL Info"), MB_OK);
+
+        Utils::asciiToWchar(infoStr, infoChr);
+        MessageBox(m_hwnd, infoStr, TEXT("EGL  Info"), MB_OK);
 	#endif
 #endif
 
@@ -284,6 +285,19 @@ namespace F3D {
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); //GL_FASTEST GL_NICEST
 
 #ifdef DEBUG
+	#if (defined(WIN32) || defined(_WIN32_WCE))
+        TCHAR infoStr[512];
+        CHAR infoChr[512];
+        sprintf(infoChr, "GL_VENDOR: %s\nGL_RENDERER: %s\nGL_VERSION: %s\nGL_EXTENSIONS: %s",
+            glGetString(GL_VENDOR),
+            glGetString(GL_RENDERER),
+            glGetString(GL_VERSION),
+            glGetString(GL_EXTENSIONS));
+
+        Utils::asciiToWchar(infoStr, infoChr);
+        MessageBox(m_hwnd, infoStr, TEXT("GL Info"), MB_OK);
+	#endif
+
         printf("********GL info********\n");
         printf("GL_VENDOR\t: %s\n", glGetString(GL_VENDOR));
         printf("GL_RENDERER\t: %s\n", glGetString(GL_RENDERER));
