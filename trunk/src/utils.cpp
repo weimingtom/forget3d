@@ -88,6 +88,19 @@ namespace F3D {
 		return tmp;
 	}
 
+#if (defined(WIN32) || defined(_WIN32_WCE))
+	void Utils::asciiToWchar(TCHAR* ws, const char* s) {
+        TCHAR* pszSave = ws;
+        while(*s) {
+            *ws = (wchar_t) *s;
+            s++;
+            ws++;
+        }
+        *ws = 0;
+        return;
+	}
+#endif
+
 #ifdef USE_WRAPPER_GL
 	/* San Angeles Observation OpenGL ES version example
 	 * Copyright 2004-2005 Jetro Lauha
@@ -239,9 +252,7 @@ namespace F3D {
 		IMPORT_FUNC_E(eglSwapBuffers);
 		IMPORT_FUNC_E(eglTerminate);
 		IMPORT_FUNC_E(eglQueryString);
-	#ifdef ANDROID
         IMPORT_FUNC_E(eglQuerySurface);
-	#endif
 #else
 		IMPORT_FUNC(eglChooseConfig);
 		IMPORT_FUNC(eglCreateContext);
@@ -257,9 +268,7 @@ namespace F3D {
 		IMPORT_FUNC(eglSwapBuffers);
 		IMPORT_FUNC(eglTerminate);
 		IMPORT_FUNC(eglQueryString);
-	#ifdef ANDROID
         IMPORT_FUNC(eglQuerySurface);
-	#endif
 #endif // !IS_ALONE_EGL
 
 		IMPORT_FUNC(glBlendFunc);
