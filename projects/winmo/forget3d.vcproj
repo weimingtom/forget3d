@@ -183,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\collision.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\fog.cpp"
 				>
 			</File>
@@ -200,6 +204,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\mathlib.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\mesh.cpp"
 				>
 			</File>
 			<File
@@ -253,6 +261,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\collision.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\f3d.h"
 				>
 			</File>
@@ -278,6 +290,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\mathlib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\mesh.h"
 				>
 			</File>
 			<File
