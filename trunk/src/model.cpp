@@ -36,207 +36,13 @@
 
 namespace F3D {
     /**
-     * Mesh class for all games using F3D.
-     */
-
-    Mesh::Mesh() :
-            m_vertices(NULL),
-            m_normals(NULL),
-            m_uvs(NULL),
-            m_colors(NULL),
-            m_indices(NULL),
-            m_position(NULL),
-            m_rotate(NULL),
-            m_scale(NULL),
-            m_textureId(-1),
-            m_triangleNums(0),
-            m_enabled(GL_FALSE) {
-#ifdef DEBUG
-        printf("Mesh constructor...\n");
-#endif
-    }
-
-    Mesh::~Mesh() {
-#ifdef DEBUG
-        printf("Start mesh destructor...\n");
-#endif
-        FREEANDNULL(m_vertices);
-        FREEANDNULL(m_normals);
-        FREEANDNULL(m_uvs);
-        FREEANDNULL(m_colors);
-        FREEANDNULL(m_indices);
-        FREEANDNULL(m_position);
-        FREEANDNULL(m_rotate);
-        FREEANDNULL(m_scale);
-#ifdef DEBUG
-        printf("Mesh destructor OK!\n");
-#endif
-    }
-
-    void Mesh::setVertices(GLfloat *vertices, int size) {
-        FREEANDNULL(m_vertices);
-        m_vertices = (GLfloat *) malloc(size);
-        memcpy(m_vertices, vertices, size);
-
-        setEnabled(GL_TRUE);
-    }
-
-    void Mesh::setNormals(GLfloat *normals, int size) {
-        FREEANDNULL(m_normals);
-        m_normals = (GLfloat *) malloc(size);
-        memcpy(m_normals, normals, size);
-    }
-
-    void Mesh::setUvs(GLfloat *uvs, int size) {
-        FREEANDNULL(m_uvs);
-        m_uvs = (GLfloat *) malloc(size);
-        memcpy(m_uvs, uvs, size);
-    }
-
-    void Mesh::setColors(GLubyte *colors, int size) {
-        FREEANDNULL(m_colors);
-        m_colors = (GLubyte *) malloc(size);
-        memcpy(m_colors, colors, size);
-    }
-
-    void Mesh::setIndices(GLshort *indices, int size) {
-        FREEANDNULL(m_indices);
-        m_indices = (GLshort *) malloc(size);
-        memcpy(m_indices, indices, size);
-    }
-
-    void Mesh::setTextureId(GLint textureId) {
-        m_textureId = textureId;
-    }
-
-    void Mesh::setTriangleNums(GLint triangleNums) {
-        m_triangleNums = triangleNums;
-    }
-
-    void Mesh::setEnabled(GLboolean enabled) {
-        m_enabled = enabled;
-    }
-
-    void Mesh::setPosition(GLfloat x, GLfloat y, GLfloat z) {
-        if (m_position == NULL) {
-            m_position = (GLfloat *) malloc(3 * sizeof(GLfloat));
-        }
-
-        m_position[0] = x;
-        m_position[1] = y;
-        m_position[2] = z;
-    }
-
-    void Mesh::setRotate(GLfloat x, GLfloat y, GLfloat z) {
-        if (m_rotate == NULL) {
-            m_rotate = (GLfloat *) malloc(3 * sizeof(GLfloat));
-        }
-
-        m_rotate[0] = x;
-        m_rotate[1] = y;
-        m_rotate[2] = z;
-    }
-
-    void Mesh::setScale(GLfloat x, GLfloat y, GLfloat z) {
-        if (m_scale == NULL) {
-            m_scale = (GLfloat *) malloc(3 * sizeof(GLfloat));
-        }
-
-        m_scale[0] = x;
-        m_scale[1] = y;
-        m_scale[2] = z;
-    }
-
-    void Mesh::initGlCmds() {
-        if (m_vertices != NULL)
-            glEnableClientState(GL_VERTEX_ARRAY);
-
-        if (m_normals != NULL)
-            glEnableClientState(GL_NORMAL_ARRAY);
-
-        if (m_uvs != NULL) {
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glEnable(GL_TEXTURE_2D);
-        } else {
-            glDisable(GL_TEXTURE_2D);
-        }
-
-        if (m_colors != NULL)
-            glEnableClientState(GL_COLOR_ARRAY);
-    }
-
-    void Mesh::renderMesh() {
-        if (!m_enabled)
-            return;
-
-        //save current matrix
-        glPushMatrix();
-
-        //enable or disable gl command status
-        initGlCmds();
-
-        if (m_position != NULL) {
-            glTranslatef(m_position[0], m_position[1], m_position[2]);
-        }
-
-        if (m_rotate != NULL) {
-            //ratate x axis
-            if (m_rotate[0] != 0.0f)
-                glRotatef(m_rotate[0], 1.0f, 0.0f, 0.0f);
-            //ratate y axis
-            if (m_rotate[1] != 0.0f)
-                glRotatef(m_rotate[1], 0.0f, 1.0f, 0.0f);
-            //ratate z axis
-            if (m_rotate[2] != 0.0f)
-                glRotatef(m_rotate[2], 0.0f, 0.0f, 1.0f);
-        }
-
-        if (m_scale != NULL)
-            glScalef(m_scale[0], m_scale[1], m_scale[2]);
-
-        if (m_vertices != NULL)
-            glVertexPointer(3, GL_FLOAT, 0, m_vertices);
-        else {
-#ifdef DEBUG
-            printf("No vertices, exit render!\n");
-#endif
-            return;
-        }
-
-        if (m_normals != NULL)
-            glNormalPointer(GL_FLOAT, 0, m_normals);
-
-        if (m_uvs != NULL && m_textureId != -1) {
-            glBindTexture(GL_TEXTURE_2D, m_textureId);
-            glTexCoordPointer(2, GL_FLOAT, 0, m_uvs);
-        } else {
-            glDisable(GL_TEXTURE_2D);
-            if ((m_uvs != NULL && m_textureId == -1) ||
-                    (m_uvs == NULL && m_textureId != -1) ) {
-#ifdef DEBUG
-                printf("Only have uvs or texture id!\n");
-#endif
-            }
-        }
-
-        if (m_colors != NULL)
-            glColorPointer(4, GL_UNSIGNED_BYTE, 0, m_colors);
-
-        if (m_indices != NULL)
-            glDrawElements(GL_TRIANGLES, m_triangleNums * 3, GL_UNSIGNED_SHORT, m_indices);
-        else
-            glDrawArrays(GL_TRIANGLES, 0, m_triangleNums * 3);
-        //restore matrix
-        glPopMatrix();
-    }
-
-    /**
      * Model class for all games using F3D.
      */
 
     Model::Model() :
-            m_meshs(NULL),
             m_meshCount(0),
+            m_meshs(NULL),
+            m_aabbs(NULL),
             m_isLoop(GL_TRUE) {
 #ifdef DEBUG
         printf("Model constructor...\n");
@@ -255,6 +61,37 @@ namespace F3D {
 
     void Model::setVertices(GLfloat *vertices, int size, int meshIndex) {
         m_meshs[meshIndex].setVertices(vertices, size);
+
+        // start to set bounding box, min, max vector
+        Vec3f vec_min = {-0.0f, -0.0f, -0.0f};
+        Vec3f vec_max = {0.0f, 0.0f, 0.0f};
+        for (GLuint i = 0; i < size / sizeof(GLfloat); ) {
+            if (vertices[i] < vec_min.x)
+                vec_min.x = vertices[i];
+
+            if (vertices[i + 1] < vec_min.y)
+                vec_min.y = vertices[i + 1];
+
+            if (vertices[i + 2] < vec_min.z)
+                vec_min.z = vertices[i + 2];
+
+            if (vertices[i] > vec_max.x)
+                vec_max.x = vertices[i];
+
+            if (vertices[i + 1] > vec_max.y)
+                vec_max.y = vertices[i + 1];
+
+            if (vertices[i + 2] > vec_max.z)
+                vec_max.z = vertices[i + 2];
+
+            i += 3;
+        }
+#ifdef DEBUG
+        printf("setMinEdge: {%.4f, %.4f, %.4f}\n", vec_min.x, vec_min.y, vec_min.z);
+        printf("setMaxEdge: {%.4f, %.4f, %.4f}\n", vec_max.x, vec_max.y, vec_max.z);
+#endif
+        m_aabbs[meshIndex].setMinEdge(vec_min);
+        m_aabbs[meshIndex].setMaxEdge(vec_max);
     }
 
     void Model::setNormals(GLfloat *normals, int size, int meshIndex) {
@@ -309,10 +146,8 @@ namespace F3D {
     }
 
     void Model::setMeshCount(int meshCount) {
-        if (this->m_meshs != NULL) {
-            delete[] m_meshs;
-            m_meshs = NULL;
-        }
+        DELETEANDNULL(m_meshs, true);
+        DELETEANDNULL(m_aabbs, true);
 
         if (meshCount > 0) {
 #ifdef DEBUG
@@ -321,11 +156,31 @@ namespace F3D {
             m_meshCount = meshCount;
             // create meshs
             m_meshs = new Mesh[m_meshCount];
+            m_aabbs = new BoundingBox[m_meshCount];
         }
     }
 
     int Model::getMeshCount() {
         return m_meshCount;
+    }
+
+    Mesh* Model::getMesh(int index) {
+        return &m_meshs[index];
+    }
+
+    BoundingBox* Model::getBoundingBox(int index){
+        return &m_aabbs[index];
+    }
+
+    GLboolean Model::isCollided(Model* other) {
+        for (int i = 0; i < m_meshCount; i++) {
+            for (int j = 0; j < other->getMeshCount(); j ++) {
+                if (getBoundingBox(i)->isCollided(other->getBoundingBox(j)))
+                    return GL_TRUE;
+            }
+        }
+
+        return GL_FALSE;
     }
 
     void Model::setIsLoop(GLboolean isLoop) {
