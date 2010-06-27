@@ -46,6 +46,9 @@ namespace F3D {
 	public:
 		//global get file name with absolute path or not
 		static char* getFileName(const char *filename, GLboolean is_absPath = GL_FALSE);
+#if (defined(WIN32) || defined(_WIN32_WCE))
+		static void asciiToWchar(TCHAR* ws, const char* s);
+#endif
 
     #ifdef USE_WRAPPER_GL
 		static int initGlWrapper();

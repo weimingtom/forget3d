@@ -82,10 +82,7 @@ FNDEF(EGLBoolean, eglSwapBuffers, (EGLDisplay dpy, EGLSurface draw));
 FNDEF(EGLBoolean, eglTerminate, (EGLDisplay dpy));
 //add by martin
 FNDEF(const char*, eglQueryString, (EGLDisplay dpy, EGLint name));
-#ifdef ANDROID
 FNDEF(EGLBoolean, eglQuerySurface, (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint* value));
-#endif
-
 FNDEF(void, glBlendFunc, (GLenum sfactor, GLenum dfactor));
 FNDEF(void, glClear, (GLbitfield mask));
 FNDEF(void, glClearColorx, (GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha));
@@ -161,10 +158,7 @@ FNDEF(void, glClearDepthf, (GLclampf depth));
 #define eglTerminate            FNPTR(eglTerminate)
 //add by martin
 #define eglQueryString          FNPTR(eglQueryString)
-#ifdef ANDROID
-#define eglQuerySurface          FNPTR(eglQuerySurface)
-#endif
-
+#define eglQuerySurface         FNPTR(eglQuerySurface)
 #define glBlendFunc             FNPTR(glBlendFunc)
 #define glClear                 FNPTR(glClear)
 #define glClearColorx           FNPTR(glClearColorx)
