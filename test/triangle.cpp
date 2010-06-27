@@ -57,7 +57,6 @@ static char	strFps[16];
 static int	fps = 0;
 static int  is_done = 0;
 static int  interval = 0;
-static int  camera_idx = 1;
 static GLfloat alpha = 0.0f;
 
 #ifdef ANDROID
@@ -69,6 +68,7 @@ static int	width = 480;
 static int	height = 640;
 static int  is_initialized = false;
 static HWND	hwnd;
+static int  camera_idx = 1;
 #endif
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
@@ -307,14 +307,14 @@ int main(int argc, char *argv[]) {
         color.alpha = 1.0;
         color.blue = 0.0f;
         font->setFontColor(&color);
-        font->drawString(4, height - 40, 24, 36, strFps);
+        font->drawString(4, world->getHeight() - 40, 24, 36, strFps);
 
         color.blue = 1.0f;
         font->setFontColor(&color);
         font->drawString(4, 4, 24, 36, "Tap screen!");
 
         //draw f3d logo, at (width - display width - 4)
-        image->drawImage(width - 132, 4, 128, 128);
+        image->drawImage(world->getWidth() - 132, 4, 128, 128);
 
         world->finishRender();
 
