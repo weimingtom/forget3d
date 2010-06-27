@@ -32,61 +32,58 @@
  * POSSESSION, USE OR PERFORMANCE OF THIS SOFTWARE.
  *****************************************************************************/
 
-#ifndef F3D_MODEL_H_
-#define F3D_MODEL_H_
+#ifndef F3D_MESH_H_
+#define F3D_MESH_H_
 
 #include "f3d.h"
-#include "mesh.h"
-#include "collision.h"
 
 namespace F3D {
     /**
-     * Model class for all games using F3D.
+     * Mesh class for all games using F3D.
      */
 
-    class Model {
+    class Mesh {
     protected:
-        int         m_meshCount;
-        Mesh        *m_meshs;
-        BoundingBox *m_aabbs;
-        GLboolean   m_isLoop;
+        GLfloat     *m_vertices;
+        GLfloat     *m_normals;
+        GLfloat     *m_uvs;
+        GLubyte     *m_colors;
+        GLshort     *m_indices;
+        GLfloat     *m_position;
+        GLfloat     *m_rotate;
+        GLfloat     *m_scale;
+        GLint       m_textureId;
+        GLint       m_triangleNums;
+        GLboolean   m_enabled;
         //private functions
-        virtual void prepareFrame();
+        void initGlCmds();
     public:
         /**
         * Constructor
         */
-        Model();
+        Mesh();
 
         /**
          * Destructor
          */
-        virtual ~Model();
+        virtual ~Mesh();
 
-        void setVertices(GLfloat *vertices, int size, int meshIndex = 0);
-        void setNormals(GLfloat *normals, int size, int meshIndex = 0);
-        void setUvs(GLfloat *uvs, int size, int meshIndex = 0);
-        void setColors(GLubyte *colors, int size, int meshIndex = 0);
-        void setIndices(GLshort *indices, int size, int meshIndex = 0);
-        void setTextureId(GLint textureId, int meshIndex = 0);
-        void setTriangleNums(GLint triangleNums, int meshIndex = 0);
-        void setEnabled(GLboolean enabled, int meshIndex = 0);
+        void setVertices(GLfloat *vertices, int size);
+        void setNormals(GLfloat *normals, int size);
+        void setUvs(GLfloat *uvs, int size);
+        void setColors(GLubyte *colors, int size);
+        void setIndices(GLshort *indices, int size);
+        void setTextureId(GLint textureId);
+        void setTriangleNums(GLint triangleNums);
+        void setEnabled(GLboolean enabled);
         void setPosition(GLfloat x, GLfloat y, GLfloat z);
         void setRotate(GLfloat x, GLfloat y, GLfloat z);
         void setScale(GLfloat x, GLfloat y, GLfloat z);
-        void setMeshCount(int meshCount);
-        int getMeshCount();
-        Mesh* getMesh(int index);
-        BoundingBox* getBoundingBox(int index);
-        //isLoop flag
-        void setIsLoop(GLboolean isLoop);
-        GLboolean getIsLoop();
-        //Collided with other model?
-        GLboolean isCollided(Model* other);
+
         /**
-         * Render model
+         * Render mesh
          */
-        void renderModel();
+        void renderMesh();
     };
 
 }
