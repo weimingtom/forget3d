@@ -117,6 +117,7 @@
 			</Target>
 		</Build>
 		<Unit filename="..\include\camera.h" />
+		<Unit filename="..\include\collision.h" />
 		<Unit filename="..\include\f3d.h" />
 		<Unit filename="..\include\f3d_gl.h" />
 		<Unit filename="..\include\fog.h" />
@@ -124,6 +125,7 @@
 		<Unit filename="..\include\image.h" />
 		<Unit filename="..\include\light.h" />
 		<Unit filename="..\include\mathlib.h" />
+		<Unit filename="..\include\mesh.h" />
 		<Unit filename="..\include\model.h" />
 		<Unit filename="..\include\model_g3d.h" />
 		<Unit filename="..\include\model_md2.h" />
@@ -134,11 +136,13 @@
 		<Unit filename="..\include\utils.h" />
 		<Unit filename="..\include\world.h" />
 		<Unit filename="..\src\camera.cpp" />
+		<Unit filename="..\src\collision.cpp" />
 		<Unit filename="..\src\fog.cpp" />
 		<Unit filename="..\src\font.cpp" />
 		<Unit filename="..\src\image.cpp" />
 		<Unit filename="..\src\light.cpp" />
 		<Unit filename="..\src\mathlib.cpp" />
+		<Unit filename="..\src\mesh.cpp" />
 		<Unit filename="..\src\model.cpp" />
 		<Unit filename="..\src\model_g3d.cpp" />
 		<Unit filename="..\src\model_md2.cpp" />
