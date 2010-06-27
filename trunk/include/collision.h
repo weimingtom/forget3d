@@ -32,63 +32,45 @@
  * POSSESSION, USE OR PERFORMANCE OF THIS SOFTWARE.
  *****************************************************************************/
 
-#ifndef F3D_MODEL_H_
-#define F3D_MODEL_H_
+#ifndef F3D_COLLISION_H_
+#define F3D_COLLISION_H_
 
 #include "f3d.h"
-#include "mesh.h"
-#include "collision.h"
 
 namespace F3D {
     /**
-     * Model class for all games using F3D.
+     * Fog class for all games using F3D.
      */
 
-    class Model {
-    protected:
-        int         m_meshCount;
-        Mesh        *m_meshs;
-        BoundingBox *m_aabbs;
-        GLboolean   m_isLoop;
-        //private functions
-        virtual void prepareFrame();
+    class BoundingBox {
+    private:
+        Vec3f   *m_minEdge;
+        Vec3f   *m_maxEdge;
+        Vec3f   *m_center;
+        //private function
     public:
         /**
         * Constructor
         */
-        Model();
+        BoundingBox();
 
         /**
          * Destructor
          */
-        virtual ~Model();
+        virtual ~BoundingBox();
 
-        void setVertices(GLfloat *vertices, int size, int meshIndex = 0);
-        void setNormals(GLfloat *normals, int size, int meshIndex = 0);
-        void setUvs(GLfloat *uvs, int size, int meshIndex = 0);
-        void setColors(GLubyte *colors, int size, int meshIndex = 0);
-        void setIndices(GLshort *indices, int size, int meshIndex = 0);
-        void setTextureId(GLint textureId, int meshIndex = 0);
-        void setTriangleNums(GLint triangleNums, int meshIndex = 0);
-        void setEnabled(GLboolean enabled, int meshIndex = 0);
-        void setPosition(GLfloat x, GLfloat y, GLfloat z);
-        void setRotate(GLfloat x, GLfloat y, GLfloat z);
-        void setScale(GLfloat x, GLfloat y, GLfloat z);
-        void setMeshCount(int meshCount);
-        int getMeshCount();
-        Mesh* getMesh(int index);
-        BoundingBox* getBoundingBox(int index);
-        //isLoop flag
-        void setIsLoop(GLboolean isLoop);
-        GLboolean getIsLoop();
-        //Collided with other model?
-        GLboolean isCollided(Model* other);
-        /**
-         * Render model
-         */
-        void renderModel();
+        //set bounding box values
+        void setMinEdge(Vec3f vec3f);
+        Vec3f* getMinEdge();
+        void setMaxEdge(Vec3f vec3f);
+        Vec3f* getMaxEdge();
+
+        //get bounding box values
+        Vec3f *getCenter();
+
+        GLboolean isCollided(BoundingBox *other);
     };
 
 }
 
-#endif /* F3D_MODEL_H_ */
+#endif /* F3D_COLLISION_H_ */
