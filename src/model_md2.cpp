@@ -246,7 +246,7 @@ namespace F3D {
 
         m_frameIdx++;
         if (m_frameIdx > m_actions[m_actionIdx].max_idx)
-            m_frameIdx = m_isLoop ? m_actions[m_actionIdx].min_idx : m_actions[m_actionIdx].max_idx;
+            m_frameIdx = m_isLooped ? m_actions[m_actionIdx].min_idx : m_actions[m_actionIdx].max_idx;
     }
 
     int ModelMD2::getAnimationCount() {
