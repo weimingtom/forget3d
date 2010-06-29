@@ -43,7 +43,8 @@ namespace F3D {
             m_meshCount(0),
             m_meshs(NULL),
             m_aabbs(NULL),
-            m_isLoop(GL_TRUE) {
+            m_isLooped(GL_TRUE),
+            m_isChkCollision(GL_FALSE) {
 #ifdef DEBUG
         printf("Model constructor...\n");
 #endif
@@ -62,36 +63,38 @@ namespace F3D {
     void Model::setVertices(GLfloat *vertices, int size, int meshIndex) {
         m_meshs[meshIndex].setVertices(vertices, size);
 
-        // start to set bounding box, min, max vector
-        Vec3f vec_min = {-0.0f, -0.0f, -0.0f};
-        Vec3f vec_max = {0.0f, 0.0f, 0.0f};
-        for (GLuint i = 0; i < size / sizeof(GLfloat); ) {
-            if (vertices[i] < vec_min.x)
-                vec_min.x = vertices[i];
+        if (m_isChkCollision) {
+            // start to set bounding box, min, max vector
+            Vec3f vec_min = {-0.0f, -0.0f, -0.0f};
+            Vec3f vec_max = {0.0f, 0.0f, 0.0f};
+            for (GLuint i = 0; i < size / sizeof(GLfloat); ) {
+                if (vertices[i] < vec_min.x)
+                    vec_min.x = vertices[i];
 
-            if (vertices[i + 1] < vec_min.y)
-                vec_min.y = vertices[i + 1];
+                if (vertices[i + 1] < vec_min.y)
+                    vec_min.y = vertices[i + 1];
 
-            if (vertices[i + 2] < vec_min.z)
-                vec_min.z = vertices[i + 2];
+                if (vertices[i + 2] < vec_min.z)
+                    vec_min.z = vertices[i + 2];
 
-            if (vertices[i] > vec_max.x)
-                vec_max.x = vertices[i];
+                if (vertices[i] > vec_max.x)
+                    vec_max.x = vertices[i];
 
-            if (vertices[i + 1] > vec_max.y)
-                vec_max.y = vertices[i + 1];
+                if (vertices[i + 1] > vec_max.y)
+                    vec_max.y = vertices[i + 1];
 
-            if (vertices[i + 2] > vec_max.z)
-                vec_max.z = vertices[i + 2];
+                if (vertices[i + 2] > vec_max.z)
+                    vec_max.z = vertices[i + 2];
 
-            i += 3;
-        }
+                i += 3;
+            }
 #ifdef DEBUG
-        printf("setMinEdge: {%.4f, %.4f, %.4f}\n", vec_min.x, vec_min.y, vec_min.z);
-        printf("setMaxEdge: {%.4f, %.4f, %.4f}\n", vec_max.x, vec_max.y, vec_max.z);
+            printf("setMinEdge: {%.4f, %.4f, %.4f}\n", vec_min.x, vec_min.y, vec_min.z);
+            printf("setMaxEdge: {%.4f, %.4f, %.4f}\n", vec_max.x, vec_max.y, vec_max.z);
 #endif
-        m_aabbs[meshIndex].setMinEdge(vec_min);
-        m_aabbs[meshIndex].setMaxEdge(vec_max);
+            m_aabbs[meshIndex].setMinEdge(vec_min);
+            m_aabbs[meshIndex].setMaxEdge(vec_max);
+        }
     }
 
     void Model::setNormals(GLfloat *normals, int size, int meshIndex) {
@@ -130,6 +133,7 @@ namespace F3D {
     void Model::setPosition(GLfloat x, GLfloat y, GLfloat z) {
         for (int i = 0; i < m_meshCount; i++) {
             m_meshs[i].setPosition(x, y, z);
+            m_aabbs[i].setPosition(x, y, z);
         }
     }
 
@@ -142,6 +146,7 @@ namespace F3D {
     void Model::setScale(GLfloat x, GLfloat y, GLfloat z) {
         for (int i = 0; i < m_meshCount; i++) {
             m_meshs[i].setScale(x, y, z);
+            m_aabbs[i].setScale(x, y, z);
         }
     }
 
@@ -183,12 +188,22 @@ namespace F3D {
         return GL_FALSE;
     }
 
-    void Model::setIsLoop(GLboolean isLoop) {
-        m_isLoop = isLoop;
+    //looped flag
+    void Model::setLooped(GLboolean isLooped) {
+        m_isLooped = isLooped;
     }
 
-    GLboolean Model::getIsLoop() {
-        return m_isLoop;
+    GLboolean Model::isLooped() {
+        return m_isLooped;
+    }
+
+    //check collision flag
+    void Model::setChkCollision(GLboolean isChkCollision) {
+        m_isChkCollision = isChkCollision;
+    }
+
+    GLboolean Model::isChkCollision() {
+        return m_isChkCollision;
     }
 
     void Model::prepareFrame() {
