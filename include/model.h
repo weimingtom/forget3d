@@ -49,7 +49,8 @@ namespace F3D {
         int         m_meshCount;
         Mesh        *m_meshs;
         BoundingBox *m_aabbs;
-        GLboolean   m_isLoop;
+        GLboolean   m_isLooped;
+        GLboolean   m_isChkCollision;
         //private functions
         virtual void prepareFrame();
     public:
@@ -79,8 +80,10 @@ namespace F3D {
         Mesh* getMesh(int index);
         BoundingBox* getBoundingBox(int index);
         //isLoop flag
-        void setIsLoop(GLboolean isLoop);
-        GLboolean getIsLoop();
+        void setLooped(GLboolean isLooped);
+        GLboolean isLooped();
+        void setChkCollision(GLboolean isChkCollision);
+        GLboolean isChkCollision();
         //Collided with other model?
         GLboolean isCollided(Model* other);
         /**
