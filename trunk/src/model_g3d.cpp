@@ -202,7 +202,7 @@ namespace F3D {
 
         m_frameIdx++;
         if (m_frameIdx >= m_frameCount)
-            m_frameIdx = m_isLoop ? 0 : m_frameCount - 1;
+            m_frameIdx = m_isLooped ? 0 : m_frameCount - 1;
     }
 
 }
