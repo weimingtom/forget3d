@@ -189,7 +189,7 @@ namespace F3D {
 #ifdef DEBUG
         printf("maj_ver: %d, min_ver: %d\n", maj_ver, min_ver);
 	#if (defined(WIN32) || defined(_WIN32_WCE))
-		TCHAR infoStr[512];
+		TCHAR infoStr[1024];
 
 		wsprintf(infoStr, TEXT("maj_ver: %d, min_ver: %d"), maj_ver, min_ver);
 		MessageBox(m_hwnd, infoStr, TEXT("EGL Info"), MB_OK);
@@ -248,7 +248,7 @@ namespace F3D {
 		wsprintf(infoStr, TEXT("m_width: %d, m_height: %d"), m_width, m_height);
 		MessageBox(m_hwnd, infoStr, TEXT("EGL Info"), MB_OK);
 
-        CHAR infoChr[512];
+        CHAR infoChr[1024];
         sprintf(infoChr, "EGL_VENDOR: %s\nEGL_VERSION: %s\nEGL_EXTENSIONS: %s",
             eglQueryString(m_display, EGL_VENDOR),
             eglQueryString(m_display, EGL_VERSION),
@@ -286,8 +286,8 @@ namespace F3D {
 
 #ifdef DEBUG
 	#if (defined(WIN32) || defined(_WIN32_WCE))
-        TCHAR infoStr[512];
-        CHAR infoChr[512];
+        TCHAR infoStr[1024];
+        CHAR infoChr[1024];
         sprintf(infoChr, "GL_VENDOR: %s\nGL_RENDERER: %s\nGL_VERSION: %s\nGL_EXTENSIONS: %s",
             glGetString(GL_VENDOR),
             glGetString(GL_RENDERER),
