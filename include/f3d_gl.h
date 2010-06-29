@@ -136,6 +136,10 @@ FNDEF(void, glFogfv, (GLenum pname, const GLfloat* params));
 FNDEF(void, glFogf, (GLenum pname, GLfloat param));
 FNDEF(void, glDepthMask, (GLboolean flag));
 FNDEF(void, glClearDepthf, (GLclampf depth));
+FNDEF(void, glActiveTexture, (GLenum texture));
+FNDEF(void, glClientActiveTexture, (GLenum texture));
+FNDEF(void, glNormal3f, (GLfloat nx, GLfloat ny, GLfloat nz));
+FNDEF(void, glTexEnvx, (GLenum target, GLenum pname, GLfixed param));
 
 #undef FN
 #define FNPTR(name) funcPtr_##name
@@ -212,6 +216,10 @@ FNDEF(void, glClearDepthf, (GLclampf depth));
 #define glFogf					FNPTR(glFogf)
 #define glDepthMask				FNPTR(glDepthMask)
 #define glClearDepthf			FNPTR(glClearDepthf)
+#define glActiveTexture			FNPTR(glActiveTexture)
+#define glClientActiveTexture	FNPTR(glClientActiveTexture)
+#define glNormal3f			    FNPTR(glNormal3f)
+#define glTexEnvx			    FNPTR(glTexEnvx)
 
 #endif // !IMPORTGL_NO_FNPTR_DEFS
 
