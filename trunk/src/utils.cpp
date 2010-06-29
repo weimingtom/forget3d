@@ -324,6 +324,10 @@ namespace F3D {
 		IMPORT_FUNC(glFogf);
 		IMPORT_FUNC(glDepthMask);
 		IMPORT_FUNC(glClearDepthf);
+		IMPORT_FUNC(glActiveTexture);
+		IMPORT_FUNC(glClientActiveTexture);
+		IMPORT_FUNC(glNormal3f);
+		IMPORT_FUNC(glTexEnvx);
 
 		return result;
 	}
