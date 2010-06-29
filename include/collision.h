@@ -46,6 +46,8 @@ namespace F3D {
     private:
         Vec3f   *m_minEdge;
         Vec3f   *m_maxEdge;
+        Vec3f   *m_position;
+        Vec3f   *m_scale;
         Vec3f   *m_center;
         //private function
     public:
@@ -64,7 +66,11 @@ namespace F3D {
         Vec3f* getMinEdge();
         void setMaxEdge(Vec3f vec3f);
         Vec3f* getMaxEdge();
-
+        //set & get position & scale
+        void setPosition(GLfloat x, GLfloat y, GLfloat z);
+        Vec3f* getPosition();
+        void setScale(GLfloat x, GLfloat y, GLfloat z);
+        Vec3f* getScale();
         //get bounding box values
         Vec3f *getCenter();
 
