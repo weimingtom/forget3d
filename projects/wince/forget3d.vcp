@@ -198,6 +198,57 @@ DEP_CPP_CAMER=\
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\collision.cpp
+
+!IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
+
+DEP_CPP_COLLI=\
+	"..\..\include\collision.h"\
+	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
+
+DEP_CPP_COLLI=\
+	"..\..\include\collision.h"\
+	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Release"
+
+DEP_CPP_COLLI=\
+	"..\..\include\collision.h"\
+	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Debug"
+
+DEP_CPP_COLLI=\
+	"..\..\include\collision.h"\
+	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\fog.cpp
 
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
@@ -465,13 +516,74 @@ DEP_CPP_MATHL=\
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\mesh.cpp
+
+!IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
+
+DEP_CPP_MESH_=\
+	"..\..\include\collision.h"\
+	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
+	"..\..\include\model.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
+
+DEP_CPP_MESH_=\
+	"..\..\include\collision.h"\
+	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
+	"..\..\include\model.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Release"
+
+DEP_CPP_MESH_=\
+	"..\..\include\collision.h"\
+	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
+	"..\..\include\model.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE ARMV4) Debug"
+
+DEP_CPP_MESH_=\
+	"..\..\include\collision.h"\
+	"..\..\include\f3d.h"\
+	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
+	"..\..\include\model.h"\
+	"..\include\EGL\egl.h"\
+	"..\include\GLES\egl.h"\
+	"..\include\GLES\gl.h"\
+	
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\model.cpp
 
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
 
 DEP_CPP_MODEL=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
@@ -481,8 +593,10 @@ DEP_CPP_MODEL=\
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
 
 DEP_CPP_MODEL=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\include\EGL\egl.h"\
 	"..\include\GLES\egl.h"\
@@ -521,8 +635,10 @@ SOURCE=..\..\src\model_g3d.cpp
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
 
 DEP_CPP_MODEL_=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_g3d.h"\
 	"..\..\include\utils.h"\
@@ -534,8 +650,10 @@ DEP_CPP_MODEL_=\
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
 
 DEP_CPP_MODEL_=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_g3d.h"\
 	"..\..\include\utils.h"\
@@ -581,8 +699,10 @@ SOURCE=..\..\src\model_md2.cpp
 
 DEP_CPP_MODEL_M=\
 	"..\..\include\anorms.h"\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_md2.h"\
 	"..\..\include\utils.h"\
@@ -595,8 +715,10 @@ DEP_CPP_MODEL_M=\
 
 DEP_CPP_MODEL_M=\
 	"..\..\include\anorms.h"\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_md2.h"\
 	"..\..\include\utils.h"\
@@ -643,9 +765,11 @@ SOURCE=..\..\src\model_ms3d.cpp
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
 
 DEP_CPP_MODEL_MS=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
 	"..\..\include\mathlib.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_ms3d.h"\
 	"..\..\include\utils.h"\
@@ -657,9 +781,11 @@ DEP_CPP_MODEL_MS=\
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
 
 DEP_CPP_MODEL_MS=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
 	"..\..\include\mathlib.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\model_ms3d.h"\
 	"..\..\include\utils.h"\
@@ -706,8 +832,10 @@ SOURCE=..\..\src\plane.cpp
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
 
 DEP_CPP_PLANE=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\plane.h"\
 	"..\include\EGL\egl.h"\
@@ -718,8 +846,10 @@ DEP_CPP_PLANE=\
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
 
 DEP_CPP_PLANE=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\plane.h"\
 	"..\include\EGL\egl.h"\
@@ -761,8 +891,10 @@ SOURCE=..\..\src\skydome.cpp
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
 
 DEP_CPP_SKYDO=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\skydome.h"\
 	"..\include\EGL\egl.h"\
@@ -773,8 +905,10 @@ DEP_CPP_SKYDO=\
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
 
 DEP_CPP_SKYDO=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\skydome.h"\
 	"..\include\EGL\egl.h"\
@@ -816,8 +950,10 @@ SOURCE=..\..\src\terrain.cpp
 !IF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Release"
 
 DEP_CPP_TERRA=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\terrain.h"\
 	"..\..\include\utils.h"\
@@ -829,8 +965,10 @@ DEP_CPP_TERRA=\
 !ELSEIF  "$(CFG)" == "forget3d - Win32 (WCE emulator) Debug"
 
 DEP_CPP_TERRA=\
+	"..\..\include\collision.h"\
 	"..\..\include\f3d.h"\
 	"..\..\include\f3d_gl.h"\
+	"..\..\include\mesh.h"\
 	"..\..\include\model.h"\
 	"..\..\include\terrain.h"\
 	"..\..\include\utils.h"\
@@ -1000,6 +1138,10 @@ SOURCE=..\..\include\camera.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\include\collision.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\include\f3d.h
 # End Source File
 # Begin Source File
@@ -1025,6 +1167,10 @@ SOURCE=..\..\include\light.h
 # Begin Source File
 
 SOURCE=..\..\include\mathlib.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\include\mesh.h
 # End Source File
 # Begin Source File
 
