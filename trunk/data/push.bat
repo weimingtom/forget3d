@@ -13,5 +13,6 @@ adb push DM_Face.bmp /dev/sample
 adb push star.bmp /dev/sample
 adb push monster.bmp /dev/sample
 adb push monster.ms3d /dev/sample
+adb push f3d_logo.bmp /dev/sample
 
 pause
