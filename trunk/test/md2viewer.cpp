@@ -227,7 +227,7 @@ int main(int argc, char *argv[]) {
 #endif
     printf("world->init()...\n");
 
-    world = new World();
+    world = World::getInstance();
     world->setBgColor(0.5f, 0.5f, 0.5f, 0.0f);
 
 #if (defined(WIN32) || defined(_WIN32_WCE))
@@ -369,12 +369,12 @@ int main(int argc, char *argv[]) {
 #endif
     }
 
-    delete world;
     delete model;
     delete weapon;
     delete font;
 	delete plane;
 	delete skydome;
+    World::release();
 
     return 0;
 }
