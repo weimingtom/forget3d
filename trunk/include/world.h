@@ -48,6 +48,16 @@ namespace F3D {
      */
     class World {
     private:
+        /**
+        * Constructor
+        */
+        World();
+
+        /**
+         * Destructor
+         */
+        virtual ~World();
+
         //egl variables
 #ifndef ANDROID_NDK
         EGLDisplay  m_display;
@@ -80,15 +90,6 @@ namespace F3D {
         void deinitEGL();
         bool checkEglError(const char *name);
     public:
-        /**
-        * Constructor
-        */
-        World();
-
-        /**
-         * Destructor
-         */
-        virtual ~World();
 
         // camera functions
         void setCameraCount(int cameraCount);
@@ -112,6 +113,11 @@ namespace F3D {
         void finishRender();
         int getWidth();
         int getHeight();
+    private:
+        static World* m_instance;
+    public:
+        static World* getInstance();
+        static void release();
     };
 
 }
