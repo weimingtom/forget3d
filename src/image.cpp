@@ -96,19 +96,19 @@ namespace F3D {
         return m_color;
     }
 
-    void Image::drawImage(int x, int y) {
-        drawImage(x, y, 0, 0, m_width, m_height, m_width, m_height);
+    void Image::drawImage(int x, int y, DrawAnchor anchor) {
+        drawImage(x, y, 0, 0, m_width, m_height, m_width, m_height, anchor);
     }
 
-    void Image::drawImage(int x, int y, int width, int height) {
-        drawImage(x, y, 0, 0, m_width, m_height, width, height);
+    void Image::drawImage(int x, int y, int width, int height, DrawAnchor anchor) {
+        drawImage(x, y, 0, 0, m_width, m_height, width, height, anchor);
     }
 
-    void Image::drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight) {
-        drawImage(x, y, crpX, crpY, crpWidth, crpHeight, crpWidth, crpHeight);
+    void Image::drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight, DrawAnchor anchor) {
+        drawImage(x, y, crpX, crpY, crpWidth, crpHeight, crpWidth, crpHeight, anchor);
     }
 
-    void Image::drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight, int width, int height) {
+    void Image::drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight, int width, int height, DrawAnchor anchor) {
 #ifndef GL_OES_draw_texture
 #ifdef DEBUG
         printf("Unsupport GL_OES_draw_texture extension...\n");
@@ -130,7 +130,26 @@ namespace F3D {
 
         GLint crop[4] = { crpX, crpY, crpWidth, crpHeight };
         glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, crop);
-        glDrawTexiOES(x, y, 0, width, height);
+        //calc the x, y & draw
+        int scr_width = World::getInstance()->getWidth();
+        int scr_height = World::getInstance()->getHeight();
+
+        switch (anchor) {
+        case(TOP_LEFT):
+            //if draw from top & left, set y with screen height - image draw height
+            glDrawTexiOES(x, scr_height - height - y, 0, width, height);
+            break;
+        case(TOP_RIGHT):
+            glDrawTexiOES(scr_width - width - x, scr_height - height - y, 0, width, height);
+            break;
+        case(BOTTOM_RIGHT):
+            glDrawTexiOES(scr_width - width - x, y, 0, width, height);
+            break;
+        case(BOTTOM_LEFT):
+        default:
+            glDrawTexiOES(x, y, 0, width, height);
+            break;
+        }
 
         glEnable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
