@@ -39,6 +39,8 @@ namespace F3D {
      * World class for all games using F3D.
      */
 
+    World* World::m_instance = NULL;
+
     World::World() :
 #ifndef ANDROID_NDK
             m_display(EGL_NO_DISPLAY),
@@ -73,6 +75,21 @@ namespace F3D {
 #ifdef DEBUG
         printf("World destructor...\n");
 #endif
+    }
+
+    World* World::getInstance() {
+        if (m_instance == NULL) {
+            m_instance = new World();
+        }
+
+        return m_instance;
+    }
+
+    void World::release() {
+        if (m_instance != NULL)
+            delete m_instance;
+
+        m_instance = NULL;
     }
 
     void World::setBgColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
