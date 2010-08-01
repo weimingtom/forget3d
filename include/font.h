@@ -80,8 +80,8 @@ public:
      */
     virtual ~Font();
 
-    void drawString(int x, int y, const char *str);
-    void drawString(int x, int y, int fontWidth, int fontHeight, const char *str);
+    void drawString(int x, int y, const char *str, DrawAnchor anchor = BOTTOM_LEFT);
+    void drawString(int x, int y, int fontWidth, int fontHeight, const char *str, DrawAnchor anchor = BOTTOM_LEFT);
     GLuint getFonWidth();
     GLuint getFonHeight();
     //font color

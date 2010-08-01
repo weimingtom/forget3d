@@ -123,4 +123,15 @@ typedef struct {
 #define stricmp _stricmp
 #endif
 
+enum DrawAnchor {
+    /* draw the image from screen top & left */
+    TOP_LEFT,
+    /* draw the image from screen bottom & left, opengl es default use it */
+    BOTTOM_LEFT,
+    /* draw the image from screen top & right */
+    TOP_RIGHT,
+    /* draw the image from screen bottom & right */
+    BOTTOM_RIGHT
+};
+
 #endif // F3D_H_
