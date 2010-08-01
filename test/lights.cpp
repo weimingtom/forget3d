@@ -3270,7 +3270,7 @@ int main(int argc, char *argv[]) {
 #endif
     printf("world->init()...\n");
 
-    world = new World();
+    world = World::getInstance();
     world->setBgColor(0.3f, 0.3f, 0.4f, 1.0f);
 #if (defined(WIN32) || defined(_WIN32_WCE))
     world->setSize(width, height);
@@ -3379,7 +3379,7 @@ int main(int argc, char *argv[]) {
     }
 
     delete font;
-    delete world;
+    World::release();
 
     return 0;
 }

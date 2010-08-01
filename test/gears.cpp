@@ -383,7 +383,7 @@ int main(int argc, char *argv[]) {
 #endif
     printf("world->init()...\n");
 
-    world = new World();
+    world = World::getInstance();
 #if (defined(WIN32) || defined(_WIN32_WCE))
 	world->setSize(width, height);
     if (!world->init(hwnd)) {
@@ -500,7 +500,7 @@ int main(int argc, char *argv[]) {
 
     delete font;
     delete light;
-    delete world;
+    World::release();
 
     return 0;
 }
