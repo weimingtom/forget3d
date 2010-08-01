@@ -37,6 +37,7 @@
 
 #include "f3d.h"
 #include "utils.h"
+#include "world.h"
 
 namespace F3D {
 /**
@@ -64,16 +65,16 @@ public:
      */
     virtual ~Image();
     //static function loadTexture
-    static Texture* loadTexture(const char *filename, GLboolean is_absPath = GL_FALSE);
+    static Texture *loadTexture(const char *filename, GLboolean is_absPath = GL_FALSE);
 
     //darw image at (x, y)
-    void drawImage(int x, int y);
+    void drawImage(int x, int y, DrawAnchor anchor = BOTTOM_LEFT);
     //darw image at (x, y) with new size(width, height)
-    void drawImage(int x, int y, int width, int height);
+    void drawImage(int x, int y, int width, int height, DrawAnchor anchor = BOTTOM_LEFT);
     //darw image at (x, y) with crop image(crpX, crpY, crpWidth, crpHeight)
-    void drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight);
+    void drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight, DrawAnchor anchor = BOTTOM_LEFT);
     //darw image at (x, y) with crop image(crpX, crpY) and new size(width, height)
-    void drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight, int width, int height);
+    void drawImage(int x, int y, int crpX, int crpY, int crpWidth, int crpHeight, int width, int height, DrawAnchor anchor = BOTTOM_LEFT);
     //get image width & height
     GLuint getWidth();
     GLuint getHeight();
