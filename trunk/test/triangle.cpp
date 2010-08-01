@@ -208,7 +208,7 @@ int main(int argc, char *argv[]) {
 #endif
     printf("world->init()...\n");
 
-    world = new World();
+    world = World::getInstance();
 #if (defined(WIN32) || defined(_WIN32_WCE))
     world->setSize(width, height);
     if (!world->init(hwnd)) {
@@ -303,18 +303,18 @@ int main(int argc, char *argv[]) {
         model->setRotate(0.0f, rotation, 0.0f);
         model->renderModel();
 
+        //draw f3d logo at botton left anchor
+        image->drawImage(4, 4, BOTTOM_RIGHT);
+
         //printf("strFps: %s\n", strFps);
         color.alpha = 1.0;
         color.blue = 0.0f;
         font->setFontColor(&color);
-        font->drawString(4, world->getHeight() - 40, 24, 36, strFps);
+        font->drawString(4, 4, 24, 36, strFps, TOP_LEFT);
 
         color.blue = 1.0f;
         font->setFontColor(&color);
         font->drawString(4, 4, 24, 36, "Tap screen!");
-
-        //draw f3d logo, at (width - display width - 4)
-        image->drawImage(world->getWidth() - 132, 4, 128, 128);
 
         world->finishRender();
 
@@ -350,8 +350,8 @@ int main(int argc, char *argv[]) {
 
     delete font;
     delete model;
-    delete world;
     delete image;
+    World::release();
 
     return 0;
 }
