@@ -109,11 +109,11 @@ namespace F3D {
         return m_fontHeight;
     }
 
-    void Font::drawString(int x, int y, const char *str) {
-        drawString(x, y, m_fontWidth, m_fontHeight, str);
+    void Font::drawString(int x, int y, const char *str, DrawAnchor anchor) {
+        drawString(x, y, m_fontWidth, m_fontHeight, str, anchor);
     }
 
-    void Font::drawString(int x, int y, int fontWidth, int fontHeight, const char *str) {
+    void Font::drawString(int x, int y, int fontWidth, int fontHeight, const char *str, DrawAnchor anchor) {
 #ifndef GL_OES_draw_texture
 #ifdef DEBUG
         printf("Unsupport GL_OES_draw_texture extension...\n");
@@ -133,7 +133,8 @@ namespace F3D {
 
         glColor4f(m_color->red, m_color->green, m_color->blue, m_color->alpha);
 
-        for (GLuint i = 0; i < strlen(str); i++) {
+        GLuint len = strlen(str);
+        for (GLuint i = 0; i < len; i++) {
             int index = (int)(str[i] - 32);
 #if (defined(DEBUG) && defined(SHOW_FONT_POS))
             printf("str[%d]: %c, index: %d\n", i, str[i], index);
@@ -149,7 +150,29 @@ namespace F3D {
 #endif
 
             glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, crop);
-            glDrawTexiOES(x + i * fontWidth, y, 0, fontWidth, fontHeight);
+
+            //calc the x, y & draw
+            int scr_width = World::getInstance()->getWidth();
+            int scr_height = World::getInstance()->getHeight();
+
+            switch (anchor) {
+            case(TOP_LEFT):
+                //if draw from top & left, set y with screen height - image draw height
+                glDrawTexiOES(x + i * fontWidth, scr_height - fontHeight - y, 0, fontWidth, fontHeight);
+                break;
+            case(TOP_RIGHT):
+                glDrawTexiOES(scr_width - (len - i) * fontWidth - x, scr_height - fontHeight - y, 0, fontWidth, fontHeight);
+                break;
+            case(BOTTOM_RIGHT):
+                glDrawTexiOES(scr_width - (len - i) * fontWidth - x, y, 0, fontWidth, fontHeight);
+                break;
+            case(BOTTOM_LEFT):
+            default:
+                glDrawTexiOES(x + i * fontWidth, y, 0, fontWidth, fontHeight);
+                break;
+            }
+
+//            glDrawTexiOES(x + i * fontWidth, y, 0, fontWidth, fontHeight);
         }
 
         glEnable(GL_DEPTH_TEST);
