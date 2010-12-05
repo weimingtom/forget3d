@@ -3313,6 +3313,12 @@ int main(int argc, char *argv[]) {
     sprintf(strFps, "Fps:%.2f", 0.0f);
     printf("strFps: %s\n", strFps);
 
+    //set teapot data
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, teapot_vertices);
+    glNormalPointer(GL_FLOAT, 0, teapot_normals);
+
     while (is_done) {
 #if (defined(WIN32) || defined(_WIN32_WCE))
         while (PeekMessage(&msg, hwnd, 0, 0, PM_NOREMOVE)) {
@@ -3332,11 +3338,6 @@ int main(int argc, char *argv[]) {
         glRotatef(1.2f * rotation, 0.0f, 1.0f, 0.0f);
 
         //draw teapot
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_NORMAL_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, teapot_vertices);
-        glNormalPointer(GL_FLOAT, 0, teapot_normals);
-
         int start = 0, i = 0;
         while(i < NUM_INDICES) {
             if(teapot_indices[i] == -1) {
