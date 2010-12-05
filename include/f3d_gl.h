@@ -140,6 +140,8 @@ FNDEF(void, glActiveTexture, (GLenum texture));
 FNDEF(void, glClientActiveTexture, (GLenum texture));
 FNDEF(void, glNormal3f, (GLfloat nx, GLfloat ny, GLfloat nz));
 FNDEF(void, glTexEnvx, (GLenum target, GLenum pname, GLfixed param));
+FNDEF(void, glMaterialf, (GLenum face, GLenum pname, GLfloat param));
+FNDEF(void, glMaterialfv, (GLenum face, GLenum pname, const GLfloat* params));
 
 #undef FN
 #define FNPTR(name) funcPtr_##name
@@ -220,6 +222,8 @@ FNDEF(void, glTexEnvx, (GLenum target, GLenum pname, GLfixed param));
 #define glClientActiveTexture	FNPTR(glClientActiveTexture)
 #define glNormal3f			    FNPTR(glNormal3f)
 #define glTexEnvx			    FNPTR(glTexEnvx)
+#define glMaterialf			    FNPTR(glMaterialf)
+#define glMaterialfv            FNPTR(glMaterialfv)
 
 #endif // !IMPORTGL_NO_FNPTR_DEFS
 
