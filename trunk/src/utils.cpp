@@ -328,6 +328,8 @@ namespace F3D {
 		IMPORT_FUNC(glClientActiveTexture);
 		IMPORT_FUNC(glNormal3f);
 		IMPORT_FUNC(glTexEnvx);
+        IMPORT_FUNC(glMaterialf);
+        IMPORT_FUNC(glMaterialfv);
 
 		return result;
 	}
