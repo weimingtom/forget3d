@@ -45,6 +45,7 @@ namespace F3D {
     class Plane : public Model {
     private:
         //private functions
+        void prepareFrame();
     public:
         /**
         * Constructor
