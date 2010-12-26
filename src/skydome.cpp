@@ -171,4 +171,14 @@ namespace F3D {
 #endif
     }
 
+    void Skydome::prepareFrame() {
+#ifdef DEBUG
+        static bool isFirst = true;
+        if (isFirst) {
+            printf("Call Skydome::prepareFrame()...\n");
+            isFirst = false;
+        }
+#endif
+    }
+
 }

@@ -137,4 +137,14 @@ namespace F3D {
 #endif
     }
 
+    void Terrain::prepareFrame() {
+#ifdef DEBUG
+        static bool isFirst = true;
+        if (isFirst) {
+            printf("Call Terrain::prepareFrame()...\n");
+            isFirst = false;
+        }
+#endif
+    }
+
 }
