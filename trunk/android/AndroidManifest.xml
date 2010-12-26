@@ -17,5 +17,5 @@
 		<activity android:name=".MD2ViewerActivity" android:label="MD2Viewer" android:configChanges="orientation|keyboardHidden" />
     </application>
     
-    <uses-sdk android:minSdkVersion="5" />
+    <uses-sdk android:minSdkVersion="4" />
 </manifest> 
