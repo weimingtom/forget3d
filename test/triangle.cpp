@@ -45,10 +45,21 @@
 
 using namespace F3D;
 
+class ModelBase : public Model {
+private:
+    //private functions
+    void prepareFrame() { /* do nothing! */};
+public:
+    /**
+     * Destructor
+     */
+    virtual ~ModelBase() { /* do nothing! */};
+};
+
 //F3D variables
 World*		world = NULL;
 Camera*		camera = NULL;
-Model*      model = NULL;
+ModelBase*  model = NULL;
 Font*       font = NULL;
 Image*      image = NULL;
 
@@ -250,7 +261,7 @@ int main(int argc, char *argv[]) {
         0, 0, 255 ,0
     };
 
-    model = new Model();
+    model = new ModelBase();
     model->setMeshCount(2);
     //init first triangle
     model->setVertices(vertices0, 9 * sizeof(GLfloat));
