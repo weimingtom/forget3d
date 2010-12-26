@@ -141,4 +141,14 @@ namespace F3D {
 #endif
     }
 
+    void Plane::prepareFrame() {
+#ifdef DEBUG
+        static bool isFirst = true;
+        if (isFirst) {
+            printf("Call Plane::prepareFrame()...\n");
+            isFirst = false;
+        }
+#endif
+    }
+
 }

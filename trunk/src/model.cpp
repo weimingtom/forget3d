@@ -206,16 +206,6 @@ namespace F3D {
         return m_isChkCollision;
     }
 
-    void Model::prepareFrame() {
-#ifdef DEBUG
-        static bool isFirst = true;
-        if (isFirst) {
-            printf("Call Model::prepareFrame()...\n");
-            isFirst = false;
-        }
-#endif
-    }
-
     void Model::renderModel() {
         //enable or disable gl command status
         prepareFrame();
