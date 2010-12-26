@@ -52,7 +52,7 @@ namespace F3D {
         GLboolean   m_isLooped;
         GLboolean   m_isChkCollision;
         //private functions
-        virtual void prepareFrame();
+        virtual void prepareFrame() = 0;
     public:
         /**
         * Constructor

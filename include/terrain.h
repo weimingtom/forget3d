@@ -46,6 +46,7 @@ namespace F3D {
     class Terrain : public Model {
     private:
         //private functions
+        void prepareFrame();
     public:
         /**
         * Constructor
