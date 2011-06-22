@@ -1,18 +1,40 @@
-adb push tris.md2 /dev/sample/tris.md2
-adb push tris.bmp /dev/sample
-adb push weapon.md2 /dev/sample
-adb push weapon.bmp /dev/sample
-adb push font.bmp /dev/sample
-adb push floor.bmp /dev/sample
-adb push clouds.bmp /dev/sample
-adb push guard.g3d /dev/sample
-adb push guard.bmp /dev/sample
-adb push run.ms3d /dev/sample
-adb push DM_Base.bmp /dev/sample
-adb push DM_Face.bmp /dev/sample
-adb push star.bmp /dev/sample
-adb push monster.bmp /dev/sample
-adb push monster.ms3d /dev/sample
-adb push f3d_logo.bmp /dev/sample
+echo off
+
+set /p dir=Pls input push dir(such as /sdcard or /dev/sample): 
+
+echo adb push tris.md2 ...
+adb push tris.md2 %dir%/tris.md2
+echo adb push tris.bmp ...
+adb push tris.bmp %dir%/
+echo adb push weapon.md2 ...
+adb push weapon.md2 %dir%/
+echo adb push weapon.bmp ...
+adb push weapon.bmp %dir%/
+echo adb push font.bmp ...
+adb push font.bmp %dir%/
+echo adb push floor.bmp ...
+adb push floor.bmp %dir%/
+echo adb push clouds.bmp ...
+adb push clouds.bmp %dir%/
+echo adb push guard.g3d ...
+adb push guard.g3d %dir%/
+echo adb push guard.bmp ...
+adb push guard.bmp %dir%/
+echo adb push run.ms3d ...
+adb push run.ms3d %dir%/
+echo adb push DM_Base.bmp ...
+adb push DM_Base.bmp %dir%/
+echo adb push DM_Face.bmp ...
+adb push DM_Face.bmp %dir%/
+echo adb push star.bmp ...
+adb push star.bmp %dir%/
+echo adb push monster.bmp ...
+adb push monster.bmp %dir%/
+echo adb push monster.ms3d ...
+adb push monster.ms3d %dir%/
+echo adb push f3d_logo.bmp ...
+adb push f3d_logo.bmp %dir%/
+
+echo on
 
 pause
