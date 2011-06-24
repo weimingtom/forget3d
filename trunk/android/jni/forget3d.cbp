@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="forget3d" />
+		<Option execution_dir="D:\projects\forget3d\android\jni\src\" />
+		<Option pch_mode="2" />
+		<Option compiler="armelfgcc" />
+		<Build>
+			<Target title="release">
+				<Option output="libf3d_jni.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output=".objs\release" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Compiler>
+					<Add option="-mthumb" />
+					<Add option="-msoft-float" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-O3" />
+					<Add option="-fpic" />
+					<Add option="-ffunction-sections" />
+					<Add option="-funwind-tables" />
+					<Add option="-fstack-protector" />
+					<Add option="-Wno-psabi" />
+					<Add option="-march=armv5te" />
+					<Add option="-mtune=xscale" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-finline-limit=64" />
+					<Add option="-Wa,--noexecstack" />
+					<Add option="-DANDROID" />
+					<Add option="-DANDROID_NDK" />
+					<Add option="-D__ARM_ARCH_5__" />
+					<Add option="-D__ARM_ARCH_5T__" />
+					<Add option="-D__ARM_ARCH_5E__" />
+					<Add option="-D__ARM_ARCH_5TE__" />
+					<Add directory="f3d" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-Wl,-soname,libf3d_jni.so" />
+					<Add option="--sysroot=D:\android-ndk-r5c\platforms\android-8\arch-arm" />
+					<Add option="-Wl,--no-undefined" />
+					<Add option="-Wl,-z,noexecstack" />
+					<Add option="-Wl,-rpath-link=D:\android-ndk-r5c\platforms\android-8\arch-arm\usr\lib" />
+					<Add library="c" />
+					<Add library="stdc++" />
+					<Add library="m" />
+					<Add library="log" />
+					<Add library="supc++" />
+					<Add library="GLESv1_CM" />
+				</Linker>
+				<ExtraCommands>
+					<Add before='cmd /C &quot;del /F libf3d_jni.so&quot;' />
+					<Add after='cmd /C &quot;copy libf3d_jni.so ..\libs\armeabi&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="debug">
+				<Option output="libf3d_jni.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output=".objs\debug" />
+				<Option type="3" />
+				<Option compiler="armelfgcc" />
+				<Option host_application="app_process" />
+				<Compiler>
+					<Add option="-mthumb" />
+					<Add option="-msoft-float" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-g" />
+					<Add option="-fpic" />
+					<Add option="-ffunction-sections" />
+					<Add option="-funwind-tables" />
+					<Add option="-fstack-protector" />
+					<Add option="-Wno-psabi" />
+					<Add option="-march=armv5te" />
+					<Add option="-mtune=xscale" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-finline-limit=64" />
+					<Add option="-Wa,--noexecstack" />
+					<Add option="-DANDROID" />
+					<Add option="-DANDROID_NDK" />
+					<Add option="-D__ARM_ARCH_5__" />
+					<Add option="-D__ARM_ARCH_5T__" />
+					<Add option="-D__ARM_ARCH_5E__" />
+					<Add option="-D__ARM_ARCH_5TE__" />
+					<Add directory="f3d" />
+				</Compiler>
+				<Linker>
+					<Add option="-Wl,-soname,libf3d_jni.so" />
+					<Add option="--sysroot=D:\android-ndk-r5c\platforms\android-8\arch-arm" />
+					<Add option="-Wl,--no-undefined" />
+					<Add option="-Wl,-z,noexecstack" />
+					<Add option="-Wl,-rpath-link=D:\android-ndk-r5c\platforms\android-8\arch-arm\usr\lib" />
+					<Add library="c" />
+					<Add library="stdc++" />
+					<Add library="m" />
+					<Add library="log" />
+					<Add library="supc++" />
+					<Add library="GLESv1_CM" />
+				</Linker>
+				<ExtraCommands>
+					<Add before='cmd /C &quot;del /F libf3d_jni.so&quot;' />
+					<Add after='cmd /C &quot;copy libf3d_jni.so ..\libs\armeabi&quot;' />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Unit filename="f3d\anorms.h" />
+		<Unit filename="f3d\camera.cpp" />
+		<Unit filename="f3d\camera.h" />
+		<Unit filename="f3d\collision.cpp" />
+		<Unit filename="f3d\collision.h" />
+		<Unit filename="f3d\f3d.h" />
+		<Unit filename="f3d\f3d_gl.h" />
+		<Unit filename="f3d\fog.cpp" />
+		<Unit filename="f3d\fog.h" />
+		<Unit filename="f3d\font.cpp" />
+		<Unit filename="f3d\font.h" />
+		<Unit filename="f3d\image.cpp" />
+		<Unit filename="f3d\image.h" />
+		<Unit filename="f3d\light.cpp" />
+		<Unit filename="f3d\light.h" />
+		<Unit filename="f3d\mathlib.cpp" />
+		<Unit filename="f3d\mathlib.h" />
+		<Unit filename="f3d\mesh.cpp" />
+		<Unit filename="f3d\mesh.h" />
+		<Unit filename="f3d\model.cpp" />
+		<Unit filename="f3d\model.h" />
+		<Unit filename="f3d\model_g3d.cpp" />
+		<Unit filename="f3d\model_g3d.h" />
+		<Unit filename="f3d\model_md2.cpp" />
+		<Unit filename="f3d\model_md2.h" />
+		<Unit filename="f3d\model_ms3d.cpp" />
+		<Unit filename="f3d\model_ms3d.h" />
+		<Unit filename="f3d\plane.cpp" />
+		<Unit filename="f3d\plane.h" />
+		<Unit filename="f3d\skydome.cpp" />
+		<Unit filename="f3d\skydome.h" />
+		<Unit filename="f3d\terrain.cpp" />
+		<Unit filename="f3d\terrain.h" />
+		<Unit filename="f3d\utils.cpp" />
+		<Unit filename="f3d\utils.h" />
+		<Unit filename="f3d\world.cpp" />
+		<Unit filename="f3d\world.h" />
+		<Unit filename="src\f3d_jni.h" />
+		<Unit filename="src\lights.cpp" />
+		<Unit filename="src\md2viewer.cpp" />
+		<Unit filename="src\stars.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger>
+				<search_path add="D:\projects\forget3d\android\jni\src" />
+				<search_path add="D:\projects\forget3d\android\jni\f3d" />
+				<remote_debugging target="debug">
+					<options conn_type="0" serial_baud="115200" ip_address="localhost" ip_port="1234" />
+				</remote_debugging>
+			</debugger>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
